@@ -1,6 +1,9 @@
 require 'erb'
 require 'yaml'
 
+Encoding.default_internal = 'UTF-8'
+Encoding.default_external = 'UTF-8'
+
 module Colore
   #
   # This is a simple mechanism to hold document configuration. A future version will replace
