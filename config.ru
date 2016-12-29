@@ -10,6 +10,7 @@ $: << BASE
 $: << BASE + 'lib'
 require 'app'
 require 'config/initializers/sidekiq'
+require 'config/initializers/rollbar'
 
 require 'sidekiq/web'
 

@@ -13,6 +13,7 @@ gem 'sidetiq'
 gem 'rest-client'
 gem 'mail'
 gem 'nokogiri'
+gem 'rollbar'
 
 group :development do
   gem 'rake'

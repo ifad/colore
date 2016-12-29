@@ -3,6 +3,7 @@ require 'haml'
 require 'net/http'
 require 'sinatra/base'
 require 'pp'
+require 'rollbar/middleware/sinatra'
 require_relative 'colore'
 
 module Colore
@@ -11,6 +12,8 @@ module Colore
   # This is the Sinatra API implementation for Colore.
   # See (BASE/config.ru) for rackup details
   class App < Sinatra::Base
+    use Rollbar::Middleware::Sinatra
+
     set :backtrace, true
     before do
       @storage_dir = Pathname.new( C_.storage_directory )
