@@ -1,0 +1,58 @@
+services:
+  colore:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: ./docker/colore/Dockerfile
+      args:
+        RACK_ENV: development
+    container_name: colore
+    depends_on:
+      - redis
+      - sidekiq
+    env_file:
+      - ./docker/colore/variables.env
+    environment:
+      RACK_ENV: development
+    networks:
+      - colore
+    ports:
+      - 9240:9240
+    restart: on-failure
+    volumes:
+      - storage:/colore/storage
+  redis:
+    container_name: redis
+    image: redis:5.0-alpine
+    networks:
+      - colore
+    restart: on-failure
+    volumes:
+      - redis:/data
+  sidekiq:
+    platform: linux/amd64
+    build:
+      context: .
+      dockerfile: ./docker/colore/Dockerfile
+      args:
+        RACK_ENV: development
+    command: bundle exec sidekiq -C config/sidekiq.yml -r ./lib/sidekiq_app.rb
+    container_name: sidekiq
+    depends_on:
+      - redis
+    env_file:
+      - ./docker/colore/variables.env
+    environment:
+      RACK_ENV: development
+    networks:
+      - colore
+    restart: on-failure
+    volumes:
+      - storage:/colore/storage
+
+volumes:
+  storage:
+  redis:
+
+networks:
+  colore:
