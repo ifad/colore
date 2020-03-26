@@ -381,6 +381,35 @@ ARGS="$@"
 exec java -jar /usr/share/java/tika-app.jar $ARGS
 ```
 
+## Docker
+
+Developing applications integrated with Colore locally may not be easy, because
+of the dependencies Colore requires.
+
+We provide a Docker implementation to speed up local development.
+
+1. Copy `docker/colore/variables.env.example` to `docker/colore/variables.env`
+2. Run `docker-compose up`
+3. Have fun with Colore up and running on `http://localhost:9240/`
+
+Note that some features of Colore, like synchronous HTML to PDF conversion, may
+need remote access to stylesheets and JavaScripts on the host machine. In such
+cases, please make sure that:
+
+1. The web application server allows for concurrent HTTP connections;
+2. The web application generates absolute urls to stylesheets and JavaScripts
+   (`config.asset_host` on a Rails application)
+3. The container is capable of reaching assets on the host machine (it is
+   possible to use `host.docker.internal` on macOS)
+
+### Run tests in the container
+
+It is possible to run specs in the container by executing:
+
+```
+$ docker-compose run colore bundle exec rspec
+```
+
 ## Security notes
 
 Colore does not implement any authentication mechanism. It is up to you to
@@ -403,7 +432,7 @@ Want to contribute? Great!
 * Joe Blackman <j.blackman@ifad.org>
 * Marcello Barnaba <m.barnaba@ifad.org>
 * Geremia Taglialatela <g.taglialatela@ifad.org>
-* Luca Spiller <l.spiller@ifad.org>     
+* Luca Spiller <l.spiller@ifad.org>
 
 ## License
 
