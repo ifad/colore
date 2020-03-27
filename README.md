@@ -285,15 +285,15 @@ Response:
         "content_type": "application/msword",
         "filename": "foo.docx",
         "path": "/document/myapp/12345/v001/foo.docx",
-        "author": "mrspliffy"
-        "created_at": ""2015-04-13 13:26:41 +0100"
+        "author": "mrspliffy",
+        "created_at": "2015-04-13 13:26:41 +0100"
       },
       "pdf": {
         "content_type": "application/pdf; charset=binary",
         "filename": "foo.pdf",
         "path": "/document/myapp/12345/v001/foo.pdf",
-        "author": "mrspliffy"
-        "created_at": ""2015-04-13 13:26:41 +0100"
+        "author": "mrspliffy",
+        "created_at": "2015-04-13 13:26:41 +0100"
       }
     },
     "v002": {
@@ -301,15 +301,15 @@ Response:
         "content_type": "application/msword",
         "filename": "foo.docx",
         "path": "/document/myapp/12345/v001/foo.docx",
-        "author": "mrspliffy"
-        "created_at": ""2015-04-13 13:26:41 +0100"
+        "author": "mrspliffy",
+        "created_at": "2015-04-13 13:26:41 +0100"
       },
       "txt": {
         "content_type": "text/plain; charset=us-ascii",
         "filename": "foo.txt",
         "path": "/document/myapp/12345/v001/foo.txt",
-        "author": "mrspliffy"
-        "created_at": ""2015-04-13 13:26:41 +0100"
+        "author": "mrspliffy",
+        "created_at": "2015-04-13 13:26:41 +0100"
       }
     }
   }
