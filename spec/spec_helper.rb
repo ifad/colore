@@ -1,11 +1,15 @@
+ENV['RACK_ENV'] = 'test'
+
 require 'pathname'
 require 'fileutils'
 require 'logger'
 require 'byebug'
 require 'rack/test'
+require 'sidekiq/testing'
 require 'simplecov'
 require 'timecop'
 
+Sidekiq.logger = nil
 SimpleCov.start
 
 SPEC_BASE = Pathname.new(__FILE__).realpath.parent
@@ -30,13 +34,8 @@ module RSpecMixin
   def app() described_class end
 end
 
-ENV['RACK_ENV'] = 'test'
-
 RSpec::configure do |rspec|
   rspec.tty = true
   rspec.color = true
   rspec.include RSpecMixin
 end
-
-require 'sidekiq/testing'
-Sidekiq.logger = nil

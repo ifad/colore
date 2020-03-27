@@ -6,6 +6,8 @@ require 'rest_client'
 require 'sidekiq'
 require 'sidekiq-cron'
 
+require_relative '../config/initializers/sidekiq.rb'
+
 module Colore
   module Sidekiq
     # This worker converts a document file to a new format and stores it.
