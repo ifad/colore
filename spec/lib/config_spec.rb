@@ -25,7 +25,7 @@ describe Colore::C_ do
     it 'fails on invalid value' do
       expect {
         described_class.foo
-      }.to raise_error
+      }.to raise_error NoMethodError
     end
   end
 end
