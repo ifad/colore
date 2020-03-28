@@ -47,7 +47,7 @@ describe Heathen::Converter do
     end
     expect {
       described_class.new.convert 'test', 'test content'
-    }.to raise_error
+    }.to raise_error(RuntimeError, 'It failed')
   end
 
   it 'runs a nested task' do
@@ -69,7 +69,7 @@ describe Heathen::Converter do
     end
     expect {
       described_class.new.convert 'test_foo', 'test content'
-    }.to raise_error
+    }.to raise_error Heathen::TaskNotFound
   end
 
   it 'fails if the mime_type is not recognised' do
@@ -79,6 +79,6 @@ describe Heathen::Converter do
     end
     expect {
       described_class.new.convert 'test', 'test content'
-    }.to raise_error
+    }.to raise_error Heathen::TaskNotFound
   end
 end
