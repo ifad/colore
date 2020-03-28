@@ -1,3 +1,4 @@
+require 'erb'
 require 'yaml'
 
 module Colore
@@ -25,6 +26,8 @@ module Colore
     attr_accessor :wkhtmltopdf_path
     # Path to the libreoffice executable
     attr_accessor :libreoffice_path
+    # Path to the tika executable
+    attr_accessor :tika_path
     # Path to the Heathen conversion log
     attr_accessor :conversion_log
     # Path to the Error log
@@ -37,7 +40,8 @@ module Colore
 
     def self.config
       @config ||= begin
-        yaml = YAML.load File.read(config_file_path)
+        template = ERB.new(File.read(config_file_path))
+        yaml = YAML.load(template.result)
         c = new
         c.storage_directory = yaml['storage_directory']
         c.legacy_url_base = yaml['legacy_url_base']
@@ -46,6 +50,7 @@ module Colore
         c.redis_namespace = yaml['redis_namespace']
         c.libreoffice_path = yaml['libreoffice_path']
         c.wkhtmltopdf_path = yaml['wkhtmltopdf_path']
+        c.tika_path = yaml['tika_path']
         c.conversion_log = yaml['conversion_log']
         c.error_log = yaml['error_log']
         c

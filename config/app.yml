@@ -13,7 +13,7 @@ storage_directory: storage
 legacy_purge_days: 2
 
 # Sidekiq configuration settings - which redis to use and namespace
-redis_url: redis://localhost:6379/4
+redis_url: <%= ENV.fetch('REDIS_URL', 'redis://localhost:6379/4') %>
 redis_namespace: colore
 
 # Conversion processes log
@@ -22,8 +22,7 @@ conversion_log: converter.log
 # Errors log
 error_log: error.log
 
-# If set, will run this executable, rather than looking for a ruby gem
-wkhtmltopdf_path: /usr/local/bin/wkhtmltopdf
-
-# If set, will run this executable rather than looking into PATH
-#libreoffice_path: /usr/bin/libreoffice
+# If set, will run these executables rather than looking into PATH
+libreoffice_path: <%= ENV['LIBREOFFICE_PATH'] %>
+tika_path: <%= ENV['TIKA_PATH'] %>
+wkhtmltopdf_path: <%= ENV['WKHTMLTOPDF_PATH'] %>
