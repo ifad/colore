@@ -16,6 +16,11 @@ describe Colore::C_ do
       expect(described_class.config).to be_a(described_class)
       expect(described_class.config.storage_directory).to eq 'foo'
     end
+
+    it 'reads from environment variables' do
+      expect(ENV).to receive(:fetch).with('TEST_REDIS_NAMESPACE', 'foobar').and_return('custom')
+      expect(described_class.config.redis_namespace).to eq 'custom'
+    end
   end
 
   context '.method_missing' do

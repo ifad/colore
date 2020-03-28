@@ -48,7 +48,7 @@ module Heathen
 
       if to_suffix == 'txt'
         executioner.execute(
-          'tika',
+          Colore::C_.tika_path || 'tika',
           '--text',
           job.content_file,
           binary: true
