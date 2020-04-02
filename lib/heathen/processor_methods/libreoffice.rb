@@ -57,10 +57,8 @@ module Heathen
         output = executioner.stdout
       else
         target_file = "#{job.content_file}.#{to_suffix}"
-        executioner.execute(
-          Colore::C_.libreoffice_path || 'libreoffice',
-          '-env:SingleAppInstance=false',
-          '--safe-mode',
+
+        execute_sandboxed_libreoffice(
           '--convert-to', to_suffix,
           '--outdir', sandbox_dir,
           job.content_file,
@@ -79,5 +77,32 @@ module Heathen
 
       job.content = output
     end
+
+    def execute_sandboxed_libreoffice(*params)
+      old_tmpdir = ENV['TMPDIR']
+      ENV['TMPDIR'] = try_dev_shm
+
+      profile_dir = Dir.mktmpdir('colore-libreoffice')
+
+      executioner.execute(
+        Colore::C_.libreoffice_path || 'libreoffice',
+        '-env:SingleAppInstance=false',
+        "-env:UserInstallation=file://#{profile_dir}",
+        '--norestore',
+        *params
+      )
+    ensure
+      ENV['TMPDIR'] = old_tmpdir
+
+      FileUtils.remove_entry profile_dir
+    end
+
+    def try_dev_shm
+      stat = File.stat('/dev/shm')
+      if stat.directory? && stat.writable?
+        '/dev/shm'
+      end
+    end
+
   end
 end
