@@ -59,6 +59,7 @@ module Heathen
         target_file = "#{job.content_file}.#{to_suffix}"
         executioner.execute(
           Colore::C_.libreoffice_path || 'libreoffice',
+          '--safe-mode',
           '--convert-to', to_suffix,
           '--outdir', sandbox_dir,
           job.content_file,
