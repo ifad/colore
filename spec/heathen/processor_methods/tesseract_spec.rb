@@ -20,7 +20,7 @@ describe Heathen::Processor do
     end
     it 'converts a tiff to HOCR' do
       processor.tesseract format: 'hocr'
-      expect(job.content.mime_type).to eq 'application/xml; charset=us-ascii'
+      expect(tesseract_hocr_mime_types).to include(job.content.mime_type)
     end
   end
 end

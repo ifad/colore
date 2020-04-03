@@ -60,7 +60,7 @@ describe Heathen::Processor do
       it 'from OO spreadsheet' do
         new_job oo_spreadsheet_content
         @processor.libreoffice format: 'msoffice'
-        expect(@job.content.mime_type).to eq 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet; charset=binary'
+        expect(ms_excel_mime_types).to include(@job.content.mime_type)
       end
       it 'from OO presentation' do
         new_job oo_presentation_content
@@ -73,17 +73,17 @@ describe Heathen::Processor do
       it 'from MS word' do
         new_job ms_word_content
         @processor.libreoffice format: 'ooffice'
-        expect(oo_mime_types).to include(@job.content.mime_type)
+        expect(oo_odt_mime_types).to include(@job.content.mime_type)
       end
       it 'from MS spreadsheet' do
         new_job ms_spreadsheet_content
         @processor.libreoffice format: 'ooffice'
-        expect(oo_mime_types).to include(@job.content.mime_type)
+        expect(oo_ods_mime_types).to include(@job.content.mime_type)
       end
       it 'from MS powerpoint' do
         new_job ms_ppt_content
         @processor.libreoffice format: 'ooffice'
-        expect(@job.content.mime_type).to eq 'application/vnd.oasis.opendocument.presentation; charset=binary'
+        expect(oo_odp_mime_types).to include(@job.content.mime_type)
       end
     end
 
