@@ -358,11 +358,13 @@ will be a normal form post, sending these values:
 
 ## Depedendencies
 
-Colore expects the following commands to be available in it's PATH:
+Colore expects the following commands to be available on the system:
 
-* `libreoffice` - From LibreOffice, `libreoffice` on Debian.
 * `convert` - From ImageMagick, `imagemagick` on Debian.
-* `tika` - From Apache Tika, `libtika-java` on Debian.
+* `libreoffice` - From LibreOffice, `libreoffice` on Debian.
+* `tesseract` - From Tesseract OCR, `tesseract-ocr` on Debian.
+* `tika` - From Apache Tika
+* `wkhtmltopdf` (with patched qt)
 
 ## Tika notes
 
