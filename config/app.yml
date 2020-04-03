@@ -23,6 +23,8 @@ conversion_log: log/converter.log
 error_log: log/error.log
 
 # If set, will run these executables rather than looking into PATH
+convert_path: <%= ENV['CONVERT_PATH'] %>
 libreoffice_path: <%= ENV['LIBREOFFICE_PATH'] %>
+tesseract_path: <%= ENV['TESSERACT_PATH'] %>
 tika_path: <%= ENV['TIKA_PATH'] %>
 wkhtmltopdf_path: <%= ENV['WKHTMLTOPDF_PATH'] %>
