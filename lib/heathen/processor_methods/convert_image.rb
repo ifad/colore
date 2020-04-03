@@ -9,7 +9,7 @@ module Heathen
 
       target_file = temp_file_name '', ".#{to.to_s}"
       executioner.execute(
-        *[ 'convert',
+        *[ Colore::C_.convert_path,
         params.split(/ +/),
         job.content_file,
         target_file ].flatten

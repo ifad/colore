@@ -22,16 +22,21 @@ module Colore
     attr_accessor :redis_url
     # Redis namespace (used by sidekiq)
     attr_accessor :redis_namespace
-    # Path to the wkhtmltopdf binary
-    attr_accessor :wkhtmltopdf_path
-    # Path to the libreoffice executable
-    attr_accessor :libreoffice_path
-    # Path to the tika executable
-    attr_accessor :tika_path
     # Path to the Heathen conversion log
     attr_accessor :conversion_log
     # Path to the Error log
     attr_accessor :error_log
+
+    # Path to the convert executable
+    attr_accessor :convert_path
+    # Path to the libreoffice executable
+    attr_accessor :libreoffice_path
+    # Path to the tesseract executable
+    attr_accessor :tesseract_path
+    # Path to the tika executable
+    attr_accessor :tika_path
+    # Path to the wkhtmltopdf binary
+    attr_accessor :wkhtmltopdf_path
 
     def self.config_file_path
       # BASE/config/app.yml
@@ -48,11 +53,15 @@ module Colore
         c.legacy_purge_days = yaml['legacy_purge_days'].to_i
         c.redis_url = yaml['redis_url']
         c.redis_namespace = yaml['redis_namespace']
-        c.libreoffice_path = yaml['libreoffice_path']
-        c.wkhtmltopdf_path = yaml['wkhtmltopdf_path']
-        c.tika_path = yaml['tika_path']
         c.conversion_log = yaml['conversion_log']
         c.error_log = yaml['error_log']
+
+        c.convert_path = yaml['convert_path'] || 'convert'
+        c.libreoffice_path = yaml['libreoffice_path'] || 'libreoffice'
+        c.tesseract_path = yaml['tesseract_path'] || 'tesseract'
+        c.tika_path = yaml['tika_path'] || 'tika'
+        c.wkhtmltopdf_path = yaml['wkhtmltopdf_path'] || 'wkhtmltopdf'
+
         c
       end
     end

@@ -48,7 +48,7 @@ module Heathen
 
       if to_suffix == 'txt'
         executioner.execute(
-          Colore::C_.tika_path || 'tika',
+          Colore::C_.tika_path,
           '--text',
           job.content_file,
           binary: true
@@ -85,7 +85,7 @@ module Heathen
       profile_dir = Dir.mktmpdir('colore-libreoffice')
 
       executioner.execute(
-        Colore::C_.libreoffice_path || 'libreoffice',
+        Colore::C_.libreoffice_path,
         '-env:SingleAppInstance=false',
         "-env:UserInstallation=file://#{profile_dir}",
         '--norestore',

@@ -16,7 +16,7 @@ module Heathen
 
       target_file = temp_file_name
       executioner.execute(
-        'tesseract',
+        Colore::C_.tesseract_path,
         job.content_file,
         target_file,
         '-l', lang.alpha3.downcase,

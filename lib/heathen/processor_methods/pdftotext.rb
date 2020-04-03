@@ -4,7 +4,7 @@ module Heathen
       expect_mime_type 'application/pdf'
 
       executioner.execute(
-        'tika',
+        Colore::C_.tika_path,
         '--text',
         job.content_file,
         binary: true
