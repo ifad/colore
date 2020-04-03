@@ -1,9 +1,9 @@
 ENV['RACK_ENV'] = 'test'
 
-require 'pathname'
+require 'byebug'
 require 'fileutils'
 require 'logger'
-require 'byebug'
+require 'pathname'
 require 'rack/test'
 require 'sidekiq/testing'
 require 'simplecov'
@@ -14,8 +14,7 @@ SimpleCov.start
 
 SPEC_BASE = Pathname.new(__FILE__).realpath.parent
 
-$: << SPEC_BASE.parent + 'lib'
-require 'colore'
+require_relative '../lib/colore'
 
 def fixture name
   SPEC_BASE + 'fixtures' + name

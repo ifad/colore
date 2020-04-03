@@ -1,6 +1,7 @@
 require 'filemagic/ext'
 require 'mime/types'
-require 'heathen'
+
+require_relative 'heathen'
 
 module Colore
   # The Colore Converter is a glue class to allow Colore to access the Heathen conversion

@@ -1,4 +1,3 @@
-require 'pathname'
 require 'sidekiq'
 require 'config'
 

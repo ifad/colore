@@ -9,9 +9,8 @@ require 'pathname'
 require 'optparse'
 require 'filemagic/ext'
 require 'mime/types'
-BASE = Pathname.new(__FILE__).realpath.parent.parent
-$: << BASE + 'lib'
-require 'heathen'
+
+require_relative '../lib/heathen'
 
 action = nil
 in_file = nil

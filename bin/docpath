@@ -5,11 +5,9 @@
 #
 # Usage:       docpath --help
 #
-require 'pathname'
 require 'optparse'
-BASE = Pathname.new(__FILE__).realpath.parent.parent
-$: << BASE + 'lib'
-require 'colore'
+
+require_relative '../colore'
 
 app = nil
 doc_id = nil

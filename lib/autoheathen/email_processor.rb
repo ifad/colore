@@ -3,8 +3,6 @@ require 'yaml'
 require 'logger'
 require 'haml'
 require 'filemagic/ext'
-require_relative 'config'
-require 'heathen'
 
 module AutoHeathen
   class EmailProcessor

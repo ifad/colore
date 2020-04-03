@@ -17,12 +17,10 @@
 #              configuration settings for mail host, etc. It is also possible
 #              to load all of the configuration from a YAML file (-C flag).
 #
-require 'optparse'
-require 'pathname'
-$: << Pathname.new(__FILE__).realpath.parent.parent
-$: << Pathname.new(__FILE__).realpath.parent.parent + 'lib'
-require 'autoheathen'
 require 'mail'
+require 'optparse'
+
+require_relative '../lib/autoheathen'
 
 cfg = {}
 mode = :return_to_sender

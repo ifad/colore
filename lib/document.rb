@@ -2,6 +2,7 @@ require 'pathname'
 require 'stringio'
 require 'json'
 require 'filemagic/ext'
+
 require_relative 'doc_key'
 
 module Colore

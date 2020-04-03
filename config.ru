@@ -2,17 +2,12 @@
 #
 # Rackup config for the Colore app
 #
-require 'pathname'
-require "sinatra"
+require 'sinatra'
 
-BASE=Pathname.new(__FILE__).realpath.parent
-$: << BASE
-$: << BASE + 'lib'
-require 'config/initializers/sidekiq'
+require_relative 'config/initializers/sidekiq'
+require_relative 'lib/app'
 
-require 'app'
-
-require 'sidekiq/web'
-require 'sidekiq/cron/web'
+require_relative 'lib/sidekiq/web'
+require_relative 'lib/sidekiq/cron/web'
 
 run Rack::URLMap.new('/' => Colore::App, '/sidekiq' => Sidekiq::Web)

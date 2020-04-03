@@ -1,7 +1,8 @@
 require 'pathname'
 require 'filemagic/ext'
 require 'mime/types'
-require 'heathen'
+
+require_relative 'heathen'
 
 module Colore
   # The Colore Legacy Converter provides the conversion functionality from
