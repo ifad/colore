@@ -1,6 +1,8 @@
 require 'iso-639'
 module Heathen
   class Processor
+    DEV_SHM_PATH = '/dev/shm'
+
     # Converts office documents to their counterpart (e.g. MS Word -> LibreOffice word,
     # or MS Excel -> LibreOffice Sheet) or to PDF. Calls the external 'libreoffice' utility
     # to achieve this.
@@ -80,7 +82,7 @@ module Heathen
 
     def execute_sandboxed_libreoffice(*params)
       old_tmpdir = ENV['TMPDIR']
-      ENV['TMPDIR'] = try_dev_shm
+      ENV['TMPDIR'] = DEV_SHM_PATH if try_dev_shm
 
       profile_dir = Dir.mktmpdir('colore-libreoffice')
 
@@ -98,10 +100,10 @@ module Heathen
     end
 
     def try_dev_shm
-      stat = File.stat('/dev/shm')
-      if stat.directory? && stat.writable?
-        '/dev/shm'
-      end
+      return false unless File.exist?(DEV_SHM_PATH)
+
+      stat = File.stat(DEV_SHM_PATH)
+      stat.directory? && stat.writable?
     end
 
   end
