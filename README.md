@@ -400,7 +400,9 @@ Want to contribute? Great!
 
 ## Authors
 
-* Joe Blackman -- <j.blackman@ifad.org>
+* Joe Blackman <j.blackman@ifad.org>
+* Marcello Barnaba <m.barnaba@ifad.org>
+* Geremia Taglialatela <g.taglialatela@ifad.org>
 
 ## License
 
