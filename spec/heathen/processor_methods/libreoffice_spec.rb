@@ -65,7 +65,7 @@ describe Heathen::Processor do
       it 'from OO presentation' do
         new_job oo_presentation_content
         @processor.libreoffice format: 'msoffice'
-        expect(@job.content.mime_type).to eq 'application/vnd.openxmlformats-officedocument.presentationml.presentation; charset=binary'
+        expect(ms_powerpoint_mime_types).to include(@job.content.mime_type)
       end
     end
 
