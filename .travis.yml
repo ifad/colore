@@ -1,10 +1,13 @@
+dist: bionic
+os: linux
+
 language: ruby
 
 rvm:
   - 2.6.5
 
 services:
-  - redis-server
+  - redis
 
 addons:
   apt:
@@ -20,17 +23,19 @@ cache:
 
 before_install:
   # tika
-  - wget --quiet https://apache.osuosl.org/tika/tika-app-1.24.jar
-  - mv tika-app-1.24.jar $HOME/bin/tika-app.jar
+  - TIKA_VERSION=1.24.1
+  - wget --quiet https://apache.osuosl.org/tika/tika-app-${TIKA_VERSION}.jar -O $HOME/bin/tika-app.jar
   - echo $'#!/bin/sh\n\nARGS="$@"\n\n[ $# -eq 0 ] && ARGS="--help"\n\nexec java -jar $HOME/bin/tika-app.jar $ARGS\n' > $HOME/bin/tika
   - cat $HOME/bin/tika
   - chmod +x $HOME/bin/tika
 
   # wkhtmltopdf (with qt)
-  - wget --quiet https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.xenial_amd64.deb
-  - dpkg -x wkhtmltox_0.12.5-1.xenial_amd64.deb tmp-wkhtmtopdf
+  - WKHTMLTOPDF_VERSION=0.12.5
+  - WKHTMLTOPDF_SUBVERSION=-1
+  - wget --quiet https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox_${WKHTMLTOPDF_VERSION}${WKHTMLTOPDF_SUBVERSION}.bionic_amd64.deb -O wkhtmltopdf.deb
+  - dpkg -x wkhtmltopdf.deb tmp-wkhtmtopdf
   - mv tmp-wkhtmtopdf/usr/local/bin/wkhtmltopdf $HOME/bin/wkhtmltopdf
-  - rm -rf wkhtmltox_0.12.5-1.xenial_amd64.deb tmp-wkhtmtopdf
+  - rm -rf wkhtmltopdf.deb tmp-wkhtmtopdf
 
   # Show versions of all executables
   - convert --version
