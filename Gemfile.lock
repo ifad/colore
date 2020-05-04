@@ -99,7 +99,7 @@ GEM
     unicorn (5.5.5)
       kgio (~> 2.6)
       raindrops (~> 0.7)
-    yard (0.9.24)
+    yard (0.9.25)
 
 PLATFORMS
   ruby
@@ -125,7 +125,7 @@ DEPENDENCIES
   thin (~> 1.7)
   timecop (~> 0.9.1)
   unicorn (~> 5.5)
-  yard (~> 0.9.24)
+  yard (~> 0.9.25)
 
 RUBY VERSION
    ruby 2.6.5p114
