@@ -7,15 +7,18 @@ RUN apt-get update && apt-get install -y \
   libreoffice \
   tesseract-ocr
 
-ARG WKHTMLTOPDF_VERSION=0.12.5
-ARG WKHTMLTOPDF_SUBVERSION=-1
-ARG WKHTMLTOPDF_MD5=f4f3e0779d46579c63a76875e25e6b3d
+# Please keep using version 0.12.3
+# With newer version of 0.12.x, the following issues are more annoying:
+# wkhtmltopdf/wkhtmltopdf#1524 wkhtmltopdf/wkhtmltopdf#3241
+ARG WKHTMLTOPDF_VERSION=0.12.3
+ARG WKHTMLTOPDF_MD5=6e991e1a1f3293ab673afa015703ef86
 
-RUN wget --quiet https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox_${WKHTMLTOPDF_VERSION}${WKHTMLTOPDF_SUBVERSION}.buster_amd64.deb -O wkhtmltopdf.deb && \
-    echo "${WKHTMLTOPDF_MD5} wkhtmltopdf.deb" > MD5SUMS && \
+RUN wget --quiet https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox-${WKHTMLTOPDF_VERSION}_linux-generic-amd64.tar.xz -O wkhtmltox.tar.xz && \
+    echo "${WKHTMLTOPDF_MD5} wkhtmltox.tar.xz" > MD5SUMS && \
     md5sum -c MD5SUMS && \
-    apt-get -qy install ./wkhtmltopdf.deb && \
-    rm -f wkhtmltopdf.deb MD5SUMS
+    tar -xf wkhtmltox.tar.xz && \
+    mv wkhtmltox/bin/wkhtmltopdf /usr/local/bin && \
+    rm -rf wkhtmltox wkhtmltox.tar.xz MD5SUMS
 
 ARG TIKA_VERSION=1.25
 
