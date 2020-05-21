@@ -30,12 +30,11 @@ before_install:
   - chmod +x $HOME/bin/tika
 
   # wkhtmltopdf (with qt)
-  - WKHTMLTOPDF_VERSION=0.12.5
-  - WKHTMLTOPDF_SUBVERSION=-1
-  - wget --quiet https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox_${WKHTMLTOPDF_VERSION}${WKHTMLTOPDF_SUBVERSION}.bionic_amd64.deb -O wkhtmltopdf.deb
-  - dpkg -x wkhtmltopdf.deb tmp-wkhtmtopdf
-  - mv tmp-wkhtmtopdf/usr/local/bin/wkhtmltopdf $HOME/bin/wkhtmltopdf
-  - rm -rf wkhtmltopdf.deb tmp-wkhtmtopdf
+  - WKHTMLTOPDF_VERSION=0.12.3
+  - wget --quiet https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox-${WKHTMLTOPDF_VERSION}_linux-generic-amd64.tar.xz -O wkhtmltox.tar.xz
+  - tar -xf wkhtmltox.tar.xz
+  - mv wkhtmltox/bin/wkhtmltopdf $HOME/bin/wkhtmltopdf
+  - rm -rf wkhtmltox wkhtmltox.tar.xz
 
   # Show versions of all executables
   - convert --version
