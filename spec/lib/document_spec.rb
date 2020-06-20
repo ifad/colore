@@ -240,6 +240,17 @@ describe Colore::Document do
       end
       expect(dochash).to match testhash
     end
+
+    context 'when file size is zero' do
+      let(:doc_id) { '12346' }
+
+      it 'reports the correct mime type' do
+        dochash = Colore::Utils.symbolize_keys document.to_hash
+        content_type = dochash[:versions][:v001][:docx][:content_type]
+
+        expect(content_type).to eq 'application/x-empty; charset=binary'
+      end
+    end
   end
 
   context '#save_metadata' do
