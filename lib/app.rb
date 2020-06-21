@@ -62,6 +62,7 @@ module Colore
         doc_key = DocKey.new app,doc_id
         doc = Document.load( @storage_dir, doc_key )
         raise InvalidParameter.new :file unless params[:file]
+        raise EmptyFile if params[:file][:tempfile].size == 0
         version = doc.new_version do |version|
           doc.add_file version, filename, params[:file][:tempfile], params[:author]
           doc.set_current version
