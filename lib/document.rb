@@ -190,7 +190,7 @@ module Colore
         Dir.glob(directory + v + '*').each do |file|
           pfile = Pathname.new(file)
           next if pfile.basename.to_s == AUTHOR_FILE
-          content_type = File.read(pfile,200).mime_type
+          content_type = File.read(pfile, [200, pfile.size].min).mime_type
           author = File.read( pfile.parent + AUTHOR_FILE ).chomp rescue nil
           suffix = pfile.extname.gsub( /\./, '')
           next if suffix.empty?
