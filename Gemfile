@@ -16,7 +16,7 @@ gem 'ruby-filemagic', '~> 0.7.2'
 gem 'sidekiq', '~> 6.1'
 gem 'sidekiq-cron', '~> 1.2'
 gem 'sinatra', '~> 2.1'
-gem 'thin', '~> 1.7'
+gem 'thin', '~> 1.8'
 gem 'unicorn', '~> 5.7'
 
 group :development do
