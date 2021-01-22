@@ -24,7 +24,7 @@ cache:
 before_install:
   # tika
   - TIKA_VERSION=1.25
-  - wget --quiet https://apache.osuosl.org/tika/tika-app-${TIKA_VERSION}.jar -O $HOME/bin/tika-app.jar
+  - wget --quiet https://archive.apache.org/dist/tika/tika-app-${TIKA_VERSION}.jar -O $HOME/bin/tika-app.jar
   - echo $'#!/bin/sh\n\nARGS="$@"\n\n[ $# -eq 0 ] && ARGS="--help"\n\nexec java -jar $HOME/bin/tika-app.jar $ARGS\n' > $HOME/bin/tika
   - cat $HOME/bin/tika
   - chmod +x $HOME/bin/tika
