@@ -6,6 +6,12 @@ language: ruby
 rvm:
   - 2.6.5
 
+jobs:
+  include:
+   - dist: xenial
+   - dist: bionic
+   - dist: focal
+
 services:
   - redis
 
