@@ -97,7 +97,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.7)
-    unicorn (5.7.0)
+    unicorn (5.8.0)
       kgio (~> 2.6)
       raindrops (~> 0.7)
     yard (0.9.26)
@@ -125,7 +125,7 @@ DEPENDENCIES
   sinatra (~> 2.1)
   thin (~> 1.8)
   timecop (~> 0.9.4)
-  unicorn (~> 5.7)
+  unicorn (~> 5.8)
   yard (~> 0.9.26)
 
 RUBY VERSION
