@@ -27,6 +27,13 @@ module Colore
     end
 
     #
+    # A custom 404 page
+    #
+    not_found do
+      JSON.dump(error: 'not found')
+    end
+
+    #
     # Create document (will fail if document already exists)
     #
     # POST params:
