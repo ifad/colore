@@ -62,6 +62,21 @@ describe Colore::App do
       expect(JSON.parse(last_response.body)).to be_a Hash
       expect(Colore::Sidekiq::ConversionWorker).to_not have_received(:perform_async)
     end
+
+    context 'when uploaded file is empty' do
+      it 'does not create the document' do
+        put "/document/#{appname}/#{new_doc_id}/#{filename}", {
+          title: 'A title',
+          file: Rack::Test::UploadedFile.new(fixture('empty_file.txt'), 'text/plain'),
+          backtrace: true
+        }
+        show_backtrace last_response
+        expect(last_response.status).to eq 400
+        expect(JSON.parse(last_response.body)).to match(
+          {"status"=>400, "description"=>"Uploaded file is empty"}
+        )
+      end
+    end
   end
 
   context 'POST update document' do
