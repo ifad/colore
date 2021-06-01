@@ -275,7 +275,7 @@ module Colore
         log << "\nbacktrace:"
         log << "  " << error.backtrace.join("\n  ")
 
-        log.split("\n").each {|line| @errlog.error(line) }
+        @errlog.error(log)
 
         respond error, error.message
       end
