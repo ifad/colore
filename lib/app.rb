@@ -187,6 +187,14 @@ module Colore
     #  language - the language of the file (defaults to 'en')
     post '/convert' do
       begin
+        unless params[:file]
+          return respond 400, "missing file parameter"
+        end
+
+        unless params[:file].respond_to?(:fetch) and params[:file].fetch(:tempfile, nil).respond_to?(:read)
+          return respond 400, "invalid file parameter"
+        end
+
         body = params[:file][:tempfile].read
         content = Converter.new(logger:@logger).convert_file( params[:action], body, params[:language] )
         content_type content.mime_type
