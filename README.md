@@ -403,7 +403,7 @@ Want to contribute? Great!
 * Joe Blackman <j.blackman@ifad.org>
 * Marcello Barnaba <m.barnaba@ifad.org>
 * Geremia Taglialatela <g.taglialatela@ifad.org>
-* Luca Spiller <l.spiller@ifad.org>     
+* Luca Spiller <l.spiller@ifad.org>
 
 ## License
 
