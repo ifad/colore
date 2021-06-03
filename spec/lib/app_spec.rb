@@ -231,6 +231,61 @@ describe Colore::App do
     end
   end
 
+  context 'POST /convert' do
+    context 'when file is nil' do
+      it 'returns an error' do
+        params = {
+          file: nil
+        }
+        post "/convert", params
+        expect(last_response.status).to eq 400
+        body = JSON.parse(last_response.body)
+        expect(body).to be_a Hash
+        expect(body['description'].to_s).to eq "missing file parameter"
+      end
+    end
+    context 'when file is not correct' do
+      it 'returns an error' do
+        params = {
+          file: "I'm definitely not a file"
+        }
+        post "/convert", params
+        expect(last_response.status).to eq 400
+        body = JSON.parse(last_response.body)
+        expect(body).to be_a Hash
+        expect(body['description'].to_s).to eq "invalid file parameter"
+      end
+    end
+    it 'converts and saves file' do
+      foo = double(Colore::Converter)
+      allow(Colore::Converter).to receive(:new) { foo }
+      params = {
+        action: 'pdf',
+        file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
+      }
+      expect(foo).to receive(:convert_file).with(params[:action],String,nil) { "%PDF-1.4" }
+      post "/convert", params
+      expect(last_response.status).to eq 200
+      expect(last_response.content_type).to eq 'application/pdf; charset=us-ascii'
+      expect(last_response.body).to eq '%PDF-1.4'
+    end
+    it 'returns correct JSON structure on fail' do
+      foo = double(Colore::Converter)
+      allow(Colore::Converter).to receive(:new) { foo }
+      params = {
+        action: 'pdf',
+        file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
+      }
+      allow(foo).to receive(:convert_file) { raise 'Argh' }
+      post "/convert", params
+      expect(last_response.status).to eq 500
+      expect(last_response.content_type).to eq 'application/json'
+      body = JSON.parse(last_response.body)
+      expect(body).to be_a Hash
+      expect(body['description']).to eq 'Argh'
+    end
+  end
+
   context 'POST /legacy/convert' do
     it 'converts and saves file' do
       foo = double(Colore::LegacyConverter)
