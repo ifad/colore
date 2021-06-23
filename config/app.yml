@@ -28,3 +28,4 @@ libreoffice_path: <%= ENV['LIBREOFFICE_PATH'] %>
 tesseract_path: <%= ENV['TESSERACT_PATH'] %>
 tika_path: <%= ENV['TIKA_PATH'] %>
 wkhtmltopdf_path: <%= ENV['WKHTMLTOPDF_PATH'] %>
+wkhtmltopdf_params: '-d 100 --encoding UTF-8'

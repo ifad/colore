@@ -40,6 +40,8 @@ module Colore
     attr_accessor :tika_path
     # Path to the wkhtmltopdf binary
     attr_accessor :wkhtmltopdf_path
+    # Params for wkhtmltopdf
+    attr_accessor :wkhtmltopdf_params
 
     def self.config_file_path
       # BASE/config/app.yml
@@ -64,6 +66,7 @@ module Colore
         c.tesseract_path = yaml['tesseract_path'] || 'tesseract'
         c.tika_path = yaml['tika_path'] || 'tika'
         c.wkhtmltopdf_path = yaml['wkhtmltopdf_path'] || 'wkhtmltopdf'
+        c.wkhtmltopdf_params = yaml['wkhtmltopdf_params'] || ''
 
         c
       end
