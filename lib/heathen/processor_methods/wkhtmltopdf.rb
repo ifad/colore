@@ -2,18 +2,17 @@ require 'nokogiri'
 
 module Heathen
   class Processor
-    def wkhtmltopdf params=''
+    def wkhtmltopdf
       expect_mime_type 'text/html'
 
       target_file = temp_file_name
-      executioner.execute(
-        *[Colore::C_.wkhtmltopdf_path, '-q',
+      executioner.execute(*[
+        Colore::C_.wkhtmltopdf_path, '-q',
         _wkhtmltopdf_options(job.content),
-        params.split(/ +/),
+        Colore::C_.wkhtmltopdf_params.split(/ +/),
         job.content_file('.html'),
         target_file,
-        ].flatten
-      )
+      ].flatten)
       raise ConversionFailed.new('PDF converter rejected the request') if executioner.last_exit_status != 0
       job.content = File.read(target_file)
       File.unlink(target_file)
