@@ -50,9 +50,9 @@ By doing this, we reduce the load on Colore - the expectation being of course th
 Colore writes documents to the storage directory using this subdirectory structure:
 
     {storage-directory} - {app} - {subdir} - {doc_id} - {version} - {filename}
-    
+
     for example:
-    
+
     {storage-directory}/myapp/82/12345/v001/bob.pdf
 
 So, given a URL: <code>/document/myapp/12345/v001/bob.pdf</code>, the only part that has to be derived is the <code>{subdir}</code>. This is the first N
@@ -105,12 +105,12 @@ Installation
 
 [Back to TOC](#table-of-contents)
 
-Grab the nginx source code from [nginx.org](http://nginx.org/), and also the Nginx Devel Kit [Github repository](https://github.com/simpl/ngx_devel_kit)
+Grab the nginx source code from [nginx.org](https://nginx.org/), and also the Nginx Devel Kit [Github repository](https://github.com/simpl/ngx_devel_kit)
 and then build the Nginx source with this module:
 
 ```bash
 
- wget 'http://nginx.org/download/nginx-1.7.7.tar.gz'
+ wget 'https://nginx.org/download/nginx-1.7.7.tar.gz'
  tar -xzvf nginx-1.7.7.tar.gz
  cd nginx-1.7.7/
 
