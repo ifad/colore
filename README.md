@@ -1,7 +1,7 @@
 Colore
 ======
 
-[![Build Status](https://travis-ci.org/ifad/colore.svg)](https://travis-ci.org/ifad/colore)
+[![Build Status](https://github.com/ifad/colore/actions/workflows/ci.yml/badge.svg)](https://github.com/ifad/colore/actions)
 [![Inline docs](https://inch-ci.org/github/ifad/colore.svg?branch=master)](https://inch-ci.org/github/ifad/colore)
 [![Code Climate](https://codeclimate.com/github/ifad/colore/badges/gpa.svg)](https://codeclimate.com/github/ifad/colore)
 
