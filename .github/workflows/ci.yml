@@ -18,7 +18,7 @@ jobs:
         options: --entrypoint redis-server
 
     env:
-      TIKA_VERSION: '1.26'
+      TIKA_VERSION: '1.27'
       WKHTMLTOPDF_VERSION: '0.12.3'
 
     steps:
