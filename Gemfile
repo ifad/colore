@@ -17,7 +17,7 @@ gem 'sidekiq', '~> 6.1'
 gem 'sidekiq-cron', '~> 1.2'
 gem 'sinatra', '~> 2.1'
 gem 'thin', '~> 1.8'
-gem 'unicorn', '~> 5.7'
+gem 'unicorn', '~> 6.0'
 
 group :development do
   gem 'byebug', '~> 11.1'
