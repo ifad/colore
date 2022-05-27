@@ -6,7 +6,7 @@ ruby '2.6.5'
 
 gem 'haml', '~> 5.2'
 gem 'iso-639', '~> 0.3.5'
-gem 'json', '~> 2.3'
+gem 'json', '~> 2.6'
 gem 'mail', '~> 2.7'
 gem 'mime-types', '~> 3.4'
 gem 'nokogiri', '~> 1.13'
