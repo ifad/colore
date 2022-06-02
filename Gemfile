@@ -26,5 +26,5 @@ group :development do
   gem 'rspec', '~> 3.11'
   gem 'simplecov', '~> 0.21.2'
   gem 'timecop', '~> 0.9.5'
-  gem 'yard', '~> 0.9.27'
+  gem 'yard', '~> 0.9.28'
 end
