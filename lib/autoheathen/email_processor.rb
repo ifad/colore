@@ -158,12 +158,12 @@ module AutoHeathen
       cfg = @cfg # stoopid Mail scoping
       me = self # stoopid Mail scoping
       mail.text_part do
-        s = Haml::Engine.new( me.read_file cfg[:text_template] ).render(Object.new, to: mail_to, documents: documents, cfg: cfg)
+        s = Haml::Template.new { me.read_file cfg[:text_template] }.render(Object.new, to: mail_to, documents: documents, cfg: cfg)
         body s
       end
       mail.html_part do
         content_type 'text/html; charset=UTF-8'
-        s = Haml::Engine.new( me.read_file cfg[:html_template] ).render(Object.new, to: mail_to, documents: documents, cfg: cfg)
+        s = Haml::Template.new { me.read_file cfg[:html_template] }.render(Object.new, to: mail_to, documents: documents, cfg: cfg)
         body s
       end
       mail.delivery_method :smtp, address: @cfg[:mail_host], port: @cfg[:mail_port]
