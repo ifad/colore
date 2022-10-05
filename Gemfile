@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 ruby '2.6.5'
 
-gem 'haml', '~> 5.2'
+gem 'haml', '~> 6.0'
 gem 'iso-639', '~> 0.3.5'
 gem 'json', '~> 2.6'
 gem 'mail', '~> 2.7'
