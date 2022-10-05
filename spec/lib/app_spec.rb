@@ -263,7 +263,7 @@ describe Colore::App do
         action: 'pdf',
         file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
       }
-      expect(foo).to receive(:convert_file).with(params[:action],String,nil) { "%PDF-1.4" }
+      expect(foo).to receive(:convert_file).with(params[:action],String,'en') { "%PDF-1.4" }
       post "/convert", params
       expect(last_response.status).to eq 200
       expect(last_response.content_type).to eq 'application/pdf; charset=us-ascii'
@@ -284,6 +284,17 @@ describe Colore::App do
       expect(body).to be_a Hash
       expect(body['description']).to eq 'Argh'
     end
+    it 'allows to specify language' do
+      foo = double(Colore::Converter)
+      allow(Colore::Converter).to receive(:new) { foo }
+      params = {
+        action: 'pdf',
+        file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
+        language: 'fr'
+      }
+      expect(foo).to receive(:convert_file).with(params[:action],String,'fr') { "%PDF-1.4" }
+      post "/convert", params
+    end
   end
 
   context 'POST /legacy/convert' do
@@ -294,7 +305,7 @@ describe Colore::App do
         action: 'pdf',
         file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
       }
-      expect(foo).to receive(:convert_file).with(params[:action],String,nil) { 'foobar' }
+      expect(foo).to receive(:convert_file).with(params[:action],String,'en') { 'foobar' }
       post "/#{Colore::LegacyConverter::LEGACY}/convert", params
       expect(last_response.status).to eq 200
       expect(last_response.content_type).to eq 'application/json'
@@ -310,7 +321,7 @@ describe Colore::App do
         url: 'http://localhost/foo/bar',
       }
       expect(Net::HTTP).to receive(:get).with(URI(params[:url])) { 'The quick brown flox' }
-      expect(foo).to receive(:convert_file).with(params[:action],String,nil) { 'foobar' }
+      expect(foo).to receive(:convert_file).with(params[:action],String,'en') { 'foobar' }
       post "/#{Colore::LegacyConverter::LEGACY}/convert", params
       expect(last_response.status).to eq 200
       expect(last_response.content_type).to eq 'application/json'
@@ -332,6 +343,18 @@ describe Colore::App do
       body = JSON.parse(last_response.body)
       expect(body).to be_a Hash
       expect(body['error']).to eq 'Argh'
+    end
+    it 'allows to specify language' do
+      foo = double(Colore::LegacyConverter)
+      allow(Colore::LegacyConverter).to receive(:new) { foo }
+      params = {
+        action: 'pdf',
+        url: 'http://localhost/foo/bar',
+        language: 'fr'
+      }
+      expect(Net::HTTP).to receive(:get).with(URI(params[:url])) { 'The quick brown flox' }
+      expect(foo).to receive(:convert_file).with(params[:action],String,'fr') { 'foobar' }
+      post "/#{Colore::LegacyConverter::LEGACY}/convert", params
     end
   end
 
