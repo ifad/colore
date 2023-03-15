@@ -21,7 +21,7 @@ gem 'unicorn', '~> 6.1'
 
 group :development do
   gem 'byebug', '~> 11.1'
-  gem 'rack-test', '~> 2.0'
+  gem 'rack-test', '~> 2.1'
   gem 'rake', '~> 13.0'
   gem 'rspec', '~> 3.12'
   gem 'simplecov', '~> 0.22.0'
