@@ -196,7 +196,8 @@ module Colore
         end
 
         body = params[:file][:tempfile].read
-        content = Converter.new(logger:@logger).convert_file( params[:action], body, params[:language] )
+        language = params.fetch(:language, 'en')
+        content = Converter.new(logger:@logger).convert_file( params[:action], body, language )
         content_type content.mime_type
         content
       rescue StandardError => e
@@ -221,7 +222,8 @@ module Colore
         else
           raise DocumentNotFound.new "Please specify either 'file' or 'url' POST variable"
         end
-        path = LegacyConverter.new.convert_file params[:action], body, params[:language]
+        language = params.fetch(:language, 'en')
+        path = LegacyConverter.new.convert_file params[:action], body, language
         converted_url = @legacy_url_base + path
         content_type 'application/json'
         {
