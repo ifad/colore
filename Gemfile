@@ -15,7 +15,7 @@ gem 'rest-client', '~> 2.1'
 gem 'ruby-filemagic', '~> 0.7.3'
 gem 'sidekiq', '~> 6.5'
 gem 'sidekiq-cron', '~> 1.9'
-gem 'sinatra', '~> 3.0'
+gem 'sinatra', '~> 3.1'
 gem 'thin', '~> 1.8'
 gem 'unicorn', '~> 6.1'
 
