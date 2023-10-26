@@ -7,3 +7,6 @@ tmp/*
 spec/output.log
 .byebug_history
 storage/
+
+# Docker
+docker/colore/variables.env
