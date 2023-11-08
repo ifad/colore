@@ -1,4 +1,4 @@
-require 'digest'
+require 'digest/md5'
 
 module Colore
   # This is the unique identifier for a document, a composite of

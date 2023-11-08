@@ -1,5 +1,3 @@
-require 'digest'
-
 module Colore
   module Utils
     # Deep conversion of all hash keys to symbols.

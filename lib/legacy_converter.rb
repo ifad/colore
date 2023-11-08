@@ -2,6 +2,7 @@ require 'pathname'
 require 'filemagic/ext'
 require 'mime/types'
 require 'heathen'
+require 'digest/sha2'
 
 module Colore
   # The Colore Legacy Converter provides the conversion functionality from
