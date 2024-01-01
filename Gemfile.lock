@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    base64 (0.2.0)
     byebug (11.1.3)
     concurrent-ruby (1.2.2)
     connection_pool (2.4.1)
@@ -54,7 +55,8 @@ GEM
     raabro (1.4.0)
     racc (1.7.3)
     rack (2.2.8)
-    rack-protection (3.1.0)
+    rack-protection (3.2.0)
+      base64 (>= 0.1.0)
       rack (~> 2.2, >= 2.2.4)
     rack-test (2.1.0)
       rack (>= 1.3)
@@ -96,10 +98,10 @@ GEM
       simplecov_json_formatter (~> 0.1)
     simplecov-html (0.12.3)
     simplecov_json_formatter (0.1.4)
-    sinatra (3.1.0)
+    sinatra (3.2.0)
       mustermann (~> 3.0)
       rack (~> 2.2, >= 2.2.4)
-      rack-protection (= 3.1.0)
+      rack-protection (= 3.2.0)
       tilt (~> 2.0)
     temple (0.10.3)
     thin (1.8.2)
@@ -141,7 +143,7 @@ DEPENDENCIES
   sidekiq (~> 6.5)
   sidekiq-cron (~> 1.9)
   simplecov
-  sinatra (~> 3.1)
+  sinatra (~> 3.2)
   thin (~> 1.8)
   timecop
   unicorn (~> 6.1)
