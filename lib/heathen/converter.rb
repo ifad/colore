@@ -13,7 +13,8 @@ module Heathen
     # @param content [String] the document body to be converted
     # @param language [String] the document langauge (defaults to 'en')
     # @return [String] the converted document body
-    def convert action, content, language='en'
+    def convert action, content, language=nil
+      language ||= 'en'
       job = Job.new action, content, language
       processor = Heathen::Processor.new job: job, logger: @logger
       begin
