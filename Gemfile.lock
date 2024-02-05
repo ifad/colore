@@ -17,7 +17,7 @@ GEM
     fugit (1.9.0)
       et-orbi (~> 1, >= 1.2.7)
       raabro (~> 1.4)
-    haml (6.2.3)
+    haml (6.3.0)
       temple (>= 0.8.2)
       thor
       tilt
@@ -127,7 +127,7 @@ PLATFORMS
 
 DEPENDENCIES
   byebug
-  haml (~> 6.2)
+  haml (~> 6.3)
   iso-639 (~> 0.3.6)
   json (~> 2.7)
   mail (~> 2.8)
