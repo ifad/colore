@@ -120,7 +120,7 @@ GEM
     unicorn (6.1.0)
       kgio (~> 2.6)
       raindrops (~> 0.7)
-    yard (0.9.34)
+    yard (0.9.35)
 
 PLATFORMS
   ruby
