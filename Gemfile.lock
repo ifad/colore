@@ -25,7 +25,7 @@ GEM
     http-cookie (1.0.5)
       domain_name (~> 0.5)
     iso-639 (0.3.6)
-    json (2.7.1)
+    json (2.7.2)
     kgio (2.11.4)
     mail (2.8.1)
       mini_mime (>= 0.1.1)
