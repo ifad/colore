@@ -28,7 +28,7 @@ module Heathen
         value = if meta.attributes.key?('content')
           unless (v = meta.attributes['content'].value.strip).size.zero?
             # Some wkhtmltopdf command line options such as `--custom-header KEY VALUE` allows for 2 values as params
-            # instead of the regular 1 param. In that case the meta content is splitted by `;` delimiter
+            # instead of the regular 1 param. In that case the meta content is split by `;` delimiter
             # https://wkhtmltopdf.org/usage/wkhtmltopdf.txt
             #
             # Ex:
