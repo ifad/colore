@@ -11,7 +11,7 @@ module Heathen
     # Converts the given document according to the action requested.
     # @param action [String] the conversion action to perform
     # @param content [String] the document body to be converted
-    # @param language [String] the document langauge (defaults to 'en')
+    # @param language [String] the document language (defaults to 'en')
     # @return [String] the converted document body
     def convert action, content, language='en'
       job = Job.new action, content, language
