@@ -21,8 +21,8 @@ jobs:
         options: --entrypoint redis-server
 
     env:
-      TIKA_VERSION: '1.28.5'
-      WKHTMLTOPDF_VERSION: '0.12.3'
+      TIKA_VERSION: '2.9.2'
+      WKHTMLTOPDF_VERSION: '0.12.6'
 
     steps:
     - name: Install ImageMagick, libmagic-dev, LibreOffice, Tesseract OCR
