@@ -25,7 +25,7 @@ RUN wget --quiet https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${
     mv wkhtmltox/bin/wkhtmltopdf /usr/local/bin && \
     rm -rf wkhtmltox wkhtmltox.tar.xz MD5SUMS
 
-ARG TIKA_VERSION=1.28.5
+ARG TIKA_VERSION=2.9.2
 
 RUN wget --quiet https://archive.apache.org/dist/tika/KEYS -O tika-keys && \
   wget --quiet https://archive.apache.org/dist/tika/${TIKA_VERSION}/tika-app-${TIKA_VERSION}.jar.asc -O tika-app.jar.asc && \
