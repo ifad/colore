@@ -386,7 +386,7 @@ exec java -jar /usr/share/java/tika-app.jar $ARGS
 A multi-container Docker application defined in `docker-compose.yml` is
 provided to speed up Colore installation on development machines.
 
-1. Copy `docker/colore/variables.env.example` to `docker/colore/variables.env`
+1. Run `cp docker/colore/variables.env.example docker/colore/variables.env`
 2. Run `docker compose up`
 3. Have fun with Colore up and running on `http://localhost:9240/`
 
