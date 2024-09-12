@@ -21,14 +21,13 @@ jobs:
         options: --entrypoint redis-server
 
     env:
-      TIKA_VERSION: '1.28.5'
-      WKHTMLTOPDF_VERSION: '0.12.3'
+      TIKA_VERSION: '2.9.2'
 
     steps:
-    - name: Install ImageMagick, libmagic-dev, LibreOffice, Tesseract OCR
+    - name: Install ImageMagick, libmagic-dev, LibreOffice, Tesseract OCR, wkhtmltopdf
       run: |
         sudo apt-get update
-        sudo apt-get -yq --no-install-suggests --no-install-recommends install imagemagick libmagic-dev libreoffice tesseract-ocr
+        sudo apt-get -yq --no-install-suggests --no-install-recommends install imagemagick libmagic-dev libreoffice tesseract-ocr wkhtmltopdf
     - uses: actions/cache@v4
       name: Check Apache Tika
       id: cache-tika
@@ -37,13 +36,6 @@ jobs:
           ~/.local/bin/tika
           ~/.local/bin/tika-app.jar
         key: ${{ runner.os }}-tika-bin-cache-${{ env.TIKA_VERSION }}
-    - uses: actions/cache@v4
-      name: Check wkhtmltopdf
-      id: cache-wkhtmltopdf
-      with:
-        path: |
-          ~/.local/bin/wkhtmltopdf
-        key: ${{ runner.os }}-wkhtmltopdf-bin-cache-${{ env.WKHTMLTOPDF_VERSION }}
     - name: Install Tika
       if: steps.cache-tika.outputs.cache-hit != 'true'
       run: |
@@ -51,14 +43,6 @@ jobs:
         wget --quiet https://archive.apache.org/dist/tika/${TIKA_VERSION}/tika-app-${TIKA_VERSION}.jar -O ~/.local/bin/tika-app.jar
         echo $'#!/bin/sh\n\nARGS="$@"\n\n[ $# -eq 0 ] && ARGS="--help"\n\nexec java -jar ~/.local/bin/tika-app.jar $ARGS\n' > ~/.local/bin/tika
         chmod +x ~/.local/bin/tika
-    - name: Install wkhtmltopdf (with qt)
-      if: steps.cache-wkhtmltopdf.outputs.cache-hit != 'true'
-      run: |
-        mkdir -p ~/.local/bin
-        wget --quiet https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox-${WKHTMLTOPDF_VERSION}_linux-generic-amd64.tar.xz -O wkhtmltox.tar.xz
-        tar -xf wkhtmltox.tar.xz
-        mv wkhtmltox/bin/wkhtmltopdf ~/.local/bin/wkhtmltopdf
-        rm -rf wkhtmltox wkhtmltox.tar.xz
     - name: Show versions of libraries
       run: |
         convert --version
