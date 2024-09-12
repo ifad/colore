@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'rest_client'
 
 describe Colore::Sidekiq::ConversionWorker do
-  let(:doc_key) { Colore::DocKey.new('app','12345') }
+  let(:doc_key) { Colore::DocKey.new('app', '12345') }
   let(:callback_url) { 'http://foo/bar' }
 
   before do
@@ -18,7 +18,7 @@ describe Colore::Sidekiq::ConversionWorker do
     end
 
     it 'gives up on Heathen::TaskNotFound' do
-      allow(@mock_converter).to receive(:convert) { raise Heathen::TaskNotFound.new('foo','bar') }
+      allow(@mock_converter).to receive(:convert) { raise Heathen::TaskNotFound.new('foo', 'bar') }
       expect(Colore::Sidekiq::CallbackWorker).to receive(:perform_async) {}
       described_class.new.perform doc_key.to_s, 'current', 'arglebargle.docx', 'pdf', callback_url
     end
@@ -32,7 +32,7 @@ describe Colore::Sidekiq::ConversionWorker do
 end
 
 describe Colore::Sidekiq::CallbackWorker do
-  let(:doc_key) { Colore::DocKey.new('app','12345') }
+  let(:doc_key) { Colore::DocKey.new('app', '12345') }
   let(:callback_url) { 'http://foo/bar' }
   before do
     setup_storage
@@ -43,7 +43,7 @@ describe Colore::Sidekiq::CallbackWorker do
   end
   context '#perform' do
     it 'runs' do
-      expect(RestClient).to receive(:post).with(callback_url,Hash)
+      expect(RestClient).to receive(:post).with(callback_url, Hash)
       described_class.new.perform doc_key.to_s, 'current', 'arglebargle.docx', 'pdf', callback_url, 250, 'foobar'
     end
   end

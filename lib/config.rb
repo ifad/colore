@@ -74,7 +74,7 @@ module Colore
 
     def self.method_missing *args
       if config.respond_to? args[0].to_sym
-        config.send( *args )
+        config.send(*args)
       else
         super
       end

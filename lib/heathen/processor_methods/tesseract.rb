@@ -23,6 +23,7 @@ module Heathen
         format,
       )
       raise ConversionFailed.new(executioner.last_messages) if executioner.last_exit_status != 0
+
       suffix = format ? format : 'txt'
       target_file = "#{target_file}.#{suffix}"
       job.content = File.read(target_file)

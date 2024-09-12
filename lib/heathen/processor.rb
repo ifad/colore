@@ -17,11 +17,11 @@ module Heathen
     # @param job [Job] the job to be performed.
     # @param logger [Logger] an optional logger.
     # @param base_tmpdir [String] the base directory for all temporary (sandbox_dir) files
-    def initialize( job:, logger: Logger.new(STDOUT), base_tmpdir:'/tmp' )
+    def initialize(job:, logger: Logger.new(STDOUT), base_tmpdir: '/tmp')
       @job = job
       @logger = logger
       @executioner = Heathen::Executioner.new(@logger)
-      @sandbox_dir = Dir.mktmpdir( "heathen", base_tmpdir.to_s )
+      @sandbox_dir = Dir.mktmpdir("heathen", base_tmpdir.to_s)
       job.sandbox_dir = @sandbox_dir
     end
 
@@ -29,7 +29,7 @@ module Heathen
     # @param pattern [String] a regex pattern, e.g. "image/.*"
     # This is a helper method for mixin methods.
     def expect_mime_type pattern
-      raise InvalidMimeTypeInStep.new(pattern,job.mime_type) unless job.mime_type =~ %r[#{pattern}]
+      raise InvalidMimeTypeInStep.new(pattern, job.mime_type) unless job.mime_type =~ %r[#{pattern}]
     end
 
     # Performs a sub-task, defined by action. See [Task] for details.
@@ -44,8 +44,8 @@ module Heathen
     end
 
     # Creates a new temporary file in the sandbox
-    def temp_file_name prefix='', suffix=''
-      Dir::Tmpname.create( [prefix,suffix], @sandbox_dir ){}
+    def temp_file_name prefix = '', suffix = ''
+      Dir::Tmpname.create([prefix, suffix], @sandbox_dir) {}
     end
 
     def config_file name

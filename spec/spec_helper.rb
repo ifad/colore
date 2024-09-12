@@ -25,7 +25,7 @@ def spec_logger
   Logger.new('spec/output.log')
 end
 
-Dir.glob( (SPEC_BASE+"helpers"+"**.rb").to_s ).each do |helper|
+Dir.glob((SPEC_BASE + "helpers" + "**.rb").to_s).each do |helper|
   require helper
 end
 

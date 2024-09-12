@@ -26,7 +26,7 @@ module Colore
     # @param orig_content [String] the body of the file to convert
     # @param language [String] the file's language
     # @return [String] the path to the converted file
-    def convert_file action, orig_content, language='en'
+    def convert_file action, orig_content, language = 'en'
       content = Heathen::Converter.new.convert(action, orig_content, language)
       filename = Digest::SHA2.hexdigest content
       store_file filename, content
@@ -41,6 +41,7 @@ module Colore
     # Loads and returns a legacy converted file
     def get_file filename
       raise "File does not exists" unless (@legacy_dir + filename).file?
+
       File.read(@legacy_dir + filename)
     end
   end

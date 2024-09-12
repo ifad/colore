@@ -9,12 +9,13 @@ module Heathen
 
       target_file = temp_file_name '', ".#{to.to_s}"
       executioner.execute(
-        *[ Colore::C_.convert_path,
+        *[Colore::C_.convert_path,
         params.split(/ +/),
         job.content_file,
-        target_file ].flatten
+        target_file].flatten
       )
       raise ConversionFailed.new if executioner.last_exit_status != 0
+
       c = File.read(target_file)
       job.content = File.read(target_file)
       File.unlink(target_file)

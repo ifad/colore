@@ -18,26 +18,26 @@ describe AutoHeathen::Config do
 
   it "loads config with no defaults" do
     cfg = @obj.load_config nil, nil, { 'cow' => 'overcow', :rat => 'overrat' }
-    expect( cfg ).to eq( {
+    expect(cfg).to eq({
       cow: 'overcow',
       rat: 'overrat',
-    } )
+    })
   end
 
   it "loads config from all sources" do
     defaults = { 'foo' => 'fooble', :bar => 'barble', 'bob' => 'bobble', :cow => 'cowble', :rat => 'ratble' }
-    @tempfile.write( {
+    @tempfile.write({
       'bob' => 'filebob',
       'roger' => 'fileroger',
-    }.to_yaml )
+    }.to_yaml)
     @tempfile.close
     cfg = @obj.load_config defaults, @tempfile.path, { 'cow' => 'overcow', :rat => 'overrat' }
-    expect( cfg[:foo] ).to eq 'fooble'
-    expect( cfg[:bar] ).to eq 'barble'
-    expect( cfg[:bob] ).to eq 'filebob'
-    expect( cfg[:roger] ).to eq 'fileroger'
-    expect( cfg[:cow] ).to eq 'overcow'
-    expect( cfg[:rat] ).to eq 'overrat'
+    expect(cfg[:foo]).to eq 'fooble'
+    expect(cfg[:bar]).to eq 'barble'
+    expect(cfg[:bob]).to eq 'filebob'
+    expect(cfg[:roger]).to eq 'fileroger'
+    expect(cfg[:cow]).to eq 'overcow'
+    expect(cfg[:rat]).to eq 'overrat'
   end
 
   it "symbolizes keys" do
@@ -47,18 +47,18 @@ describe AutoHeathen::Config do
       'horse' => {
         'duck' => :duckle,
         'fish' => 'fishle',
-        'eagle' => [ 'the', 'quick', 'brown', 'fox' ]
+        'eagle' => ['the', 'quick', 'brown', 'fox']
       }
     }
     hash = @obj.symbolize_keys in_hash
-    expect( hash ).to eq( {
+    expect(hash).to eq({
       dog: 'doggle',
       cat: 'cattle',
       horse: {
         duck: :duckle,
         fish: 'fishle',
-        eagle: [ 'the', 'quick', 'brown', 'fox' ]
+        eagle: ['the', 'quick', 'brown', 'fox']
       }
-    } )
+    })
   end
 end

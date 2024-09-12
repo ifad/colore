@@ -12,12 +12,12 @@ describe Colore::Utils do
           'house_number' => 12,
           'street' =>       'Foo st',
           city:             'Boston',
-          phone_numbers:    [ 1234567, '1234567' ],
+          phone_numbers:    [1234567, '1234567'],
         },
         'rank' => 'Constable',
         'awards' => [
-          { type: 'Medal of Honour', 'reason'=>'Stupidity' },
-          { 'type'=>'George Cross',  reason: 'Bravery' },
+          { type: 'Medal of Honour', 'reason' => 'Stupidity' },
+          { 'type' => 'George Cross', reason: 'Bravery' },
         ]
       }
       expect(symbolize_keys h).to eq({
@@ -26,7 +26,7 @@ describe Colore::Utils do
           house_number:  12,
           street:        'Foo st',
           city:          'Boston',
-          phone_numbers: [ 1234567, '1234567' ],
+          phone_numbers: [1234567, '1234567'],
         },
         rank: 'Constable',
         awards: [
@@ -37,7 +37,7 @@ describe Colore::Utils do
     end
 
     it 'symbolizes array' do
-      expect(symbolize_keys([1234,'fred'])).to match_array [1234,'fred']
+      expect(symbolize_keys([1234, 'fred'])).to match_array [1234, 'fred']
     end
 
     it 'symbolizes fixnum' do
@@ -64,7 +64,6 @@ describe Colore::Utils do
         }
       }
       expect(symbolize_keys(h)).to eq h
-
     end
   end
 end

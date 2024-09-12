@@ -34,6 +34,5 @@ describe Heathen::Filename do
         described_class.suggest_in_new_dir '/opt/users/joe/src/foo.pdf', mime_type, '/opt/users', '/home'
       ).to eq '/home/joe/src/foo.txt'
     end
-
   end
 end

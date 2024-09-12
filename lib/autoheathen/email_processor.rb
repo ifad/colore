@@ -11,7 +11,7 @@ module AutoHeathen
     include AutoHeathen::Config
 
     # The only valid email headers we will allow forward to LEG_wikilex
-    ONWARD_HEADERS = ['Date','From','To','Subject','Content-Type','Content-Transfer-Encoding','Mime-Version']
+    ONWARD_HEADERS = ['Date', 'From', 'To', 'Subject', 'Content-Type', 'Content-Transfer-Encoding', 'Mime-Version']
 
     attr_reader :cfg, :logger
 
@@ -27,8 +27,8 @@ module AutoHeathen
     #    text_template:    'config/response.text.haml'    Template for text part of response email (mode in [:return_to_sender,:email])
     #    html_template:    'config/response.html.haml'    Template for HTML part of response email (ditto)
     #    logger:           nil                            Optional logger object
-    def initialize cfg={}, config_file=nil
-      @cfg = load_config( {   # defaults
+    def initialize cfg = {}, config_file = nil
+      @cfg = load_config({ # defaults
           deliver:          true,
           language:         'en',
           from:             'autoheathen',
@@ -40,7 +40,7 @@ module AutoHeathen
           logger:           nil,
           text_template:    'config/autoheathen.text.haml',
           html_template:    'config/autoheathen.html.haml',
-        }, config_file, cfg )
+        }, config_file, cfg)
       @logger = @cfg[:logger] || Logger.new(nil)
       @logger.level = @cfg[:verbose] ? Logger::DEBUG : Logger::INFO
     end
@@ -52,7 +52,7 @@ module AutoHeathen
     # Processes the given email, submits attachments to the Heathen server, delivers responses as configured
     # @param email [String] The encoded email (suitable to be decoded using Mail.read(input))
     # @return [Hash] a hash of the decoded attachments (or the reason why they could not be decoded)
-    def process email, mail_to, is_rts=false
+    def process email, mail_to, is_rts = false
       documents = []
 
       unless email.has_attachments?
@@ -67,7 +67,7 @@ module AutoHeathen
       #
       email.attachments.each do |attachment|
         begin
-          converter = Heathen::Converter.new( logger: logger )
+          converter = Heathen::Converter.new(logger: logger)
           language = @cfg[:language]
           input_source = attachment.body.decoded
           action = get_action input_source.content_type
@@ -114,9 +114,9 @@ module AutoHeathen
       # something weird goes on with Sharepoint, where the doc is dropped on the floor
       # so, remove any offending headers
       email.message_id = nil # make sure of message_id too
-      good_headers = ONWARD_HEADERS.map{ |h| h.downcase }
+      good_headers = ONWARD_HEADERS.map { |h| h.downcase }
       inspect_headers = email.header.map(&:name)
-      inspect_headers .each do |name|
+      inspect_headers.each do |name|
         unless good_headers.include? name.downcase
           email.header[name] = nil
         end
@@ -142,17 +142,18 @@ module AutoHeathen
       mail.from @cfg[:from]
       mail.to mail_to
       # CCs to the original email will get a copy of the converted files as well
-      mail.cc (email.cc - email.to - (@cfg[:cc_blacklist]||[]) ) if email.cc # Prevent autoheathen infinite loop!
+      mail.cc (email.cc - email.to - (@cfg[:cc_blacklist] || [])) if email.cc # Prevent autoheathen infinite loop!
       # Don't prepend yet another Re:
       mail.subject "#{'Re: ' unless email.subject.start_with? 'Re:'}#{email.subject}"
       # Construct received path
       # TODO: is this in the right order?
-      #rcv = "by localhost(autoheathen); #{Time.now.strftime '%a, %d %b %Y %T %z'}"
-      #[email.received,rcv].flatten.each { |rec| mail.received rec.to_s }
+      # rcv = "by localhost(autoheathen); #{Time.now.strftime '%a, %d %b %Y %T %z'}"
+      # [email.received,rcv].flatten.each { |rec| mail.received rec.to_s }
       mail.return_path email.return_path if email.return_path
       mail.header['X-Received'] = email.header['X-Received'] if email.header['X-Received']
       documents.each do |doc|
         next if doc[:content].nil?
+
         mail.add_file filename: doc[:filename], content: doc[:content]
       end
       cfg = @cfg # stoopid Mail scoping
@@ -206,12 +207,10 @@ module AutoHeathen
         'application/vnd.ms-powerpoint' => 'pdf',
         'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'pdf',
       }[ct]
-      op = 'ocr' if ! op && ct.start_with?('image/')
+      op = 'ocr' if !op && ct.start_with?('image/')
       raise "Conversion from #{ct} is not supported" unless op
+
       op
     end
-
   end
 end
-
-

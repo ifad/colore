@@ -4,8 +4,8 @@ require 'colore'
 describe Colore::Document do
   let(:app) { 'app' }
   let(:doc_id) { '12345' }
-  let(:doc_key) { Colore::DocKey.new(app,doc_id) }
-  let(:invalid_doc_key) { Colore::DocKey.new(app,'bollox') }
+  let(:doc_key) { Colore::DocKey.new(app, doc_id) }
+  let(:invalid_doc_key) { Colore::DocKey.new(app, 'bollox') }
   let(:storage_dir) { tmp_storage_dir }
   let(:document) { described_class.load storage_dir, doc_key }
   let(:author) { 'spliffy' }
@@ -20,30 +20,30 @@ describe Colore::Document do
 
   context '.directory' do
     it 'runs' do
-      expect(described_class.directory(storage_dir,doc_key).to_s).to_not be_nil
+      expect(described_class.directory(storage_dir, doc_key).to_s).to_not be_nil
     end
   end
 
   context '.exists?' do
     it 'runs' do
-      expect(described_class.exists?(storage_dir,doc_key)).to eq true
+      expect(described_class.exists?(storage_dir, doc_key)).to eq true
     end
 
     it 'returns false if directory does not exist' do
-      expect(described_class.exists?(storage_dir,invalid_doc_key)).to eq false
+      expect(described_class.exists?(storage_dir, invalid_doc_key)).to eq false
     end
   end
 
   context '.create' do
     it 'runs' do
-      create_key = Colore::DocKey.new('app2','foo')
+      create_key = Colore::DocKey.new('app2', 'foo')
       doc = described_class.create storage_dir, create_key
       expect(doc).to_not be_nil
       expect(described_class.exists?(storage_dir, create_key)).to eq true
     end
 
     it 'raises error if doc already exists' do
-      expect{
+      expect {
         described_class.create storage_dir, doc_key
       }.to raise_error Colore::DocumentExists
     end
@@ -56,7 +56,7 @@ describe Colore::Document do
     end
 
     it 'raises exception if directory does not exist' do
-      expect{
+      expect {
         described_class.load storage_dir, invalid_doc_key
       }.to raise_error Colore::DocumentNotFound
     end
@@ -99,7 +99,7 @@ describe Colore::Document do
 
   context '#versions' do
     it 'runs' do
-      expect(document.versions).to match_array [ 'v001', 'v002' ]
+      expect(document.versions).to match_array ['v001', 'v002']
     end
   end
 
@@ -150,7 +150,7 @@ describe Colore::Document do
       document.add_file 'v002', File.basename(file), body, author
       expect(File.exists? document.directory + 'v002' + File.basename(file)).to eq true
       expect(File.exists? document.directory + 'v002' + described_class::AUTHOR_FILE).to eq true
-      expect(File.read( document.directory + 'v002' + described_class::AUTHOR_FILE).chomp ).to eq author
+      expect(File.read(document.directory + 'v002' + described_class::AUTHOR_FILE).chomp).to eq author
     end
     it 'runs with IO for body' do
       file = __FILE__
@@ -163,8 +163,8 @@ describe Colore::Document do
   context '#set_current' do
     it 'runs' do
       document.set_current 'v001'
-      st1 = File.stat( document.directory + 'current' )
-      st2 = File.stat( document.directory + 'v001' )
+      st1 = File.stat(document.directory + 'current')
+      st2 = File.stat(document.directory + 'v001')
       expect(st1.ino).to eq st2.ino
     end
 
@@ -232,10 +232,10 @@ describe Colore::Document do
 
   context '#to_hash' do
     it 'runs' do
-      testhash = JSON.parse( File.read(fixture('document.json')) )
+      testhash = JSON.parse(File.read(fixture('document.json')))
       testhash = Colore::Utils.symbolize_keys testhash
       dochash = Colore::Utils.symbolize_keys document.to_hash
-      dochash[:versions].each do |k,v|
+      dochash[:versions].each do |k, v|
         v.each { |k1, v1| v1.delete :created_at }
       end
       expect(dochash).to match testhash

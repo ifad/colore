@@ -41,7 +41,7 @@ module Colore
     # subdirectory names into which the docs can be distributed, rather than clumping
     # them into a single base directory (which will not scale well)
     def subdirectory
-      Digest::MD5.hexdigest(@doc_id)[0..(STORAGE_SUBDIRECTORY_LENGTH-1)]
+      Digest::MD5.hexdigest(@doc_id)[0..(STORAGE_SUBDIRECTORY_LENGTH - 1)]
     end
 
     private

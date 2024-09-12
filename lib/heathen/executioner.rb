@@ -1,5 +1,4 @@
 module Heathen
-
   # An Executioner object will execute the given command, storing exit status,
   # STDOUT and STDERR for perusal.
   class Executioner
@@ -39,7 +38,7 @@ module Heathen
       logger.info "[#{pid}] stderr: '#@stderr'" unless @stderr.empty?
 
       @last_exit_status = status
-      @last_messages = {stdout: @stdout, stderr: @stderr}
+      @last_messages = { stdout: @stdout, stderr: @stderr }
       @last_command = command.join(' ')
 
       return status
@@ -51,7 +50,6 @@ module Heathen
       # stderr as Strings.
       #
       def _execute(*argv, options)
-
         builder = java.lang.ProcessBuilder.new
         builder.command(argv)
 
@@ -64,10 +62,10 @@ module Heathen
 
         # Dirty hack, works on UNIX only.
         pid = if process.is_a?(Java::JavaLang::UNIXProcess)
-          prop = process.get_class.get_declared_field('pid')
-          prop.set_accessible true
-          prop.get_int(process)
-        end
+                prop = process.get_class.get_declared_field('pid')
+                prop.set_accessible true
+                prop.get_int(process)
+              end
 
         logger.info "[#{pid}] spawn '#{argv.join(' ')}'"
 
@@ -97,7 +95,7 @@ module Heathen
       def _execute(*argv, options)
         command = argv.shift
 
-        Open3.popen3(ENV, [ command, "heathen: #{command}" ], *argv,
+        Open3.popen3(ENV, [command, "heathen: #{command}"], *argv,
           :chdir => options[:dir] || Dir.getwd
         ) do |stdin, stdout, stderr, wait_thr|
           pid = wait_thr[:pid]
@@ -131,9 +129,10 @@ module Heathen
     end
 
     protected
-      def slaughter guilty
-        execute(*guilty)
-        slaughter(@heretics.shift) unless @heretics.size.zero?
-      end
+
+    def slaughter guilty
+      execute(*guilty)
+      slaughter(@heretics.shift) unless @heretics.size.zero?
+    end
   end
 end
