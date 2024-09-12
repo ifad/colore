@@ -1,9 +1,10 @@
-coverage
-public
-doc
-log/*
-!/log/.keep
-tmp/*
-spec/output.log
 .byebug_history
+coverage
+doc
+docker/colore/variables.env
+log/
+!/log/.keep
+public
+spec/output.log
 storage/
+tmp/
