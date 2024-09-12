@@ -95,7 +95,7 @@ Response:
 {
   "status": 201,
   "description": "Document stored",
-  "app": "mapp",
+  "app": "myapp",
   "doc_id": "12345",
   "path": "/documents/myapp/12345/current/foo.docx"
 }
