@@ -27,7 +27,7 @@ jobs:
     - name: Install ImageMagick, libmagic-dev, LibreOffice, Tesseract OCR, wkhtmltopdf
       run: |
         sudo apt-get update
-        sudo apt-get -yq --no-install-suggests --no-install-recommends install imagemagick libmagic-dev libreoffice tesseract-ocr wkhtmltopdf
+        sudo apt-get -yq --no-install-suggests --no-install-recommends install imagemagick libmagic-dev libreoffice tesseract-ocr tesseract-ocr-ara tesseract-ocr-spa tesseract-ocr-fra wkhtmltopdf
     - uses: actions/cache@v4
       name: Check Apache Tika
       id: cache-tika

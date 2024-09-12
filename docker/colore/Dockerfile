@@ -1,29 +1,19 @@
 FROM ruby:2.6.10
 
-RUN apt update && apt install -y \
+RUN apt-get update && apt-get -yq install --no-install-suggests --no-install-recommends \
   build-essential \
   imagemagick \
   libmagic-dev \
-  tesseract-ocr
+  tesseract-ocr \
+  tesseract-ocr-ara \
+  tesseract-ocr-fra \
+  tesseract-ocr-spa \
+  wkhtmltopdf
 
 # Needed to get the latest libreoffice
 # Ref: https://wiki.debian.org/LibreOffice#Using_Debian_backports
 RUN echo 'deb http://deb.debian.org/debian bullseye-backports main contrib non-free' >> /etc/apt/sources.list
-RUN apt update && apt install -y -t bullseye-backports libreoffice
-
-# Please keep using version 0.12.3
-# With newer versions of wkhtmltopdf, wkhtmltopdf/wkhtmltopdf#1524 and
-# wkhtmltopdf/wkhtmltopdf#3241 will affect Colore's PDF output
-# TODO: implement PDF comparison specs and update this library
-ARG WKHTMLTOPDF_VERSION=0.12.3
-ARG WKHTMLTOPDF_MD5=6e991e1a1f3293ab673afa015703ef86
-
-RUN wget --quiet https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/${WKHTMLTOPDF_VERSION}/wkhtmltox-${WKHTMLTOPDF_VERSION}_linux-generic-amd64.tar.xz -O wkhtmltox.tar.xz && \
-    echo "${WKHTMLTOPDF_MD5} wkhtmltox.tar.xz" > MD5SUMS && \
-    md5sum -c MD5SUMS && \
-    tar -xf wkhtmltox.tar.xz && \
-    mv wkhtmltox/bin/wkhtmltopdf /usr/local/bin && \
-    rm -rf wkhtmltox wkhtmltox.tar.xz MD5SUMS
+RUN apt-get update && apt-get -yq -t bullseye-backports install libreoffice
 
 ARG TIKA_VERSION=2.9.2
 
