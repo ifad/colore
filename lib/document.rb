@@ -46,6 +46,7 @@ module Colore
     def self.create base_dir, doc_key
       doc_dir = directory base_dir, doc_key
       raise DocumentExists.new if File.exist? doc_dir
+
       FileUtils.mkdir_p doc_dir
       self.new base_dir, doc_key
     end
@@ -56,6 +57,7 @@ module Colore
     # @return [Document]
     def self.load base_dir, doc_key
       raise DocumentNotFound.new unless exists? base_dir, doc_key
+
       doc = self.new base_dir, doc_key
     end
 
@@ -65,7 +67,8 @@ module Colore
     # @return [void].
     def self.delete base_dir, doc_key
       return unless exists? base_dir, doc_key
-      FileUtils.rm_rf directory( base_dir, doc_key )
+
+      FileUtils.rm_rf directory(base_dir, doc_key)
     end
 
     # Constructor.
@@ -83,20 +86,22 @@ module Colore
 
     # @return the document title.
     def title
-      return '' unless File.exist?( directory + 'title' )
-      File.read( directory + 'title' ).chomp
+      return '' unless File.exist?(directory + 'title')
+
+      File.read(directory + 'title').chomp
     end
 
     # Sets the document title.
     def title= new_title
       return if new_title.to_s.empty?
-      File.open( directory + 'title', 'w' ) { |f| f.puts new_title  }
+
+      File.open(directory + 'title', 'w') { |f| f.puts new_title }
     end
 
     # Returns an array of the document version identifiers.
     def versions
-      versions = Dir.glob( directory + 'v*' )
-      versions.reject { |v| ! v =~ /^v\d+$/ }.map{ |v| File.basename v }.sort
+      versions = Dir.glob(directory + 'v*')
+      versions.reject { |v| !v =~ /^v\d+$/ }.map { |v| File.basename v }.sort
     end
 
     # Returns true if the document has the specified version.
@@ -111,8 +116,8 @@ module Colore
 
     # Returns the next version number (which would be created with [#new_version]).
     def next_version_number
-      v_no = (versions.last || 'v000').gsub(/v/,'').to_i + 1
-      "v%03d"%[v_no]
+      v_no = (versions.last || 'v000').gsub(/v/, '').to_i + 1
+      "v%03d" % [v_no]
     end
 
     # Creates a new version, ready to store documents in
@@ -135,17 +140,19 @@ module Colore
     # @param body [String or IO] the file contents (binary string or IO)
     # @param author [String] the author of the file (optional)
     # @return [void]
-    def add_file version, filename, body, author=nil
-      raise VersionNotFound.new unless File.exist?( directory + version )
+    def add_file version, filename, body, author = nil
+      raise VersionNotFound.new unless File.exist?(directory + version)
+
       body = StringIO.new(body) unless body.respond_to?(:read) # string -> IO
-      File.open( directory + version + filename, "wb" ) { |f| IO.copy_stream(body,f) }
-      File.open( directory + version + AUTHOR_FILE, 'w' ) { |f| f.write author }
+      File.open(directory + version + filename, "wb") { |f| IO.copy_stream(body, f) }
+      File.open(directory + version + AUTHOR_FILE, 'w') { |f| f.write author }
     end
 
     # Sets the specified version as current.
     def set_current version
-      raise VersionNotFound.new unless File.exist?( directory + version )
+      raise VersionNotFound.new unless File.exist?(directory + version)
       raise InvalidVersion.new unless version =~ /^v\d+$/
+
       # need to do this, or ln_s will put the symlink *into* the old dir
       File.unlink directory + CURRENT if File.exist? directory + CURRENT
       FileUtils.ln_s version, directory + CURRENT, force: true
@@ -153,10 +160,11 @@ module Colore
 
     # Deletes the given version, including its files.
     def delete_version version
-      return unless File.exist?( directory + version )
+      return unless File.exist?(directory + version)
       raise VersionIsCurrent.new if version == CURRENT
-      raise VersionIsCurrent.new if (directory + CURRENT).realpath == (directory+version).realpath
-      FileUtils.rm_rf( directory + version )
+      raise VersionIsCurrent.new if (directory + CURRENT).realpath == (directory + version).realpath
+
+      FileUtils.rm_rf(directory + version)
     end
 
     # Returns the URL query path for the given file. This can be used to construct a
@@ -178,6 +186,7 @@ module Colore
     def get_file version, filename
       path = directory + version + filename
       raise FileNotFound unless File.exist? path
+
       body = File.read path
       return body.mime_type, body
     end
@@ -190,14 +199,16 @@ module Colore
         Dir.glob(directory + v + '*').each do |file|
           pfile = Pathname.new(file)
           next if pfile.basename.to_s == AUTHOR_FILE
+
           content_type = File.read(pfile, [200, pfile.size].min).mime_type
-          author = File.read( pfile.parent + AUTHOR_FILE ).chomp rescue nil
-          suffix = pfile.extname.gsub( /\./, '')
+          author = File.read(pfile.parent + AUTHOR_FILE).chomp rescue nil
+          suffix = pfile.extname.gsub(/\./, '')
           next if suffix.empty?
+
           v_list[v][suffix] = {
             content_type: content_type,
             filename: pfile.basename.to_s,
-            path: file_path(v,pfile.basename),
+            path: file_path(v, pfile.basename),
             author: author,
             created_at: pfile.mtime,
           }
@@ -216,10 +227,9 @@ module Colore
     # This metadata is just the {#to_hash}, as JSON, and is intended for access by client
     # applications. It is not used by Colore for anything.
     def save_metadata
-      File.open( directory + 'metadata.json', "w" ) do |f|
+      File.open(directory + 'metadata.json', "w") do |f|
         f.puts JSON.pretty_generate(to_hash)
       end
     end
   end
-
 end

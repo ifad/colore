@@ -17,10 +17,10 @@ storage_dir = nil
 config_file = BASE + 'config' + 'app.yml'
 
 OptionParser.new do |opts|
-  opts.on( '-a', '--app APP', 'Name of the app' ) { |a| app = a }
-  opts.on( '-d', '--doc-id DOCID', 'Document ID' ) { |d| doc_id = d }
-  opts.on( '-s', '--storage-dir DIR', 'Storage directory' ) { |d| storage_dir = d }
-  opts.on( '-h', '--help', 'This message' ) { puts opts; exit }
+  opts.on('-a', '--app APP', 'Name of the app') { |a| app = a }
+  opts.on('-d', '--doc-id DOCID', 'Document ID') { |d| doc_id = d }
+  opts.on('-s', '--storage-dir DIR', 'Storage directory') { |d| storage_dir = d }
+  opts.on('-h', '--help', 'This message') { puts opts; exit }
   opts.separator ''
   opts.separator 'Examples:'
   opts.separator '    docpath -a myapp -d 123456 -s /opt/storage'

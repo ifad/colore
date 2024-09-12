@@ -23,7 +23,7 @@ module Colore
       # @param filename [String] the file to convert
       # @param action [String] the conversion to perform
       # @param callback_url [String] optional callback URL
-      def perform doc_key_str, version, filename, action, callback_url=nil
+      def perform doc_key_str, version, filename, action, callback_url = nil
         doc_key = DocKey.parse doc_key_str
         new_filename = Converter.new.convert doc_key, version, filename, action
         status = 200
@@ -53,7 +53,7 @@ module Colore
         log << "\nbacktrace:"
         log << "  " << error.backtrace.join("\n  ")
 
-        log.split("\n").each {|line| errlog.error(line) }
+        log.split("\n").each { |line| errlog.error(line) }
       end
     end
 
@@ -80,7 +80,7 @@ module Colore
           doc_id: doc_key.doc_id,
           version: version,
           action: action,
-          path: (doc.file_path(version,new_filename) if status && status < 300),
+          path: (doc.file_path(version, new_filename) if status && status < 300),
         }
         RestClient.post callback_url, rsp_hash
       end
@@ -90,7 +90,6 @@ module Colore
     # apps using the legacy service will request the file shortly after posting the
     # original, so won't need it after then).
     class LegacyPurgeWorker
-
       include ::Sidekiq::Worker
       sidekiq_options queue: :purge, retry: 0, backtrace: true
 
@@ -104,9 +103,10 @@ module Colore
         purge_seconds = (C_.legacy_purge_days || 1).to_f * 86400.0
         dir = LegacyConverter.new.legacy_dir
         dir.each_entry do |file|
-          next if (dir+file).directory?
-          if Time.now - (dir+file).ctime > purge_seconds
-            (dir+file).unlink
+          next if (dir + file).directory?
+
+          if Time.now - (dir + file).ctime > purge_seconds
+            (dir + file).unlink
             logger.debug "Deleted old legacy file: #{file}"
           end
         end

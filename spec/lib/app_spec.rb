@@ -6,7 +6,7 @@ describe Colore::App do
   let(:appname) { 'app' }
   let(:doc_id) { '12345' }
   let(:filename) { 'arglebargle.docx' }
-  let(:doc_key) { Colore::DocKey.new(app,doc_id) }
+  let(:doc_key) { Colore::DocKey.new(app, doc_id) }
   let(:new_doc_id) { '54321' }
   let(:invalid_doc_id) { 'foobar' }
   let(:storage_dir) { tmp_storage_dir }
@@ -15,7 +15,7 @@ describe Colore::App do
   def show_backtrace response
     if response.status == 500
       begin
-        puts JSON.pretty_generate( JSON.parse response.body )
+        puts JSON.pretty_generate(JSON.parse response.body)
       rescue StandardError => e
         puts response.body
       end
@@ -37,7 +37,7 @@ describe Colore::App do
       put "/document/#{appname}/#{new_doc_id}/#{filename}", {
           title: 'A title',
           file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
-          actions: [ 'ocr', 'pdf' ],
+          actions: ['ocr', 'pdf'],
           author: author,
           backtrace: true
       }
@@ -45,7 +45,7 @@ describe Colore::App do
       expect(last_response.status).to eq 201
       expect(last_response.content_type).to eq 'application/json'
       expect(JSON.parse(last_response.body)).to match(
-        {"status"=>201, "description"=>"Document stored", "app"=>"app", "doc_id"=>"54321", "path"=>"/document/app/54321/current/arglebargle.docx"}
+        { "status" => 201, "description" => "Document stored", "app" => "app", "doc_id" => "54321", "path" => "/document/app/54321/current/arglebargle.docx" }
       )
       expect(Colore::Sidekiq::ConversionWorker).to have_received(:perform_async).twice
     end
@@ -53,7 +53,7 @@ describe Colore::App do
       put "/document/#{appname}/#{doc_id}/#{filename}", {
           title: 'A title',
           file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
-          actions: [ 'ocr', 'pdf' ],
+          actions: ['ocr', 'pdf'],
           backtrace: true
       }
       show_backtrace last_response
@@ -68,14 +68,14 @@ describe Colore::App do
     it 'runs' do
       post "/document/#{appname}/#{doc_id}/#{filename}", {
           file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
-          actions: [ 'ocr', 'pdf' ],
+          actions: ['ocr', 'pdf'],
           backtrace: true
       }
       show_backtrace last_response
       expect(last_response.status).to eq 201
       expect(last_response.content_type).to eq 'application/json'
       expect(JSON.parse(last_response.body)).to match(
-        {"status"=>201, "description"=>"Document stored", "app"=>"app", "doc_id"=>"12345", "path"=>"/document/app/12345/current/arglebargle.docx"}
+        { "status" => 201, "description" => "Document stored", "app" => "app", "doc_id" => "12345", "path" => "/document/app/12345/current/arglebargle.docx" }
       )
       expect(Colore::Sidekiq::ConversionWorker).to have_received(:perform_async).twice
     end
@@ -83,7 +83,7 @@ describe Colore::App do
     it 'fails if document does not exist' do
       post "/document/#{appname}/#{new_doc_id}/#{filename}", {
           file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
-          actions: [ 'ocr', 'pdf' ],
+          actions: ['ocr', 'pdf'],
           author: author,
           backtrace: true
       }
@@ -121,7 +121,7 @@ describe Colore::App do
       expect(last_response.status).to eq 202
       expect(last_response.content_type).to eq 'application/json'
       expect(JSON.parse(last_response.body)).to match(
-        {"status"=>202, "description"=>"Conversion initiated"}
+        { "status" => 202, "description" => "Conversion initiated" }
       )
       expect(Colore::Sidekiq::ConversionWorker).to have_received(:perform_async).once
     end
@@ -156,7 +156,7 @@ describe Colore::App do
       expect(last_response.status).to eq 200
       expect(last_response.content_type).to eq 'application/json'
       expect(JSON.parse(last_response.body)).to match(
-        {"status"=>200, "description"=>"Document deleted"}
+        { "status" => 200, "description" => "Document deleted" }
       )
     end
   end
@@ -170,7 +170,7 @@ describe Colore::App do
       expect(last_response.status).to eq 200
       expect(last_response.content_type).to eq 'application/json'
       expect(JSON.parse(last_response.body)).to match(
-        {"status"=>200, "description"=>"Document version deleted"}
+        { "status" => 200, "description" => "Document version deleted" }
       )
     end
     it 'fails if you try to delete current' do
@@ -263,7 +263,7 @@ describe Colore::App do
         action: 'pdf',
         file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
       }
-      expect(foo).to receive(:convert_file).with(params[:action],String,nil) { "%PDF-1.4" }
+      expect(foo).to receive(:convert_file).with(params[:action], String, nil) { "%PDF-1.4" }
       post "/convert", params
       expect(last_response.status).to eq 200
       expect(last_response.content_type).to eq 'application/pdf; charset=us-ascii'
@@ -294,7 +294,7 @@ describe Colore::App do
         action: 'pdf',
         file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
       }
-      expect(foo).to receive(:convert_file).with(params[:action],String,nil) { 'foobar' }
+      expect(foo).to receive(:convert_file).with(params[:action], String, nil) { 'foobar' }
       post "/#{Colore::LegacyConverter::LEGACY}/convert", params
       expect(last_response.status).to eq 200
       expect(last_response.content_type).to eq 'application/json'
@@ -310,7 +310,7 @@ describe Colore::App do
         url: 'http://localhost/foo/bar',
       }
       expect(Net::HTTP).to receive(:get).with(URI(params[:url])) { 'The quick brown flox' }
-      expect(foo).to receive(:convert_file).with(params[:action],String,nil) { 'foobar' }
+      expect(foo).to receive(:convert_file).with(params[:action], String, nil) { 'foobar' }
       post "/#{Colore::LegacyConverter::LEGACY}/convert", params
       expect(last_response.status).to eq 200
       expect(last_response.content_type).to eq 'application/json'

@@ -22,9 +22,9 @@ module Heathen
   # Abstract step-wise error - the [#message] will also say in which method the error
   # occurred (So could be supplied to the client application without confusing anybody)
   class StepError < Error
-    def initialize method=nil
+    def initialize method = nil
       calling_method = caller[2]
-      method = calling_method.gsub(/.*[`](.*)'$/,'\\1')
+      method = calling_method.gsub(/.*[`](.*)'$/, '\\1')
       super "#{message} in step '#{method}'"
     end
   end
@@ -38,22 +38,22 @@ module Heathen
 
   # Raised if the task step was unable to perform the conversion
   class ConversionFailed < StepError
-    def initialize message=nil
-      super( message || "Conversion failed" )
+    def initialize message = nil
+      super(message || "Conversion failed")
     end
   end
 
   # Raised if an input parameter to the task step was unrecognised or invalid
   class InvalidParameterInStep < StepError
     def initialize param_name, param_value
-      super( "Invalid parameter: #{param_name}: #{param_value}" )
+      super("Invalid parameter: #{param_name}: #{param_value}")
     end
   end
 
   # Raised if an job language is invalid for the step
   class InvalidLanguageInStep < StepError
     def initialize language
-      super( "Invalid language: #{language}" )
+      super("Invalid language: #{language}")
     end
   end
 end

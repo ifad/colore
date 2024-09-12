@@ -19,7 +19,7 @@ module Colore
     # @return the converted file name
     def convert doc_key, version, filename, action
       doc = Document.load @storage_dir, doc_key
-      ignore, orig_content = doc.get_file( version, filename)
+      ignore, orig_content = doc.get_file(version, filename)
       language = 'en' # TODO - add to spec and upload
       new_content = convert_file action, orig_content, language
       # TODO - handling for variant formats with the same extension
@@ -36,12 +36,12 @@ module Colore
     # @param orig_content [String] the body of the file to convert
     # @param language [String] the file's language
     # @return [String] the converted file body
-    def convert_file action, orig_content, language='en'
-      Heathen::Converter.new(logger:@logger).convert(action, orig_content, language)
+    def convert_file action, orig_content, language = 'en'
+      Heathen::Converter.new(logger: @logger).convert(action, orig_content, language)
     rescue Heathen::TaskNotFound => e
-      raise InvalidAction.new( e.message )
+      raise InvalidAction.new(e.message)
     rescue Heathen::Error => e
-      raise ConversionError.new( e )
+      raise ConversionError.new(e)
     end
   end
 end

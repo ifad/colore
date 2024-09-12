@@ -5,7 +5,7 @@
 require 'pathname'
 require "sinatra"
 
-BASE=Pathname.new(__FILE__).realpath.parent
+BASE = Pathname.new(__FILE__).realpath.parent
 $: << BASE
 $: << BASE + 'lib'
 require 'config/initializers/sidekiq'

@@ -3,17 +3,17 @@ require 'autoheathen'
 
 describe AutoHeathen::EmailProcessor do
   let(:processor) {
-    AutoHeathen::EmailProcessor.new( {
-        cc_blacklist: [ 'wikilex@ifad.org' ],
-      }, fixture('autoheathen/autoheathen.yml' ) )
+    AutoHeathen::EmailProcessor.new({
+        cc_blacklist: ['wikilex@ifad.org'],
+      }, fixture('autoheathen/autoheathen.yml'))
   }
   let!(:email_to) { 'bob@localhost.localdomain' }
   let(:email) {
-    m = Mail.read( fixture('autoheathen/test1.eml') )
-    m.to [ email_to ]
-    m.from [ 'bob@deviant.localdomain' ]
-    m.cc [ 'mrgrumpy', 'marypoppins', email_to, 'wikilex@ifad.org' ]
-    m.return_path [ 'jblackman@debian.localdomain' ]
+    m = Mail.read(fixture('autoheathen/test1.eml'))
+    m.to [email_to]
+    m.from ['bob@deviant.localdomain']
+    m.cc ['mrgrumpy', 'marypoppins', email_to, 'wikilex@ifad.org']
+    m.return_path ['jblackman@debian.localdomain']
     m.header['X-Received'] = 'misssilly'
     m
   }
@@ -35,7 +35,7 @@ describe AutoHeathen::EmailProcessor do
       expect(mail.to).to eq [to_address]
       expect(mail.subject).to eq "Fwd: Convert: please"
       expect(mail.attachments.size).to eq 2 # includes unconvertible attachment
-      expect(mail.attachments.map(&:filename)).to match_array %w[ test1.doc quickfox.pdf ]
+      expect(mail.attachments.map(&:filename)).to match_array %w[test1.doc quickfox.pdf]
       expect(mail.delivery_method.settings[:port]).to eq 25
       expect(mail.delivery_method.settings[:address]).to eq 'localhost'
       expect(mail.cc).to be_nil # non-rts should not forward converted docs to anybody else
@@ -59,7 +59,7 @@ describe AutoHeathen::EmailProcessor do
       expect(mail.html_part.decoded.size).to be > 0
       expect(mail.delivery_method.settings[:port]).to eq 25
       expect(mail.delivery_method.settings[:address]).to eq 'localhost'
-      expect(mail.cc).to eq [ 'mrgrumpy', 'marypoppins' ] # Test to exclude email_to & blacklist
+      expect(mail.cc).to eq ['mrgrumpy', 'marypoppins'] # Test to exclude email_to & blacklist
       expect(mail.return_path).to eq 'jblackman@debian.localdomain'
       expect(mail.header['X-Received'].to_s).to eq 'misssilly'
     end
@@ -82,7 +82,7 @@ describe AutoHeathen::EmailProcessor do
     expect(processor.get_action 'image/tiff').to eq 'ocr'
     expect(processor.get_action 'application/pdf; charset=utf-8').to eq 'ocr'
     expect(processor.get_action 'application/msword').to eq 'pdf'
-    expect{processor.get_action 'foobar'}.to raise_error(RuntimeError)
+    expect { processor.get_action 'foobar' }.to raise_error(RuntimeError)
   end
 
   it 'handles null subject' do

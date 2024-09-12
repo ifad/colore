@@ -4,7 +4,7 @@ module Heathen
   # The Converter takes the given action and input content, identifies the task required
   # to perform the action, then constructs a [Processor] to convert the document.
   class Converter
-    def initialize( logger: Logger.new(nil) )
+    def initialize(logger: Logger.new(nil))
       @logger = logger
     end
 
@@ -13,7 +13,7 @@ module Heathen
     # @param content [String] the document body to be converted
     # @param language [String] the document language (defaults to 'en')
     # @return [String] the converted document body
-    def convert action, content, language='en'
+    def convert action, content, language = 'en'
       job = Job.new action, content, language
       processor = Heathen::Processor.new job: job, logger: @logger
       begin

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe Colore::DocKey do
-  let(:doc_key) { described_class.new('myapp','mydoc') }
+  let(:doc_key) { described_class.new('myapp', 'mydoc') }
 
   context '.initialize' do
     it 'throws error if app is invalid' do

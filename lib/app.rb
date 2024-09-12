@@ -13,7 +13,7 @@ module Colore
   class App < Sinatra::Base
     set :backtrace, true
     before do
-      @storage_dir = Pathname.new( C_.storage_directory )
+      @storage_dir = Pathname.new(C_.storage_directory)
       @legacy_url_base = C_.legacy_url_base || url('/')
       @logger = Logger.new(C_.conversion_log || STDOUT)
       @errlog = Logger.new(C_.error_log || STDERR)
@@ -42,12 +42,12 @@ module Colore
     #   - callback_url
     #   - file
     #   - author
-    put '/document/:app/:doc_id/:filename' do |app,doc_id,filename|
+    put '/document/:app/:doc_id/:filename' do |app, doc_id, filename|
       begin
-        doc_key = DocKey.new app,doc_id
+        doc_key = DocKey.new app, doc_id
         doc = Document.create @storage_dir, doc_key # will raise if doc exists
         doc.title = params[:title] if params[:title]
-        call env.merge( 'REQUEST_METHOD'=>'POST' )
+        call env.merge('REQUEST_METHOD' => 'POST')
       rescue StandardError => e
         respond_with_error e
       end
@@ -64,11 +64,12 @@ module Colore
     #   - callback_url
     #   - file
     #   - author
-    post '/document/:app/:doc_id/:filename' do |app,doc_id,filename|
+    post '/document/:app/:doc_id/:filename' do |app, doc_id, filename|
       begin
-        doc_key = DocKey.new app,doc_id
-        doc = Document.load( @storage_dir, doc_key )
+        doc_key = DocKey.new app, doc_id
+        doc = Document.load(@storage_dir, doc_key)
         raise InvalidParameter.new :file unless params[:file]
+
         version = doc.new_version do |version|
           doc.add_file version, filename, params[:file][:tempfile], params[:author]
           doc.set_current version
@@ -86,7 +87,7 @@ module Colore
         respond 201, "Document stored", {
             app: app,
             doc_id: doc_id,
-            path: doc.file_path( Colore::Document::CURRENT, filename ),
+            path: doc.file_path(Colore::Document::CURRENT, filename),
           }
       rescue StandardError => e
         respond_with_error e
@@ -94,10 +95,10 @@ module Colore
     end
 
     # Updates the document title
-    post '/document/:app/:doc_id/title/:title' do |app,doc_id,title|
+    post '/document/:app/:doc_id/title/:title' do |app, doc_id, title|
       begin
-        doc_key = DocKey.new app,doc_id
-        doc = Document.load( @storage_dir, doc_key )
+        doc_key = DocKey.new app, doc_id
+        doc = Document.load(@storage_dir, doc_key)
         doc.title = title
         doc.save_metadata
         respond 200, 'Title updated'
@@ -111,12 +112,14 @@ module Colore
     #
     # POST params:
     #   - callback_url
-    post '/document/:app/:doc_id/:version/:filename/:action' do |app,doc_id,version,filename,action|
+    post '/document/:app/:doc_id/:version/:filename/:action' do |app, doc_id, version, filename, action|
       begin
         doc_key = DocKey.new app, doc_id
         raise DocumentNotFound.new unless Document.exists? @storage_dir, doc_key
+
         doc = Document.load @storage_dir, doc_key
         raise VersionNotFound.new unless doc.has_version? version
+
         Sidekiq::ConversionWorker.perform_async doc_key, version, filename, action, params[:callback_url]
         respond 202, "Conversion initiated"
       rescue StandardError => e
@@ -130,7 +133,7 @@ module Colore
     # DELETE params:
     delete '/document/:app/:doc_id' do |app, doc_id|
       begin
-        Document.delete @storage_dir, DocKey.new(app,doc_id)
+        Document.delete @storage_dir, DocKey.new(app, doc_id)
         respond 200, 'Document deleted'
       rescue StandardError => e
         respond_with_error e
@@ -143,7 +146,7 @@ module Colore
     # DELETE params:
     delete '/document/:app/:doc_id/:version' do |app, doc_id, version|
       begin
-        doc = Document.load @storage_dir, DocKey.new(app,doc_id)
+        doc = Document.load @storage_dir, DocKey.new(app, doc_id)
         doc.delete_version version
         doc.save_metadata
         respond 200, 'Document version deleted'
@@ -157,8 +160,8 @@ module Colore
     #
     get '/document/:app/:doc_id/:version/:filename' do |app, doc_id, version, filename|
       begin
-        doc = Document.load @storage_dir, DocKey.new(app,doc_id)
-        ctype, file = doc.get_file( version, filename )
+        doc = Document.load @storage_dir, DocKey.new(app, doc_id)
+        ctype, file = doc.get_file(version, filename)
         content_type ctype
         file
       rescue StandardError => e
@@ -171,7 +174,7 @@ module Colore
     #
     get '/document/:app/:doc_id' do |app, doc_id|
       begin
-        doc = Document.load @storage_dir, DocKey.new(app,doc_id)
+        doc = Document.load @storage_dir, DocKey.new(app, doc_id)
         respond 200, 'Information retrieved', doc.to_hash
       rescue StandardError => e
         respond_with_error e
@@ -196,7 +199,7 @@ module Colore
         end
 
         body = params[:file][:tempfile].read
-        content = Converter.new(logger:@logger).convert_file( params[:action], body, params[:language] )
+        content = Converter.new(logger: @logger).convert_file(params[:action], body, params[:language])
         content_type content.mime_type
         content
       rescue StandardError => e
@@ -215,12 +218,12 @@ module Colore
     post "/#{LegacyConverter::LEGACY}/convert" do
       begin
         body = if params[:file]
-          params[:file][:tempfile].read
-        elsif params[:url]
-          Net::HTTP.get URI(params[:url])
-        else
-          raise DocumentNotFound.new "Please specify either 'file' or 'url' POST variable"
-        end
+                 params[:file][:tempfile].read
+               elsif params[:url]
+                 Net::HTTP.get URI(params[:url])
+               else
+                 raise DocumentNotFound.new "Please specify either 'file' or 'url' POST variable"
+               end
         path = LegacyConverter.new.convert_file params[:action], body, params[:language]
         converted_url = @legacy_url_base + path
         content_type 'application/json'
@@ -252,13 +255,13 @@ module Colore
 
     helpers do
       # Renders all responses (including errors) in a standard JSON format.
-      def respond status, message, extra={}
+      def respond status, message, extra = {}
         case status
-          when Colore::Error
-            status = status.http_code
-          when StandardError
-            extra[:backtrace] = status.backtrace if params[:backtrace]
-            status = 500
+        when Colore::Error
+          status = status.http_code
+        when StandardError
+          extra[:backtrace] = status.backtrace if params[:backtrace]
+          status = 500
         end
         content_type 'application/json'
         return status, {
@@ -281,13 +284,13 @@ module Colore
       end
 
       # Renders all responses (including errors) in a standard JSON format.
-      def legacy_error status, message, extra={}
+      def legacy_error status, message, extra = {}
         case status
-          when Error
-            status = status.http_code
-          when StandardError
-            extra[:backtrace] = status.backtrace if params[:backtrace]
-            status = 500
+        when Error
+          status = status.http_code
+        when StandardError
+          extra[:backtrace] = status.backtrace if params[:backtrace]
+          status = 500
         end
         content_type 'application/json'
         return status, {

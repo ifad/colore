@@ -10,7 +10,7 @@ module Heathen
     #    pdf - convert to PDF (any libre-office format)
     #    ms  - corresponding Microsoft format
     #    oo  - corresponding LibreOffice format
-    def libreoffice( format: )
+    def libreoffice(format:)
       suffixes = {
         'pdf' => {
           '.*' => 'pdf',
@@ -40,8 +40,9 @@ module Heathen
       }
 
       raise InvalidParameterInStep.new('format', format) unless suffixes[format.to_s]
+
       to_suffix = nil
-      suffixes[format.to_s].each do |k,v|
+      suffixes[format.to_s].each do |k, v|
         to_suffix = v if job.mime_type =~ /#{k}/
       end
       raise InvalidMimeTypeInStep.new('(various document formats)', job.mime_type) unless to_suffix
@@ -68,7 +69,7 @@ module Heathen
         )
 
         unless File.exist? target_file
-          raise ConversionFailed.new("Cannot find converted file (looking for #{File.basename(target_file)})" )
+          raise ConversionFailed.new("Cannot find converted file (looking for #{File.basename(target_file)})")
         end
 
         output = File.read(target_file)
@@ -105,6 +106,5 @@ module Heathen
       stat = File.stat(DEV_SHM_PATH)
       stat.directory? && stat.writable?
     end
-
   end
 end
