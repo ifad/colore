@@ -149,7 +149,7 @@ Metrics/AbcSize:
 # Configuration parameters: CountComments, CountAsOne, AllowedMethods, AllowedPatterns.
 # AllowedMethods: refine
 Metrics/BlockLength:
-  Max: 333
+  Max: 37
 
 # Configuration parameters: CountComments, CountAsOne.
 Metrics/ClassLength:
