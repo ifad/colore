@@ -27,7 +27,7 @@ module AutoHeathen
     #    text_template:    'config/response.text.haml'    Template for text part of response email (mode in [:return_to_sender,:email])
     #    html_template:    'config/response.html.haml'    Template for HTML part of response email (ditto)
     #    logger:           nil                            Optional logger object
-    def initialize cfg = {}, config_file = nil
+    def initialize(cfg = {}, config_file = nil)
       @cfg = load_config({ # defaults
           deliver:          true,
           language:         'en',
@@ -45,14 +45,14 @@ module AutoHeathen
       @logger.level = @cfg[:verbose] ? Logger::DEBUG : Logger::INFO
     end
 
-    def process_rts email
+    def process_rts(email)
       process email, email.from, true
     end
 
     # Processes the given email, submits attachments to the Heathen server, delivers responses as configured
     # @param email [String] The encoded email (suitable to be decoded using Mail.read(input))
     # @return [Hash] a hash of the decoded attachments (or the reason why they could not be decoded)
-    def process email, mail_to, is_rts = false
+    def process(email, mail_to, is_rts = false)
       documents = []
 
       unless email.has_attachments?
@@ -105,7 +105,7 @@ module AutoHeathen
     end
 
     # Forward the email to sender, with decoded documents replacing the originals
-    def deliver_onward email, documents, mail_to
+    def deliver_onward(email, documents, mail_to)
       logger.info "Sending response mail to #{mail_to}"
       email.cc [] # No CCing, just send to the recipient
       email.to mail_to
@@ -136,7 +136,7 @@ module AutoHeathen
     end
 
     # Send decoded documents back to sender
-    def deliver_rts email, documents, mail_to
+    def deliver_rts(email, documents, mail_to)
       logger.info "Sending response mail to #{mail_to}"
       mail = Mail.new
       mail.from @cfg[:from]
@@ -172,7 +172,7 @@ module AutoHeathen
     end
 
     # Convenience method allowing us to stub out actual mail delivery in RSpec
-    def deliver mail
+    def deliver(mail)
       if @cfg[:deliver]
         mail.deliver!
         logger.debug "Files were emailed to #{mail.to}"
@@ -182,7 +182,7 @@ module AutoHeathen
     end
 
     # Opens and reads a file, first given the filename, then tries from the project base directory
-    def read_file filename
+    def read_file(filename)
       f = filename
       unless File.exist? f
         f = Pathname.new(__FILE__).realpath.parent.parent.parent + f
@@ -192,7 +192,7 @@ module AutoHeathen
 
     # Returns the correct conversion action based on the content type
     # @raise RuntimeError if there is no conversion action for the content type
-    def get_action content_type
+    def get_action(content_type)
       ct = content_type.gsub(/;.*/, '')
       op = {
         'application/pdf' => 'ocr',

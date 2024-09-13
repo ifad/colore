@@ -7,7 +7,7 @@ module Heathen
     #                  nil creates a text version
     #                  hocr creates a .hocr XML file preserving letter position
     #                  pdf creates a .pdf file, consisting of the image backed by the text.
-    def tesseract format: nil
+    def tesseract(format: nil)
       expect_mime_type 'image/tiff'
 
       # Grrrrrrrrrrrrrrrrrrrr Iso2/3 grrrrrrrrrrrrr

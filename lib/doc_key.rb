@@ -12,7 +12,7 @@ module Colore
     attr_accessor :doc_id
 
     # Constructs [DocKey] from the input string, which should be the output from [#to_s].
-    def self.parse doc_key_str
+    def self.parse(doc_key_str)
       self.new *(doc_key_str.split '/')
     end
 
@@ -20,7 +20,7 @@ module Colore
     # the special characters "_" and "-".
     # @param app [String] the app name
     # @param doc_id [String] the document identifier
-    def initialize app, doc_id
+    def initialize(app, doc_id)
       validate(app)
       validate(doc_id)
       @app = app
@@ -47,7 +47,7 @@ module Colore
     private
 
     # Validates the parameter (app or doc_id)
-    def validate val
+    def validate(val)
       raise InvalidParameter.new unless val =~ /^[A-Za-z0-9_-]+$/
     end
   end

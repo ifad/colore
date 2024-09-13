@@ -27,7 +27,7 @@ module Colore
     # @param base_dir [String] The base path to the storage area
     # @param doc_key [DocKey] The document identifier
     # @return [Pathname]
-    def self.directory base_dir, doc_key
+    def self.directory(base_dir, doc_key)
       Pathname.new(base_dir) + doc_key.path
     end
 
@@ -35,7 +35,7 @@ module Colore
     # @param base_dir [String] The base path to the storage area
     # @param doc_key [DocKey] The document identifier
     # @return [Bool]
-    def self.exists? base_dir, doc_key
+    def self.exists?(base_dir, doc_key)
       File.exist? directory(base_dir, doc_key)
     end
 
@@ -43,7 +43,7 @@ module Colore
     # @param base_dir [String] The base path to the storage area
     # @param doc_key [DocKey] The document identifier
     # @return [Document]
-    def self.create base_dir, doc_key
+    def self.create(base_dir, doc_key)
       doc_dir = directory base_dir, doc_key
       raise DocumentExists.new if File.exist? doc_dir
 
@@ -55,7 +55,7 @@ module Colore
     # @param base_dir [String] The base path to the storage area
     # @param doc_key [DocKey] The document identifier
     # @return [Document]
-    def self.load base_dir, doc_key
+    def self.load(base_dir, doc_key)
       raise DocumentNotFound.new unless exists? base_dir, doc_key
 
       doc = self.new base_dir, doc_key
@@ -65,7 +65,7 @@ module Colore
     # @param base_dir [String] The base path to the storage area
     # @param doc_key [DocKey] The document identifier
     # @return [void].
-    def self.delete base_dir, doc_key
+    def self.delete(base_dir, doc_key)
       return unless exists? base_dir, doc_key
 
       FileUtils.rm_rf directory(base_dir, doc_key)
@@ -74,7 +74,7 @@ module Colore
     # Constructor.
     # @param base_dir [String] The base path to the storage area
     # @param doc_key [DocKey] The document identifier
-    def initialize base_dir, doc_key
+    def initialize(base_dir, doc_key)
       @base_dir = base_dir
       @doc_key = doc_key
     end
@@ -92,7 +92,7 @@ module Colore
     end
 
     # Sets the document title.
-    def title= new_title
+    def title=(new_title)
       return if new_title.to_s.empty?
 
       File.open(directory + 'title', 'w') { |f| f.puts new_title }
@@ -105,7 +105,7 @@ module Colore
     end
 
     # Returns true if the document has the specified version.
-    def has_version? version
+    def has_version?(version)
       versions.include?(version) || version == CURRENT
     end
 
@@ -122,7 +122,7 @@ module Colore
 
     # Creates a new version, ready to store documents in
     # Work is performed in a flock block to avoid concurrent race condition
-    def new_version &block
+    def new_version(&block)
       lockfile = directory + '.lock'
       nvn = nil
       lockfile.open 'w' do |f|
@@ -140,7 +140,7 @@ module Colore
     # @param body [String or IO] the file contents (binary string or IO)
     # @param author [String] the author of the file (optional)
     # @return [void]
-    def add_file version, filename, body, author = nil
+    def add_file(version, filename, body, author = nil)
       raise VersionNotFound.new unless File.exist?(directory + version)
 
       body = StringIO.new(body) unless body.respond_to?(:read) # string -> IO
@@ -149,7 +149,7 @@ module Colore
     end
 
     # Sets the specified version as current.
-    def set_current version
+    def set_current(version)
       raise VersionNotFound.new unless File.exist?(directory + version)
       raise InvalidVersion.new unless version =~ /^v\d+$/
 
@@ -159,7 +159,7 @@ module Colore
     end
 
     # Deletes the given version, including its files.
-    def delete_version version
+    def delete_version(version)
       return unless File.exist?(directory + version)
       raise VersionIsCurrent.new if version == CURRENT
       raise VersionIsCurrent.new if (directory + CURRENT).realpath == (directory + version).realpath
@@ -172,7 +172,7 @@ module Colore
     #
     #   f = "http://colore:1234/#{doc.file_path 'v001', 'fred.docx'}"
     #
-    def file_path version, filename
+    def file_path(version, filename)
       # TODO: don't like this hard-code
       # it should really be in the app, but the hash is generated here
       "/document/#{@doc_key.app}/#{@doc_key.doc_id}/#{version}/#{filename}"
@@ -183,7 +183,7 @@ module Colore
     # @param filename [String] the name of the file
     # @return [String] mime type
     # @return [String] the file body
-    def get_file version, filename
+    def get_file(version, filename)
       path = directory + version + filename
       raise FileNotFound unless File.exist? path
 

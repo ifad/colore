@@ -8,7 +8,7 @@ describe Heathen::Processor do
   let(:oo_spreadsheet_content) { File.read(fixture('heathen/oospreadsheet.ods')) }
   let(:oo_presentation_content) { File.read(fixture('heathen/oopresentation.odp')) }
 
-  def new_job content
+  def new_job(content)
     @job = Heathen::Job.new 'foo', content, 'en'
     @processor = described_class.new job: @job, logger: spec_logger
   end

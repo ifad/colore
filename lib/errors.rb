@@ -2,14 +2,14 @@ module Colore
   class Error < StandardError
     attr_accessor :http_code
 
-    def initialize http_code, message
+    def initialize(http_code, message)
       super message
       @http_code = http_code
     end
   end
 
   class InvalidParameter < Error
-    def initialize param = nil; super 400, "Invalid parameter #{param}"; end
+    def initialize(param = nil); super 400, "Invalid parameter #{param}"; end
   end
 
   class DocumentExists < Error
@@ -33,7 +33,7 @@ module Colore
   end
 
   class InvalidAction < Error
-    def initialize message = nil; super 400, (message || 'Invalid action'); end
+    def initialize(message = nil); super 400, (message || 'Invalid action'); end
   end
 
   class FileNotFound < Error
@@ -41,7 +41,7 @@ module Colore
   end
 
   class ConversionError < Error
-    def initialize heathen_error
+    def initialize(heathen_error)
       super 500, "Conversion error: #{heathen_error.message}"
     end
   end

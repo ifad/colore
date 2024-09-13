@@ -130,7 +130,7 @@ module Heathen
 
     protected
 
-    def slaughter guilty
+    def slaughter(guilty)
       execute(*guilty)
       slaughter(@heretics.shift) unless @heretics.size.zero?
     end

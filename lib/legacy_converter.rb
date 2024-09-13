@@ -15,7 +15,7 @@ module Colore
 
     attr_reader :legacy_dir
 
-    def initialize storage_dir = C_.storage_directory
+    def initialize(storage_dir = C_.storage_directory)
       @storage_dir = Pathname.new(storage_dir)
       @legacy_dir = @storage_dir + LEGACY
       @legacy_dir.mkpath
@@ -26,7 +26,7 @@ module Colore
     # @param orig_content [String] the body of the file to convert
     # @param language [String] the file's language
     # @return [String] the path to the converted file
-    def convert_file action, orig_content, language = 'en'
+    def convert_file(action, orig_content, language = 'en')
       content = Heathen::Converter.new.convert(action, orig_content, language)
       filename = Digest::SHA2.hexdigest content
       store_file filename, content
@@ -34,12 +34,12 @@ module Colore
     end
 
     # Stores the specified file in the legacy directory
-    def store_file filename, content
+    def store_file(filename, content)
       File.open(@legacy_dir + filename, 'wb') { |f| f.write content }
     end
 
     # Loads and returns a legacy converted file
-    def get_file filename
+    def get_file(filename)
       raise "File does not exists" unless (@legacy_dir + filename).file?
 
       File.read(@legacy_dir + filename)

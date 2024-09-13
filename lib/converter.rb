@@ -6,7 +6,7 @@ module Colore
   # The Colore Converter is a glue class to allow Colore to access the Heathen conversion
   # system.
   class Converter
-    def initialize storage_dir: C_.storage_directory, logger: Logger.new(C_.conversion_log || STDOUT)
+    def initialize(storage_dir: C_.storage_directory, logger: Logger.new(C_.conversion_log || STDOUT))
       @storage_dir = storage_dir
       @logger = logger
     end
@@ -17,7 +17,7 @@ module Colore
     # @param filename [String] the name of the file to convert
     # @param action [String] the conversion to perform
     # @return the converted file name
-    def convert doc_key, version, filename, action
+    def convert(doc_key, version, filename, action)
       doc = Document.load @storage_dir, doc_key
       ignore, orig_content = doc.get_file(version, filename)
       language = 'en' # TODO - add to spec and upload
@@ -36,7 +36,7 @@ module Colore
     # @param orig_content [String] the body of the file to convert
     # @param language [String] the file's language
     # @return [String] the converted file body
-    def convert_file action, orig_content, language = 'en'
+    def convert_file(action, orig_content, language = 'en')
       Heathen::Converter.new(logger: @logger).convert(action, orig_content, language)
     rescue Heathen::TaskNotFound => e
       raise InvalidAction.new(e.message)

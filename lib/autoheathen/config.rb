@@ -1,6 +1,6 @@
 module AutoHeathen
   module Config
-    def load_config defaults = {}, config_file = nil, overwrites = {}
+    def load_config(defaults = {}, config_file = nil, overwrites = {})
       cfg = symbolize_keys(defaults)
       if config_file && File.exist?(config_file)
         cfg.merge! symbolize_keys(YAML::load_file config_file)

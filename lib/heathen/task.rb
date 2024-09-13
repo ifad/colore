@@ -21,13 +21,13 @@ module Heathen
       end
 
       # Registers a code block to be run for the given action and mime type.
-      def register action, mime_type_pattern, &block
+      def register(action, mime_type_pattern, &block)
         tasks[task_key(action, mime_type_pattern)] = { action: action, mime_type_pattern: mime_type_pattern, proc: block }
       end
 
       # Finds a registered task suitable for the given action and mime type (note, the first
       # suitable one will be selected).
-      def find action, mime_type
+      def find(action, mime_type)
         tasks.each do |k, task|
           if task[:action] == action && mime_type =~ %r[#{task[:mime_type_pattern]}]
             return task
@@ -38,7 +38,7 @@ module Heathen
 
       # Deletes any tasks that are keyed for the given action (and optional mime_type pattern, as specified in register)
       # Used for testing purposes
-      def clear action, mime_type = nil
+      def clear(action, mime_type = nil)
         tasks.keys.each do |key|
           tasks.delete key if key =~ %r[#{task_key(action, mime_type)}]
         end
@@ -46,7 +46,7 @@ module Heathen
 
       protected
 
-      def task_key action, mime_type
+      def task_key(action, mime_type)
         "#{action} -- #{mime_type}"
       end
     end

@@ -12,7 +12,7 @@ describe Colore::App do
   let(:storage_dir) { tmp_storage_dir }
   let(:author) { 'spliffy' }
 
-  def show_backtrace response
+  def show_backtrace(response)
     return unless response.status == 500
 
     begin

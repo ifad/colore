@@ -4,7 +4,7 @@ module Heathen
     # utility from ImageMagick. Sets the job content to the new format.
     # @param to [String] the format to convert to (suffix)
     # @param params [Array] optional parameters to pass to the convert program.
-    def convert_image to: 'tiff', params: ''
+    def convert_image(to: 'tiff', params: '')
       expect_mime_type 'image/*'
 
       target_file = temp_file_name '', ".#{to.to_s}"

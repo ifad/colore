@@ -25,7 +25,7 @@ module Heathen
     # @param content [String] the file body
     # @param language [String] the file's language
     # @param sandbox_dir [String] sandbox directory for temporary files
-    def initialize action, content, language = 'en', sandbox_dir = nil
+    def initialize(action, content, language = 'en', sandbox_dir = nil)
       @action = action
       @language = language
       @original_content = content
@@ -36,7 +36,7 @@ module Heathen
 
     # Sets the current content to the supplied [String]. Will also
     # set mime_type and unlink the current temporary file (see [#content_file]).
-    def content= content
+    def content=(content)
       @content = content
       @mime_type = content.mime_type
       @temp_file.unlink if @temp_file
@@ -47,7 +47,7 @@ module Heathen
     # steps which work only on files, rather than content in memory. The first time this
     # method is called, for a given step, a temporary file is created and the content is
     # written to it. This will persist until the content is changed.
-    def content_file suffix = ''
+    def content_file(suffix = '')
       @tempfile ||= begin
         t = Tempfile.new ["heathen", suffix], @sandbox_dir
         t.binmode
