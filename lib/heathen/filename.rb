@@ -8,7 +8,7 @@ module Heathen
       mime_type = muck_mime_type(mime_type)
       ext = File.extname(filename)
       temp_file = filename[0..-(ext.length + 1)]
-      ext = MIME::Types[mime_type].first.preferred_extension rescue 'txt' # FIXME use a saner extension
+      ext = MIME::Types[mime_type].first.preferred_extension rescue 'txt' # FIXME: use a saner extension
       "#{temp_file}.#{ext}"
     end
 
