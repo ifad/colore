@@ -101,7 +101,7 @@ module Colore
     # Returns an array of the document version identifiers.
     def versions
       versions = Dir.glob(directory + 'v*')
-      versions.reject { |v| !v =~ /^v\d+$/ }.map { |v| File.basename v }.sort
+      versions.map { |v| File.basename(v) }.grep(/\Av\d+\z/).sort
     end
 
     # Returns true if the document has the specified version.
