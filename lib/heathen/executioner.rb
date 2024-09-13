@@ -58,7 +58,7 @@ module Heathen
           builder.directory(dir)
         end
 
-        process = builder.start()
+        process = builder.start
 
         # Dirty hack, works on UNIX only.
         pid = if process.is_a?(Java::JavaLang::UNIXProcess)
