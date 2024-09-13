@@ -23,7 +23,7 @@ module Colore
       # @param filename [String] the file to convert
       # @param action [String] the conversion to perform
       # @param callback_url [String] optional callback URL
-      def perform doc_key_str, version, filename, action, callback_url = nil
+      def perform(doc_key_str, version, filename, action, callback_url = nil)
         doc_key = DocKey.parse doc_key_str
         new_filename = Converter.new.convert doc_key, version, filename, action
         status = 200
@@ -44,7 +44,7 @@ module Colore
 
       private
 
-      def log_error error, doc_key, filename, action
+      def log_error(error, doc_key, filename, action)
         errlog = Logger.new(C_.error_log || STDERR)
 
         log = ''
@@ -70,7 +70,7 @@ module Colore
       # @param callback_url [String] callback URL
       # @param status [Integer) status code to send in callback
       # @param description [String] description text to send in callback
-      def perform doc_key_str, version, action, new_filename, callback_url, status, description
+      def perform(doc_key_str, version, action, new_filename, callback_url, status, description)
         doc_key = DocKey.parse doc_key_str
         doc = Document.load C_.storage_directory, doc_key
         rsp_hash = {

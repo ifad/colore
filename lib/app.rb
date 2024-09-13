@@ -255,7 +255,7 @@ module Colore
 
     helpers do
       # Renders all responses (including errors) in a standard JSON format.
-      def respond status, message, extra = {}
+      def respond(status, message, extra = {})
         case status
         when Colore::Error
           status = status.http_code
@@ -270,7 +270,7 @@ module Colore
         }.merge(extra).to_json
       end
 
-      def respond_with_error error
+      def respond_with_error(error)
         log  = ''
         log << "While processing #{request.request_method} #{request.path} with params:\n"
         log << request.params.pretty_inspect
@@ -284,7 +284,7 @@ module Colore
       end
 
       # Renders all responses (including errors) in a standard JSON format.
-      def legacy_error status, message, extra = {}
+      def legacy_error(status, message, extra = {})
         case status
         when Error
           status = status.http_code

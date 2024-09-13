@@ -17,7 +17,7 @@ SPEC_BASE = Pathname.new(__FILE__).realpath.parent
 $: << SPEC_BASE.parent + 'lib'
 require 'colore'
 
-def fixture name
+def fixture(name)
   SPEC_BASE + 'fixtures' + name
 end
 
