@@ -32,6 +32,7 @@ module Heathen
       @original_mime_type = content.mime_type
       self.content = @original_content
       @sandbox_dir = sandbox_dir
+      @content_tempfile = nil
     end
 
     # Sets the current content to the supplied [String]. Will also
@@ -39,8 +40,7 @@ module Heathen
     def content=(content)
       @content = content
       @mime_type = content.mime_type
-      @temp_file.unlink if @temp_file
-      @temp_file = nil
+      reset_content_file!
     end
 
     # Returns a path to the content stored on disk. This is needed by those conversion
@@ -48,19 +48,22 @@ module Heathen
     # method is called, for a given step, a temporary file is created and the content is
     # written to it. This will persist until the content is changed.
     def content_file(suffix = '')
-      @tempfile ||= begin
-        t = Tempfile.new ["heathen", suffix], @sandbox_dir
-        t.binmode
-        t.write @content
-        t.close
-        t
-      end
-      @tempfile.path
+      return @content_tempfile.path if @content_tempfile
+
+      @content_tempfile = Tempfile.new ["heathen", suffix], @sandbox_dir
+      @content_tempfile.binmode
+      @content_tempfile.write @content
+      @content_tempfile.close
+
+      @content_tempfile.path
     end
 
     # Call this to reset the tempfile between multisteps tasks
     def reset_content_file!
-      @tempfile = nil
+      return if @content_tempfile.nil?
+
+      @content_tempfile.unlink
+      @content_tempfile = nil
     end
   end
 end
