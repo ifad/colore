@@ -13,8 +13,9 @@ storage_directory: storage
 legacy_purge_days: 2
 
 # Sidekiq configuration settings - which redis to use and namespace
-redis_url: <%= ENV.fetch('REDIS_URL', 'redis://localhost:6379/4') %>
-redis_namespace: colore
+redis:
+  :url: <%= ENV.fetch('REDIS_URL', 'redis://localhost:6379/4') %>
+  :namespace: colore
 
 # Conversion processes log
 conversion_log: log/converter.log

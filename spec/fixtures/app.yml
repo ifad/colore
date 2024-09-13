@@ -1,3 +1,4 @@
 storage_directory: foo
-redis_url: bar
-redis_namespace: <%= ENV.fetch('TEST_REDIS_NAMESPACE', 'foobar') %>
+redis:
+  :url: bar
+  :namespace: <%= ENV.fetch('TEST_REDIS_NAMESPACE', 'foobar') %>

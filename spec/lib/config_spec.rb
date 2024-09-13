@@ -19,7 +19,7 @@ describe Colore::C_ do
 
     it 'reads from environment variables' do
       expect(ENV).to receive(:fetch).with('TEST_REDIS_NAMESPACE', 'foobar').and_return('custom')
-      expect(described_class.config.redis_namespace).to eq 'custom'
+      expect(described_class.config.redis[:namespace]).to eq 'custom'
     end
   end
 

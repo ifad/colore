@@ -21,10 +21,8 @@ module Colore
     attr_accessor :legacy_url_base
     # Number of days to keep legacy files before purging
     attr_accessor :legacy_purge_days
-    # Redis connection URL (used by sidekiq)
-    attr_accessor :redis_url
-    # Redis namespace (used by sidekiq)
-    attr_accessor :redis_namespace
+    # Redis configuration (used by sidekiq)
+    attr_accessor :redis
     # Path to the Heathen conversion log
     attr_accessor :conversion_log
     # Path to the Error log
@@ -56,8 +54,7 @@ module Colore
         c.storage_directory = yaml['storage_directory']
         c.legacy_url_base = yaml['legacy_url_base']
         c.legacy_purge_days = yaml['legacy_purge_days'].to_i
-        c.redis_url = yaml['redis_url']
-        c.redis_namespace = yaml['redis_namespace']
+        c.redis = yaml['redis']
         c.conversion_log = yaml['conversion_log']
         c.error_log = yaml['error_log']
 
