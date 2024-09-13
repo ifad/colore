@@ -79,9 +79,9 @@ describe AutoHeathen::EmailProcessor do
   end
 
   it 'validates content types' do
-    expect(processor.get_action 'image/tiff').to eq 'ocr'
-    expect(processor.get_action 'application/pdf; charset=utf-8').to eq 'ocr'
-    expect(processor.get_action 'application/msword').to eq 'pdf'
+    expect(processor.get_action('image/tiff')).to eq 'ocr'
+    expect(processor.get_action('application/pdf; charset=utf-8')).to eq 'ocr'
+    expect(processor.get_action('application/msword')).to eq 'pdf'
     expect { processor.get_action 'foobar' }.to raise_error(RuntimeError)
   end
 

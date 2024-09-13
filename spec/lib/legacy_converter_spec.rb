@@ -41,7 +41,7 @@ describe Colore::LegacyConverter do
   context '#get_file' do
     it 'runs' do
       filename = converter.convert_file new_format, content
-      expect(converter.get_file File.basename(filename)).to eq 'The quick brown fox'
+      expect(converter.get_file(File.basename(filename))).to eq 'The quick brown fox'
     end
   end
 end

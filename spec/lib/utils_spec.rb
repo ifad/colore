@@ -20,7 +20,7 @@ describe Colore::Utils do
           { 'type' => 'George Cross', reason: 'Bravery' },
         ]
       }
-      expect(symbolize_keys h).to eq({
+      expect(symbolize_keys(h)).to eq({
         name: 'Fred',
         address: {
           house_number:  12,

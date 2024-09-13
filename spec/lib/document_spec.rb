@@ -65,7 +65,7 @@ describe Colore::Document do
   context '.delete' do
     it 'runs' do
       Colore::Document.delete storage_dir, doc_key
-      expect(Colore::Document.exists? storage_dir, doc_key).to eq false
+      expect(Colore::Document.exists?(storage_dir, doc_key)).to eq false
     end
   end
 
@@ -73,7 +73,7 @@ describe Colore::Document do
     it 'runs' do
       dir = document.directory
       expect(dir).to_not be_nil
-      expect(File.exist? dir).to eq true
+      expect(File.exist?(dir)).to eq true
     end
   end
 
@@ -105,13 +105,13 @@ describe Colore::Document do
 
   context '#has_version?' do
     it 'runs' do
-      expect(document.has_version? 'v001').to eq true
+      expect(document.has_version?('v001')).to eq true
     end
     it 'accepts current' do
-      expect(document.has_version? 'current').to eq true
+      expect(document.has_version?('current')).to eq true
     end
     it 'rejects invalid' do
-      expect(document.has_version? 'foo').to eq false
+      expect(document.has_version?('foo')).to eq false
     end
   end
 
@@ -131,9 +131,9 @@ describe Colore::Document do
     it 'runs' do
       version = document.new_version
       expect(version).to_not be_nil
-      expect(File.exist? document.directory + version).to eq true
+      expect(File.exist?(document.directory + version)).to eq true
       new_doc = described_class.load storage_dir, doc_key
-      expect(new_doc.versions.include? version).to eq true
+      expect(new_doc.versions.include?(version)).to eq true
     end
   end
 
@@ -142,21 +142,21 @@ describe Colore::Document do
       file = __FILE__
       body = File.read(file)
       document.add_file 'v002', File.basename(file), body
-      expect(File.exist? document.directory + 'v002' + File.basename(file)).to eq true
+      expect(File.exist?(document.directory + 'v002' + File.basename(file))).to eq true
     end
     it 'runs with author' do
       file = __FILE__
       body = File.read(file)
       document.add_file 'v002', File.basename(file), body, author
-      expect(File.exist? document.directory + 'v002' + File.basename(file)).to eq true
-      expect(File.exist? document.directory + 'v002' + described_class::AUTHOR_FILE).to eq true
+      expect(File.exist?(document.directory + 'v002' + File.basename(file))).to eq true
+      expect(File.exist?(document.directory + 'v002' + described_class::AUTHOR_FILE)).to eq true
       expect(File.read(document.directory + 'v002' + described_class::AUTHOR_FILE).chomp).to eq author
     end
     it 'runs with IO for body' do
       file = __FILE__
       body = File.open(file)
       document.add_file 'v002', File.basename(file), body
-      expect(File.exist? document.directory + 'v002' + File.basename(file)).to eq true
+      expect(File.exist?(document.directory + 'v002' + File.basename(file))).to eq true
     end
   end
 
@@ -184,7 +184,7 @@ describe Colore::Document do
   context '#delete_version' do
     it 'runs' do
       document.delete_version 'v001'
-      expect(File.exist? document.directory + 'v001').to eq false
+      expect(File.exist?(document.directory + 'v001')).to eq false
     end
     it 'refuses to delete "current"' do
       expect {
@@ -203,7 +203,7 @@ describe Colore::Document do
 
   context '#file_path' do
     it 'runs' do
-      expect(document.file_path 'v001', 'arglebargle.docx').to eq "/document/#{app}/#{doc_id}/v001/arglebargle.docx"
+      expect(document.file_path('v001', 'arglebargle.docx')).to eq "/document/#{app}/#{doc_id}/v001/arglebargle.docx"
     end
   end
 
@@ -256,7 +256,7 @@ describe Colore::Document do
   context '#save_metadata' do
     it 'runs' do
       document.save_metadata
-      expect(File.exist? document.directory + 'metadata.json').to eq true
+      expect(File.exist?(document.directory + 'metadata.json')).to eq true
       # expect this to pass
       JSON.parse File.read(document.directory + 'metadata.json')
     end

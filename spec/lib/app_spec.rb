@@ -16,7 +16,7 @@ describe Colore::App do
     return unless response.status == 500
 
     begin
-      puts JSON.pretty_generate(JSON.parse response.body)
+      puts JSON.pretty_generate(JSON.parse(response.body))
     rescue StandardError => e
       puts response.body
     end
