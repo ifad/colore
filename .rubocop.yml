@@ -14,11 +14,11 @@ AllCops:
 Layout/LineLength:
   Enabled: false
 
-Metrics/BlockLength:
+Metrics/AbcSize:
   Exclude:
     - 'spec/**/*'
 
-Metrics/AbcSize:
+Metrics/BlockLength:
   Exclude:
     - 'spec/**/*'
 
