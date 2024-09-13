@@ -13,12 +13,12 @@ describe Colore::App do
   let(:author) { 'spliffy' }
 
   def show_backtrace response
-    if response.status == 500
-      begin
-        puts JSON.pretty_generate(JSON.parse response.body)
-      rescue StandardError => e
-        puts response.body
-      end
+    return unless response.status == 500
+
+    begin
+      puts JSON.pretty_generate(JSON.parse response.body)
+    rescue StandardError => e
+      puts response.body
     end
   end
 

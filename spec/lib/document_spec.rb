@@ -73,7 +73,7 @@ describe Colore::Document do
     it 'runs' do
       dir = document.directory
       expect(dir).to_not be_nil
-      expect(File.exists? dir).to eq true
+      expect(File.exist? dir).to eq true
     end
   end
 
@@ -131,7 +131,7 @@ describe Colore::Document do
     it 'runs' do
       version = document.new_version
       expect(version).to_not be_nil
-      expect(File.exists? document.directory + version).to eq true
+      expect(File.exist? document.directory + version).to eq true
       new_doc = described_class.load storage_dir, doc_key
       expect(new_doc.versions.include? version).to eq true
     end
@@ -142,21 +142,21 @@ describe Colore::Document do
       file = __FILE__
       body = File.read(file)
       document.add_file 'v002', File.basename(file), body
-      expect(File.exists? document.directory + 'v002' + File.basename(file)).to eq true
+      expect(File.exist? document.directory + 'v002' + File.basename(file)).to eq true
     end
     it 'runs with author' do
       file = __FILE__
       body = File.read(file)
       document.add_file 'v002', File.basename(file), body, author
-      expect(File.exists? document.directory + 'v002' + File.basename(file)).to eq true
-      expect(File.exists? document.directory + 'v002' + described_class::AUTHOR_FILE).to eq true
+      expect(File.exist? document.directory + 'v002' + File.basename(file)).to eq true
+      expect(File.exist? document.directory + 'v002' + described_class::AUTHOR_FILE).to eq true
       expect(File.read(document.directory + 'v002' + described_class::AUTHOR_FILE).chomp).to eq author
     end
     it 'runs with IO for body' do
       file = __FILE__
       body = File.open(file)
       document.add_file 'v002', File.basename(file), body
-      expect(File.exists? document.directory + 'v002' + File.basename(file)).to eq true
+      expect(File.exist? document.directory + 'v002' + File.basename(file)).to eq true
     end
   end
 
