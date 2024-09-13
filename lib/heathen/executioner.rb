@@ -96,7 +96,7 @@ module Heathen
         command = argv.shift
 
         Open3.popen3(ENV, [command, "heathen: #{command}"], *argv,
-          :chdir => options[:dir] || Dir.getwd
+          chdir: options[:dir] || Dir.getwd
         ) do |stdin, stdout, stderr, wait_thr|
           pid = wait_thr[:pid]
           logger.info "[#{pid}] spawn '#{command} #{argv.join(' ')}'"
