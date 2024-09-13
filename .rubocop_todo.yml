@@ -67,11 +67,6 @@ Lint/AmbiguousOperatorPrecedence:
     - 'lib/sidekiq_app.rb'
     - 'spec/spec_helper.rb'
 
-# This cop supports safe autocorrection (--autocorrect).
-Lint/DeprecatedClassMethods:
-  Exclude:
-    - 'spec/lib/document_spec.rb'
-
 # Configuration parameters: AllowComments, AllowEmptyLambdas.
 Lint/EmptyBlock:
   Exclude:
@@ -93,11 +88,6 @@ Lint/NonDeterministicRequireOrder:
 Lint/ParenthesesAsGroupedExpression:
   Exclude:
     - 'lib/autoheathen/email_processor.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-Lint/RedundantRequireStatement:
-  Exclude:
-    - 'spec/integration/callback.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 Lint/RedundantStringCoercion:
@@ -319,12 +309,6 @@ Style/GlobalStdStream:
     - 'lib/converter.rb'
     - 'lib/heathen/processor.rb'
     - 'lib/sidekiq_workers.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: MinBodyLength, AllowConsecutiveConditionals.
-Style/GuardClause:
-  Exclude:
-    - 'spec/lib/app_spec.rb'
 
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: AllowedReceivers.
