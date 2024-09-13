@@ -1,10 +1,10 @@
 require 'spec_helper'
 require 'config'
 
-describe Colore::C_ do
+RSpec.describe Colore::C_ do
   before do
     described_class.reset
-    allow(described_class).to receive(:config_file_path) { fixture('app.yml') }
+    allow(described_class).to receive(:config_file_path) { file_fixture('app.yml') }
   end
 
   after do

@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'rest_client'
 
-describe Colore::Sidekiq::ConversionWorker do
+RSpec.describe Colore::Sidekiq::ConversionWorker do
   let(:doc_key) { Colore::DocKey.new('app', '12345') }
   let(:callback_url) { 'http://foo/bar' }
 
@@ -31,7 +31,7 @@ describe Colore::Sidekiq::ConversionWorker do
   end
 end
 
-describe Colore::Sidekiq::CallbackWorker do
+RSpec.describe Colore::Sidekiq::CallbackWorker do
   let(:doc_key) { Colore::DocKey.new('app', '12345') }
   let(:callback_url) { 'http://foo/bar' }
   before do
@@ -49,7 +49,7 @@ describe Colore::Sidekiq::CallbackWorker do
   end
 end
 
-describe Colore::Sidekiq::LegacyPurgeWorker do
+RSpec.describe Colore::Sidekiq::LegacyPurgeWorker do
   before do
     setup_storage
     allow(Colore::C_).to receive(:storage_directory) { tmp_storage_dir }

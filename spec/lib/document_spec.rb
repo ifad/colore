@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'colore'
 
-describe Colore::Document do
+RSpec.describe Colore::Document do
   let(:app) { 'app' }
   let(:doc_id) { '12345' }
   let(:doc_key) { Colore::DocKey.new(app, doc_id) }
@@ -232,7 +232,7 @@ describe Colore::Document do
 
   context '#to_hash' do
     it 'runs' do
-      testhash = JSON.parse(File.read(fixture('document.json')))
+      testhash = JSON.parse(file_fixture('document.json').read)
       testhash = Colore::Utils.symbolize_keys testhash
       dochash = Colore::Utils.symbolize_keys document.to_hash
       dochash[:versions].each do |k, v|

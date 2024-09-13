@@ -15,7 +15,7 @@ class Heathen::Processor
   end
 end
 
-describe Heathen::Converter do
+RSpec.describe Heathen::Converter do
   before do
     Heathen::Task.clear 'test'
   end

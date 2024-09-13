@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Colore::DocKey do
+RSpec.describe Colore::DocKey do
   let(:doc_key) { described_class.new('myapp', 'mydoc') }
 
   context '.initialize' do

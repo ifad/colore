@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Colore::LegacyConverter do
+RSpec.describe Colore::LegacyConverter do
   let(:storage_dir) { tmp_storage_dir }
   let(:content) { 'The brown fox quits' }
   let(:new_format) { 'pdf' }

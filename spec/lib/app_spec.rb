@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'app'
 require 'config'
 
-describe Colore::App do
+RSpec.describe Colore::App do
   let(:appname) { 'app' }
   let(:doc_id) { '12345' }
   let(:filename) { 'arglebargle.docx' }

@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'filemagic/ext'
 
-describe Heathen::Filename do
+RSpec.describe Heathen::Filename do
   let(:content) { 'The quick brown fox jumps over the lazy dog' }
   let(:mime_type) { content.mime_type }
   context '.suggest' do

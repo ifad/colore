@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'utils'
 
-describe Colore::Utils do
+RSpec.describe Colore::Utils do
   include described_class
 
   context '#symbolize_keys' do

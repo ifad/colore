@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Colore::Converter do
+RSpec.describe Colore::Converter do
   let(:storage_dir) { tmp_storage_dir }
   let(:doc_key) { Colore::DocKey.new('app', '12345') }
   let(:version) { 'v001' }

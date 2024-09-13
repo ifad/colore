@@ -1,15 +1,15 @@
 require 'spec_helper'
 require 'autoheathen'
 
-describe AutoHeathen::EmailProcessor do
+RSpec.describe AutoHeathen::EmailProcessor do
   let(:processor) {
     AutoHeathen::EmailProcessor.new({
         cc_blacklist: ['wikilex@ifad.org'],
-      }, fixture('autoheathen/autoheathen.yml'))
+      }, file_fixture('autoheathen/autoheathen.yml'))
   }
   let!(:email_to) { 'bob@localhost.localdomain' }
   let(:email) {
-    m = Mail.read(fixture('autoheathen/test1.eml'))
+    m = Mail.read(file_fixture('autoheathen/test1.eml'))
     m.to [email_to]
     m.from ['bob@deviant.localdomain']
     m.cc ['mrgrumpy', 'marypoppins', email_to, 'wikilex@ifad.org']
@@ -75,7 +75,7 @@ describe AutoHeathen::EmailProcessor do
   end
 
   it 'reads a file' do
-    expect(processor.read_file('spec/fixtures/autoheathen/autoheathen.yml').to_s).to_not eq ''
+    expect(processor.read_file('spec/fixtures/files/autoheathen/autoheathen.yml').to_s).to_not eq ''
   end
 
   it 'validates content types' do

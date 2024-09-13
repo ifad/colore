@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe Heathen::Processor do
-  let(:ms_word_content) { File.read(fixture('heathen/msword.docx')) }
-  let(:ms_spreadsheet_content) { File.read(fixture('heathen/msexcel.xlsx')) }
-  let(:ms_ppt_content) { File.read(fixture('heathen/mspowerpoint.pptx')) }
-  let(:oo_word_content) { File.read(fixture('heathen/ooword.odt')) }
-  let(:oo_spreadsheet_content) { File.read(fixture('heathen/oospreadsheet.ods')) }
-  let(:oo_presentation_content) { File.read(fixture('heathen/oopresentation.odp')) }
+RSpec.describe Heathen::Processor do
+  let(:ms_word_content) { file_fixture('heathen/msword.docx').read }
+  let(:ms_spreadsheet_content) { file_fixture('heathen/msexcel.xlsx').read }
+  let(:ms_ppt_content) { file_fixture('heathen/mspowerpoint.pptx').read }
+  let(:oo_word_content) { file_fixture('heathen/ooword.odt').read }
+  let(:oo_spreadsheet_content) { file_fixture('heathen/oospreadsheet.ods').read }
+  let(:oo_presentation_content) { file_fixture('heathen/oopresentation.odp').read }
 
   def new_job(content)
     @job = Heathen::Job.new 'foo', content, 'en'

@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'autoheathen'
 require 'tempfile'
 
-describe AutoHeathen::Config do
+RSpec.describe AutoHeathen::Config do
   before :all do
     @clazz = Class.new
     @clazz.include AutoHeathen::Config

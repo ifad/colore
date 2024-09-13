@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Standard Heathen tasks:' do
+RSpec.describe 'Standard Heathen tasks:' do
   before do
     setup_storage
     allow(Colore::C_).to receive(:storage_directory) { tmp_storage_dir }
@@ -14,7 +14,7 @@ describe 'Standard Heathen tasks:' do
 
   context 'ocr' do
     it 'runs' do
-      content = fixture('heathen/quickfox.jpg').read
+      content = file_fixture('heathen/quickfox.jpg').read
       new_content = converter.convert 'ocr', content
       expect(new_content.mime_type).to eq 'application/pdf; charset=binary'
     end
@@ -22,13 +22,13 @@ describe 'Standard Heathen tasks:' do
 
   context 'ocr_text' do
     it 'converts jpeg' do
-      content = fixture('heathen/quickfox.jpg').read
+      content = file_fixture('heathen/quickfox.jpg').read
       new_content = converter.convert 'ocr_text', content
       expect(new_content.mime_type).to eq 'text/plain; charset=us-ascii'
     end
 
     it 'converts bmp' do
-      content = fixture('heathen/quickfox.bmp').read
+      content = file_fixture('heathen/quickfox.bmp').read
       new_content = converter.convert 'ocr_text', content
       expect(new_content.mime_type).to eq 'text/plain; charset=us-ascii'
     end
@@ -36,19 +36,19 @@ describe 'Standard Heathen tasks:' do
 
   context 'pdf' do
     it 'converts images' do
-      content = fixture('heathen/quickfox.jpg').read
+      content = file_fixture('heathen/quickfox.jpg').read
       new_content = converter.convert 'pdf', content
       expect(new_content.mime_type).to eq 'application/pdf; charset=binary'
     end
 
     it 'converts HTML documents' do
-      content = fixture('heathen/quickfox.html').read
+      content = file_fixture('heathen/quickfox.html').read
       new_content = converter.convert 'pdf', content
       expect(new_content.mime_type).to eq 'application/pdf; charset=binary'
     end
 
     it 'converts Office documents' do
-      content = fixture('heathen/msword.docx').read
+      content = file_fixture('heathen/msword.docx').read
       new_content = converter.convert 'pdf', content
       expect(new_content.mime_type).to eq 'application/pdf; charset=binary'
     end
@@ -56,31 +56,31 @@ describe 'Standard Heathen tasks:' do
 
   context 'txt' do
     it 'converts odt' do
-      content = fixture('heathen/ooword.odt').read
+      content = file_fixture('heathen/ooword.odt').read
       new_content = converter.convert 'txt', content
       expect(new_content.mime_type).to eq 'text/plain; charset=us-ascii'
     end
 
     it 'converts docx' do
-      content = fixture('heathen/msword.docx').read
+      content = file_fixture('heathen/msword.docx').read
       new_content = converter.convert 'txt', content
       expect(new_content.mime_type).to eq 'text/plain; charset=us-ascii'
     end
 
     it 'converts images' do
-      content = fixture('heathen/quickfox.jpg').read
+      content = file_fixture('heathen/quickfox.jpg').read
       new_content = converter.convert 'txt', content
       expect(new_content.mime_type).to eq 'text/plain; charset=us-ascii'
     end
 
     it 'converts pdf' do
-      content = fixture('heathen/quickfox.pdf').read
+      content = file_fixture('heathen/quickfox.pdf').read
       new_content = converter.convert 'txt', content
       expect(new_content.mime_type).to eq 'text/plain; charset=us-ascii'
     end
 
     it 'converts HTML documents' do
-      content = fixture('heathen/quickfox.html').read
+      content = file_fixture('heathen/quickfox.html').read
       new_content = converter.convert 'txt', content
       expect(new_content.mime_type).to eq 'text/plain; charset=us-ascii'
     end
@@ -88,7 +88,7 @@ describe 'Standard Heathen tasks:' do
 
   context 'msoffice' do
     it 'runs' do
-      content = fixture('heathen/ooword.odt').read
+      content = file_fixture('heathen/ooword.odt').read
       new_content = converter.convert 'msoffice', content
       expect(ms_word_mime_types).to include(new_content.mime_type)
     end
@@ -96,7 +96,7 @@ describe 'Standard Heathen tasks:' do
 
   context 'ooffice' do
     it 'runs' do
-      content = fixture('heathen/msword.docx').read
+      content = file_fixture('heathen/msword.docx').read
       new_content = converter.convert 'ooffice', content
       expect(oo_odt_mime_types).to include(new_content.mime_type)
     end
@@ -104,7 +104,7 @@ describe 'Standard Heathen tasks:' do
 
   context 'doc' do
     it 'runs' do
-      content = fixture('heathen/ooword.odt').read
+      content = file_fixture('heathen/ooword.odt').read
       new_content = converter.convert 'doc', content
       expect(ms_word_mime_types).to include(new_content.mime_type)
     end

@@ -4,6 +4,7 @@ doc
 log/*
 !/log/.keep
 tmp/*
+spec/examples.txt
 spec/output.log
 .byebug_history
 storage/
