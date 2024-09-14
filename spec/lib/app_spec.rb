@@ -22,7 +22,7 @@ RSpec.describe Colore::App do
 
     begin
       puts JSON.pretty_generate(JSON.parse(response.body))
-    rescue StandardError => e
+    rescue StandardError
       puts response.body
     end
   end
@@ -37,14 +37,14 @@ RSpec.describe Colore::App do
     delete_storage
   end
 
-  context 'PUT create document' do
+  describe 'PUT create document' do
     it 'creates a new document' do
       put "/document/#{appname}/#{new_doc_id}/#{filename}", {
-          title: 'A title',
-          file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
-          actions: ['ocr', 'pdf'],
-          author: author,
-          backtrace: true,
+        title: 'A title',
+        file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
+        actions: %w[ocr pdf],
+        author: author,
+        backtrace: true,
       }
       show_backtrace last_response
       expect(last_response.status).to eq 201
@@ -57,10 +57,10 @@ RSpec.describe Colore::App do
 
     it 'fails to create an existing document' do
       put "/document/#{appname}/#{doc_id}/#{filename}", {
-          title: 'A title',
-          file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
-          actions: ['ocr', 'pdf'],
-          backtrace: true,
+        title: 'A title',
+        file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
+        actions: %w[ocr pdf],
+        backtrace: true,
       }
       show_backtrace last_response
       expect(last_response.status).to eq 409
@@ -70,12 +70,12 @@ RSpec.describe Colore::App do
     end
   end
 
-  context 'POST update document' do
+  describe 'POST update document' do
     it 'runs' do
       post "/document/#{appname}/#{doc_id}/#{filename}", {
-          file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
-          actions: ['ocr', 'pdf'],
-          backtrace: true,
+        file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
+        actions: %w[ocr pdf],
+        backtrace: true,
       }
       show_backtrace last_response
       expect(last_response.status).to eq 201
@@ -88,10 +88,10 @@ RSpec.describe Colore::App do
 
     it 'fails if document does not exist' do
       post "/document/#{appname}/#{new_doc_id}/#{filename}", {
-          file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
-          actions: ['ocr', 'pdf'],
-          author: author,
-          backtrace: true,
+        file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
+        actions: %w[ocr pdf],
+        author: author,
+        backtrace: true,
       }
       expect(last_response.status).to eq 404
       expect(last_response.content_type).to eq 'application/json'
@@ -100,7 +100,7 @@ RSpec.describe Colore::App do
     end
   end
 
-  context 'POST update title' do
+  describe 'POST update title' do
     it 'runs' do
       title = "This is a new document"
       post "/document/#{appname}/#{doc_id}/title/#{URI.escape(title)}"
@@ -118,10 +118,10 @@ RSpec.describe Colore::App do
     end
   end
 
-  context 'POST new conversion' do
+  describe 'POST new conversion' do
     it 'starts a new conversion' do
       post "/document/#{appname}/#{doc_id}/current/#{filename}/ocr", {
-          backtrace: true,
+        backtrace: true,
       }
       show_backtrace last_response
       expect(last_response.status).to eq 202
@@ -134,7 +134,7 @@ RSpec.describe Colore::App do
 
     it 'fails if invalid document' do
       post "/document/#{appname}/#{invalid_doc_id}/current/#{filename}/ocr", {
-          backtrace: true,
+        backtrace: true,
       }
       show_backtrace last_response
       expect(last_response.status).to eq 404
@@ -145,7 +145,7 @@ RSpec.describe Colore::App do
 
     it 'fails if invalid version' do
       post "/document/#{appname}/#{doc_id}/fred/#{filename}/ocr", {
-          backtrace: true,
+        backtrace: true,
       }
       show_backtrace last_response
       expect(last_response.status).to eq 400
@@ -155,7 +155,7 @@ RSpec.describe Colore::App do
     end
   end
 
-  context 'DELETE document' do
+  describe 'DELETE document' do
     it 'runs' do
       delete "/document/#{appname}/#{doc_id}", {
         deleted_by: 'a.person',
@@ -169,7 +169,7 @@ RSpec.describe Colore::App do
     end
   end
 
-  context 'DELETE document version' do
+  describe 'DELETE document version' do
     it 'runs' do
       delete "/document/#{appname}/#{doc_id}/v001", {
         deleted_by: 'a.person',
@@ -203,7 +203,7 @@ RSpec.describe Colore::App do
     end
   end
 
-  context 'GET document' do
+  describe 'GET document' do
     it 'runs' do
       get "/document/#{appname}/#{doc_id}/current/#{filename}?backtrace=true"
       show_backtrace last_response
@@ -227,7 +227,7 @@ RSpec.describe Colore::App do
     end
   end
 
-  context 'GET document info' do
+  describe 'GET document info' do
     it 'runs' do
       get "/document/#{appname}/#{doc_id}?backtrace=true"
       show_backtrace last_response
@@ -244,7 +244,7 @@ RSpec.describe Colore::App do
     end
   end
 
-  context 'POST /convert' do
+  describe 'POST /convert' do
     context 'when file is nil' do
       it 'returns an error' do
         params = {
@@ -302,7 +302,7 @@ RSpec.describe Colore::App do
     end
   end
 
-  context 'POST /legacy/convert' do
+  describe 'POST /legacy/convert' do
     it 'converts and saves file' do
       foo = double(Colore::LegacyConverter)
       allow(Colore::LegacyConverter).to receive(:new) { foo }
@@ -353,7 +353,7 @@ RSpec.describe Colore::App do
     end
   end
 
-  context 'GET /legacy/:file_id' do
+  describe 'GET /legacy/:file_id' do
     it 'runs' do
       Colore::LegacyConverter.new.store_file 'foo.txt', 'The quick brown fox'
       get "/#{Colore::LegacyConverter::LEGACY}/foo.txt"

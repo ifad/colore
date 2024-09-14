@@ -5,22 +5,16 @@ require 'autoheathen'
 require 'tempfile'
 
 RSpec.describe AutoHeathen::Config do
-  before :all do
-    @clazz = Class.new
-    @clazz.include described_class
-  end
-
-  before do
-    @obj = @clazz.new
-    @tempfile = Tempfile.new 'spectest'
-  end
+  let(:klass) { Class.new { include AutoHeathen::Config } }
+  let(:obj) { klass.new }
+  let(:tempfile) { Tempfile.new 'spectest' }
 
   after do
-    @tempfile.unlink
+    tempfile.unlink
   end
 
   it "loads config with no defaults" do
-    cfg = @obj.load_config nil, nil, { 'cow' => 'overcow', :rat => 'overrat' }
+    cfg = obj.load_config nil, nil, { 'cow' => 'overcow', :rat => 'overrat' }
     expect(cfg).to eq({
       cow: 'overcow',
       rat: 'overrat',
@@ -29,12 +23,12 @@ RSpec.describe AutoHeathen::Config do
 
   it "loads config from all sources" do
     defaults = { 'foo' => 'fooble', :bar => 'barble', 'bob' => 'bobble', :cow => 'cowble', :rat => 'ratble' }
-    @tempfile.write({
+    tempfile.write({
       'bob' => 'filebob',
       'roger' => 'fileroger',
     }.to_yaml)
-    @tempfile.close
-    cfg = @obj.load_config defaults, @tempfile.path, { 'cow' => 'overcow', :rat => 'overrat' }
+    tempfile.close
+    cfg = obj.load_config defaults, tempfile.path, { 'cow' => 'overcow', :rat => 'overrat' }
     expect(cfg[:foo]).to eq 'fooble'
     expect(cfg[:bar]).to eq 'barble'
     expect(cfg[:bob]).to eq 'filebob'
@@ -50,17 +44,17 @@ RSpec.describe AutoHeathen::Config do
       'horse' => {
         'duck' => :duckle,
         'fish' => 'fishle',
-        'eagle' => ['the', 'quick', 'brown', 'fox'],
+        'eagle' => %w[the quick brown fox],
       },
     }
-    hash = @obj.symbolize_keys in_hash
+    hash = obj.symbolize_keys in_hash
     expect(hash).to eq({
       dog: 'doggle',
       cat: 'cattle',
       horse: {
         duck: :duckle,
         fish: 'fishle',
-        eagle: ['the', 'quick', 'brown', 'fox'],
+        eagle: %w[the quick brown fox],
       },
     })
   end

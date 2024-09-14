@@ -14,7 +14,7 @@ RSpec.describe 'Standard Heathen tasks:' do
 
   let(:converter) { Heathen::Converter.new(logger: spec_logger) }
 
-  context 'ocr' do
+  describe 'ocr' do
     it 'runs' do
       content = fixture('heathen/quickfox.jpg').read
       new_content = converter.convert 'ocr', content
@@ -22,7 +22,7 @@ RSpec.describe 'Standard Heathen tasks:' do
     end
   end
 
-  context 'ocr_text' do
+  describe 'ocr_text' do
     it 'converts jpeg' do
       content = fixture('heathen/quickfox.jpg').read
       new_content = converter.convert 'ocr_text', content
@@ -36,7 +36,7 @@ RSpec.describe 'Standard Heathen tasks:' do
     end
   end
 
-  context 'pdf' do
+  describe 'pdf' do
     it 'converts images' do
       content = fixture('heathen/quickfox.jpg').read
       new_content = converter.convert 'pdf', content
@@ -56,7 +56,7 @@ RSpec.describe 'Standard Heathen tasks:' do
     end
   end
 
-  context 'txt' do
+  describe 'txt' do
     it 'converts odt' do
       content = fixture('heathen/ooword.odt').read
       new_content = converter.convert 'txt', content
@@ -88,7 +88,7 @@ RSpec.describe 'Standard Heathen tasks:' do
     end
   end
 
-  context 'msoffice' do
+  describe 'msoffice' do
     it 'runs' do
       content = fixture('heathen/ooword.odt').read
       new_content = converter.convert 'msoffice', content
@@ -96,7 +96,7 @@ RSpec.describe 'Standard Heathen tasks:' do
     end
   end
 
-  context 'ooffice' do
+  describe 'ooffice' do
     it 'runs' do
       content = fixture('heathen/msword.docx').read
       new_content = converter.convert 'ooffice', content
@@ -104,7 +104,7 @@ RSpec.describe 'Standard Heathen tasks:' do
     end
   end
 
-  context 'doc' do
+  describe 'doc' do
     it 'runs' do
       content = fixture('heathen/ooword.odt').read
       new_content = converter.convert 'doc', content

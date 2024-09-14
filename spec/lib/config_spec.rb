@@ -31,9 +31,9 @@ RSpec.describe Colore::C_ do
     end
 
     it 'fails on invalid value' do
-      expect {
+      expect do
         described_class.foo
-      }.to raise_error NoMethodError
+      end.to raise_error NoMethodError
     end
   end
 end

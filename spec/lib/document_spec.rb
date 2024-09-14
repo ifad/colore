@@ -45,9 +45,9 @@ RSpec.describe Colore::Document do
     end
 
     it 'raises error if doc already exists' do
-      expect {
+      expect do
         described_class.create storage_dir, doc_key
-      }.to raise_error Colore::DocumentExists
+      end.to raise_error Colore::DocumentExists
     end
   end
 
@@ -58,9 +58,9 @@ RSpec.describe Colore::Document do
     end
 
     it 'raises exception if directory does not exist' do
-      expect {
+      expect do
         described_class.load storage_dir, invalid_doc_key
-      }.to raise_error Colore::DocumentNotFound
+      end.to raise_error Colore::DocumentNotFound
     end
   end
 
@@ -169,15 +169,15 @@ RSpec.describe Colore::Document do
     end
 
     it 'fails with a non-existing version' do
-      expect {
+      expect do
         document.set_current 'v009'
-      }.to raise_error Colore::VersionNotFound
+      end.to raise_error Colore::VersionNotFound
     end
 
     it 'fails with an invalid version name' do
-      expect {
+      expect do
         document.set_current 'title'
-      }.to raise_error Colore::InvalidVersion
+      end.to raise_error Colore::InvalidVersion
     end
   end
 
@@ -188,19 +188,19 @@ RSpec.describe Colore::Document do
     end
 
     it 'refuses to delete "current"' do
-      expect {
+      expect do
         document.delete_version Colore::Document::CURRENT
-      }.to raise_error Colore::VersionIsCurrent
+      end.to raise_error Colore::VersionIsCurrent
     end
 
     it 'refuses to delete current version' do
-      expect {
+      expect do
         document.delete_version 'v002'
-      }.to raise_error Colore::VersionIsCurrent
+      end.to raise_error Colore::VersionIsCurrent
     end
 
     it 'silently does nothing for an invalid version' do
-      document.delete_version 'foo'
+      expect(document.delete_version('foo')).to be_nil
     end
   end
 
@@ -224,15 +224,15 @@ RSpec.describe Colore::Document do
     end
 
     it 'raises FileNotFound for an invalid version' do
-      expect {
+      expect do
         document.get_file 'foo', 'arglebargle.txt'
-      }.to raise_error Colore::FileNotFound
+      end.to raise_error Colore::FileNotFound
     end
 
     it 'raises FileNotFound for an invalid filename' do
-      expect {
+      expect do
         document.get_file 'v001', 'text/plain; charset=us-ascii'
-      }.to raise_error Colore::FileNotFound
+      end.to raise_error Colore::FileNotFound
     end
   end
 
@@ -241,8 +241,8 @@ RSpec.describe Colore::Document do
       testhash = JSON.parse(fixture('document.json').read)
       testhash = Colore::Utils.symbolize_keys testhash
       dochash = Colore::Utils.symbolize_keys document.to_hash
-      dochash[:versions].each do |k, v|
-        v.each { |k1, v1| v1.delete :created_at }
+      dochash[:versions].each_value do |v|
+        v.each_value { |v1| v1.delete :created_at }
       end
       expect(dochash).to match testhash
     end

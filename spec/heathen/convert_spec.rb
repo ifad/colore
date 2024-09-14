@@ -27,7 +27,7 @@ RSpec.describe Heathen::Converter do
   end
 
   it 'runs a successful task' do
-    Heathen::Task.register 'test', 'text/plain' do |job|
+    Heathen::Task.register 'test', 'text/plain' do
       valid_step_1
       valid_step_2
     end
@@ -36,7 +36,7 @@ RSpec.describe Heathen::Converter do
   end
 
   it 'finds and runs based on pattern' do
-    Heathen::Task.register 'test', 'text/.*' do |job|
+    Heathen::Task.register 'test', 'text/.*' do
       valid_step_1
       valid_step_2
     end
@@ -45,20 +45,20 @@ RSpec.describe Heathen::Converter do
   end
 
   it 'fails with an unsuccessful step' do
-    Heathen::Task.register 'test', 'text/plain' do |job|
+    Heathen::Task.register 'test', 'text/plain' do
       valid_step_1
       failing_step_1
     end
-    expect {
+    expect do
       described_class.new.convert 'test', 'test content'
-    }.to raise_error(RuntimeError, 'It failed')
+    end.to raise_error(RuntimeError, 'It failed')
   end
 
   it 'runs a nested task' do
-    Heathen::Task.register 'test_nested', 'text/plain' do |job|
+    Heathen::Task.register 'test_nested', 'text/plain' do
       valid_step_1
     end
-    Heathen::Task.register 'test', 'text/plain' do |job|
+    Heathen::Task.register 'test', 'text/plain' do
       perform_task 'test_nested'
       valid_step_2
     end
@@ -67,22 +67,22 @@ RSpec.describe Heathen::Converter do
   end
 
   it 'fails if the task is not recognised' do
-    Heathen::Task.register 'test', 'text/plain' do |job|
+    Heathen::Task.register 'test', 'text/plain' do
       valid_step_1
       valid_step_2
     end
-    expect {
+    expect do
       described_class.new.convert 'test_foo', 'test content'
-    }.to raise_error Heathen::TaskNotFound
+    end.to raise_error Heathen::TaskNotFound
   end
 
   it 'fails if the mime_type is not recognised' do
-    Heathen::Task.register 'test', 'image/jpeg' do |job|
+    Heathen::Task.register 'test', 'image/jpeg' do
       valid_step_1
       valid_step_2
     end
-    expect {
+    expect do
       described_class.new.convert 'test', 'test content'
-    }.to raise_error Heathen::TaskNotFound
+    end.to raise_error Heathen::TaskNotFound
   end
 end

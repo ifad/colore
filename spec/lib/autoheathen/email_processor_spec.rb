@@ -4,13 +4,13 @@ require 'spec_helper'
 require 'autoheathen'
 
 RSpec.describe AutoHeathen::EmailProcessor do
-  let(:processor) {
+  let(:processor) do
     described_class.new({
-        cc_blacklist: ['wikilex@ifad.org'],
-      }, fixture('autoheathen/autoheathen.yml'))
-  }
+      cc_blacklist: ['wikilex@ifad.org'],
+    }, fixture('autoheathen/autoheathen.yml'))
+  end
   let!(:email_to) { 'bob@localhost.localdomain' }
-  let(:email) {
+  let(:email) do
     m = Mail.read(fixture('autoheathen/test1.eml'))
     m.to [email_to]
     m.from ['bob@deviant.localdomain']
@@ -18,7 +18,7 @@ RSpec.describe AutoHeathen::EmailProcessor do
     m.return_path ['jblackman@debian.localdomain']
     m.header['X-Received'] = 'misssilly'
     m
-  }
+  end
 
   it 'initializes' do
     expect(processor.cfg).to be_a Hash
@@ -61,7 +61,7 @@ RSpec.describe AutoHeathen::EmailProcessor do
       expect(mail.html_part.decoded.size).to be > 0
       expect(mail.delivery_method.settings[:port]).to eq 25
       expect(mail.delivery_method.settings[:address]).to eq 'localhost'
-      expect(mail.cc).to eq ['mrgrumpy', 'marypoppins'] # Test to exclude email_to & blacklist
+      expect(mail.cc).to eq %w[mrgrumpy marypoppins] # Test to exclude email_to & blacklist
       expect(mail.return_path).to eq 'jblackman@debian.localdomain'
       expect(mail.header['X-Received'].to_s).to eq 'misssilly'
     end
