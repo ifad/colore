@@ -1,12 +1,13 @@
+.byebug_history
 coverage
-public
 doc
 log/*
 !/log/.keep
-tmp/*
+public
+spec/examples.txt
 spec/output.log
-.byebug_history
 storage/
+tmp/*
 
 # Docker
 docker/colore/variables.env
