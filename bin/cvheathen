@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
 #
 # Script:      cvheathen
 # Description: Converts a file (or directory of files) to a given format

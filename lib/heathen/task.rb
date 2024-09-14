@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Heathen
   # A Heathen task is a block of ruby called (by [Converter] in the context of a
   # [Processor] object. This allows us to call the Processor methods in a relatively

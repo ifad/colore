@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module AutoHeathen
   module Config
     def load_config(defaults = {}, config_file = nil, overwrites = {})

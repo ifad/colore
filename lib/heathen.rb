@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'filemagic/ext'
 require 'pathname'
 HEATHEN_BASE = Pathname.new(__FILE__).realpath.parent + 'heathen'

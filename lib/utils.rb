@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Colore
   module Utils
     # Deep conversion of all hash keys to symbols.

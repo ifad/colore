@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'pathname'
 require 'haml'
 require 'net/http'
@@ -271,7 +273,7 @@ module Colore
       end
 
       def respond_with_error(error)
-        log  = ''
+        log = +''
         log << "While processing #{request.request_method} #{request.path} with params:\n"
         log << request.params.pretty_inspect
         log << "\nthe following error occurred: #{error.class} #{error.message}"

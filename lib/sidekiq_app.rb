@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Application initializer for the Colore Sidekiq process. See (BASE/run_sidekiq) for usage.
 #

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'filemagic/ext'
 require 'mime/types'
 require 'heathen'
