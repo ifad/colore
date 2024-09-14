@@ -75,12 +75,6 @@ Lint/ParenthesesAsGroupedExpression:
   Exclude:
     - 'lib/autoheathen/email_processor.rb'
 
-# This cop supports safe autocorrection (--autocorrect).
-Lint/RedundantStringCoercion:
-  Exclude:
-    - 'lib/heathen/errors.rb'
-    - 'lib/heathen/processor_methods/convert_image.rb'
-
 # Configuration parameters: IgnoreImplicitReferences.
 Lint/ShadowedArgument:
   Exclude:
