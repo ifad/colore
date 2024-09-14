@@ -14,7 +14,6 @@ Layout/FirstHashElementIndentation:
     - 'lib/app.rb'
     - 'lib/autoheathen/email_processor.rb'
     - 'lib/sidekiq_workers.rb'
-    - 'spec/lib/app_spec.rb'
     - 'spec/lib/autoheathen/config_spec.rb'
     - 'spec/lib/autoheathen/email_processor_spec.rb'
     - 'spec/lib/utils_spec.rb'
@@ -28,7 +27,6 @@ Layout/HashAlignment:
   Exclude:
     - 'lib/autoheathen/email_processor.rb'
     - 'lib/sidekiq_workers.rb'
-    - 'spec/lib/utils_spec.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle.
@@ -81,8 +79,6 @@ Lint/UnusedBlockArgument:
   Exclude:
     - 'lib/app.rb'
     - 'lib/heathen/task.rb'
-    - 'spec/heathen/convert_spec.rb'
-    - 'spec/lib/document_spec.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods, IgnoreNotImplementedMethods.
@@ -101,7 +97,6 @@ Lint/UselessAssignment:
     - 'lib/converter.rb'
     - 'lib/document.rb'
     - 'lib/heathen/processor_methods/convert_image.rb'
-    - 'spec/lib/app_spec.rb'
 
 # Configuration parameters: AllowedMethods, AllowedPatterns, CountRepeatedAttributes.
 Metrics/AbcSize:
@@ -159,21 +154,6 @@ Naming/VariableNumber:
   Exclude:
     - 'spec/heathen/convert_spec.rb'
 
-RSpec/BeforeAfterAll:
-  Exclude:
-    - 'spec/spec_helper.rb'
-    - 'spec/rails_helper.rb'
-    - 'spec/support/**/*.rb'
-    - 'spec/lib/autoheathen/config_spec.rb'
-
-# Configuration parameters: Prefixes, AllowedPatterns.
-# Prefixes: when, with, without
-RSpec/ContextWording:
-  Exclude:
-    - 'spec/heathen/processor_methods/libreoffice_spec.rb'
-    - 'spec/integration/standard_tasks_spec.rb'
-    - 'spec/lib/app_spec.rb'
-
 # Configuration parameters: IgnoredMetadata.
 RSpec/DescribeClass:
   Exclude:
@@ -193,7 +173,6 @@ RSpec/FilePath:
 RSpec/InstanceVariable:
   Exclude:
     - 'spec/heathen/processor_methods/libreoffice_spec.rb'
-    - 'spec/lib/autoheathen/config_spec.rb'
 
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: have_received, receive
@@ -202,12 +181,6 @@ RSpec/MessageSpies:
     - 'spec/lib/app_spec.rb'
     - 'spec/lib/autoheathen/email_processor_spec.rb'
     - 'spec/lib/config_spec.rb'
-
-# Configuration parameters: AllowedPatterns.
-# AllowedPatterns: ^expect_, ^assert_
-RSpec/NoExpectationExample:
-  Exclude:
-    - 'spec/lib/document_spec.rb'
 
 RSpec/StubbedMock:
   Exclude:
@@ -251,10 +224,6 @@ Style/AndOr:
 Style/BlockDelimiters:
   Exclude:
     - 'lib/autoheathen/config.rb'
-    - 'spec/heathen/convert_spec.rb'
-    - 'spec/lib/autoheathen/email_processor_spec.rb'
-    - 'spec/lib/config_spec.rb'
-    - 'spec/lib/document_spec.rb'
 
 # This cop supports unsafe autocorrection (--autocorrect-all).
 # Configuration parameters: EnforcedStyle.
@@ -527,9 +496,6 @@ Style/VariableInterpolation:
 Style/WordArray:
   Exclude:
     - 'lib/autoheathen/email_processor.rb'
-    - 'spec/lib/app_spec.rb'
-    - 'spec/lib/autoheathen/config_spec.rb'
-    - 'spec/lib/autoheathen/email_processor_spec.rb'
 
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Style/ZeroLengthPredicate:

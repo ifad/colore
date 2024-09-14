@@ -12,9 +12,9 @@ RSpec.describe Colore::Utils do
         name: 'Fred',
         'address' => {
           'house_number' => 12,
-          'street' =>       'Foo st',
-          city:             'Boston',
-          phone_numbers:    [1234567, '1234567'],
+          'street' => 'Foo st',
+          city: 'Boston',
+          phone_numbers: [1234567, '1234567'],
         },
         'rank' => 'Constable',
         'awards' => [
@@ -25,15 +25,15 @@ RSpec.describe Colore::Utils do
       expect(symbolize_keys(h)).to eq({
         name: 'Fred',
         address: {
-          house_number:  12,
-          street:        'Foo st',
-          city:          'Boston',
+          house_number: 12,
+          street: 'Foo st',
+          city: 'Boston',
           phone_numbers: [1234567, '1234567'],
         },
         rank: 'Constable',
         awards: [
           { type: 'Medal of Honour', reason: 'Stupidity' },
-          { type: 'George Cross',    reason: 'Bravery' },
+          { type: 'George Cross', reason: 'Bravery' },
         ],
       })
     end
