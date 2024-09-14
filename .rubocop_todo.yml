@@ -312,13 +312,6 @@ Style/FetchEnvVar:
     - 'lib/heathen/processor_methods/libreoffice.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
-Style/FileWrite:
-  Exclude:
-    - 'bin/cvheathen'
-    - 'lib/document.rb'
-    - 'lib/legacy_converter.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: format, sprintf, percent
 Style/FormatString:
@@ -518,7 +511,6 @@ Style/StringConcatenation:
     - 'lib/heathen.rb'
     - 'lib/heathen/processor.rb'
     - 'lib/sidekiq_app.rb'
-    - 'spec/lib/document_spec.rb'
     - 'spec/lib/sidekiq_workers_spec.rb'
     - 'unicorn.rb'
 

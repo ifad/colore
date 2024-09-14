@@ -145,7 +145,7 @@ module Colore
 
       body = StringIO.new(body) unless body.respond_to?(:read) # string -> IO
       File.open(directory + version + filename, "wb") { |f| IO.copy_stream(body, f) }
-      File.open(directory + version + AUTHOR_FILE, 'w') { |f| f.write author }
+      File.write(directory + version + AUTHOR_FILE, author)
     end
 
     # Sets the specified version as current.
