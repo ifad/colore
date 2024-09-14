@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# \ -o 0.0.0.0 -p 9240
+#\ -o 0.0.0.0 -p 9240 # rubocop:disable Layout/LeadingCommentSpace
 #
 # Rackup config for the Colore app
 #
