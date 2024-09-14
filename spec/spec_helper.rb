@@ -1,3 +1,15 @@
+# frozen_string_literals: true
+
+if ENV['COVERAGE'] || ENV['CI']
+  require 'simplecov'
+
+  SimpleCov.start do
+    add_filter '/spec/'
+
+    track_files 'lib/**/*.rb'
+  end
+end
+
 ENV['RACK_ENV'] = 'test'
 
 require 'pathname'
@@ -10,7 +22,6 @@ require 'simplecov'
 require 'timecop'
 
 Sidekiq.logger = nil
-SimpleCov.start
 
 SPEC_BASE = Pathname.new(__FILE__).realpath.parent
 
