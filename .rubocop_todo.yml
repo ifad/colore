@@ -320,12 +320,6 @@ Style/FormatString:
     - 'lib/heathen/executioner.rb'
 
 # This cop supports unsafe autocorrection (--autocorrect-all).
-# Configuration parameters: EnforcedStyle.
-# SupportedStyles: always, always_true, never
-Style/FrozenStringLiteralComment:
-  Enabled: false
-
-# This cop supports unsafe autocorrection (--autocorrect-all).
 Style/GlobalStdStream:
   Exclude:
     - 'bin/autoheathen'
@@ -377,9 +371,6 @@ Style/MultilineIfModifier:
 Style/MutableConstant:
   Exclude:
     - 'lib/autoheathen/email_processor.rb'
-    - 'lib/document.rb'
-    - 'lib/heathen/processor_methods/libreoffice.rb'
-    - 'lib/legacy_converter.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 Style/NestedModifier:

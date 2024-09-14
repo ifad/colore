@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Heathen
   # An Executioner object will execute the given command, storing exit status,
   # STDOUT and STDERR for perusal.

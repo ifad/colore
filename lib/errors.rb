@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Colore
   class Error < StandardError
     attr_accessor :http_code

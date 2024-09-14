@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Heathen
   class Processor
     # Converts an image to a different image format. This is done by running the 'convert'

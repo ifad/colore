@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #
 # Sidekiq workers for the Colore system.
 #
@@ -47,7 +49,7 @@ module Colore
       def log_error(error, doc_key, filename, action)
         errlog = Logger.new(C_.error_log || STDERR)
 
-        log = ''
+        log = +''
         log << "While converting #{doc_key} (#{filename}) to #{action}"
         log << "\nthe following error occurred: #{error.class} #{error.message}"
         log << "\nbacktrace:"
