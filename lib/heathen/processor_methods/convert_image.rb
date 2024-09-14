@@ -7,7 +7,7 @@ module Heathen
     def convert_image(to: 'tiff', params: '')
       expect_mime_type 'image/*'
 
-      target_file = temp_file_name '', ".#{to.to_s}"
+      target_file = temp_file_name '', ".#{to}"
       executioner.execute(
         *[
           Colore::C_.convert_path,

@@ -8,7 +8,7 @@ module Heathen
   # Raised by task [Processor] method when a pre-condition (such as mime-type) is not valid.
   class ExpectationNotMet < Error
     def initialize(name, value, pattern)
-      super "Expectation failure on #{name}, expected '#{value.to_s}' to match /#{pattern.to_s}/"
+      super "Expectation failure on #{name}, expected '#{value}' to match /#{pattern}/"
     end
   end
 
