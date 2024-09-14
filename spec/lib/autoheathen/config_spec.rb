@@ -5,7 +5,7 @@ require 'tempfile'
 RSpec.describe AutoHeathen::Config do
   before :all do
     @clazz = Class.new
-    @clazz.include AutoHeathen::Config
+    @clazz.include described_class
   end
 
   before do

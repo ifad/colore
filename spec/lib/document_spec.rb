@@ -26,11 +26,11 @@ RSpec.describe Colore::Document do
 
   describe '.exists?' do
     it 'runs' do
-      expect(described_class.exists?(storage_dir, doc_key)).to eq true
+      expect(described_class.exists?(storage_dir, doc_key)).to be true
     end
 
     it 'returns false if directory does not exist' do
-      expect(described_class.exists?(storage_dir, invalid_doc_key)).to eq false
+      expect(described_class.exists?(storage_dir, invalid_doc_key)).to be false
     end
   end
 
@@ -39,7 +39,7 @@ RSpec.describe Colore::Document do
       create_key = Colore::DocKey.new('app2', 'foo')
       doc = described_class.create storage_dir, create_key
       expect(doc).not_to be_nil
-      expect(described_class.exists?(storage_dir, create_key)).to eq true
+      expect(described_class.exists?(storage_dir, create_key)).to be true
     end
 
     it 'raises error if doc already exists' do
@@ -64,8 +64,8 @@ RSpec.describe Colore::Document do
 
   describe '.delete' do
     it 'runs' do
-      Colore::Document.delete storage_dir, doc_key
-      expect(Colore::Document.exists?(storage_dir, doc_key)).to eq false
+      described_class.delete storage_dir, doc_key
+      expect(described_class.exists?(storage_dir, doc_key)).to be false
     end
   end
 
@@ -73,7 +73,7 @@ RSpec.describe Colore::Document do
     it 'runs' do
       dir = document.directory
       expect(dir).not_to be_nil
-      expect(File.exist?(dir)).to eq true
+      expect(File.exist?(dir)).to be true
     end
   end
 
@@ -105,15 +105,15 @@ RSpec.describe Colore::Document do
 
   describe '#has_version?' do
     it 'runs' do
-      expect(document.has_version?('v001')).to eq true
+      expect(document.has_version?('v001')).to be true
     end
 
     it 'accepts current' do
-      expect(document.has_version?('current')).to eq true
+      expect(document.has_version?('current')).to be true
     end
 
     it 'rejects invalid' do
-      expect(document.has_version?('foo')).to eq false
+      expect(document.has_version?('foo')).to be false
     end
   end
 
@@ -133,9 +133,9 @@ RSpec.describe Colore::Document do
     it 'runs' do
       version = document.new_version
       expect(version).not_to be_nil
-      expect(File.exist?(document.directory + version)).to eq true
+      expect(File.exist?(document.directory + version)).to be true
       new_doc = described_class.load storage_dir, doc_key
-      expect(new_doc.versions.include?(version)).to eq true
+      expect(new_doc.versions.include?(version)).to be true
     end
   end
 
@@ -144,15 +144,15 @@ RSpec.describe Colore::Document do
       file = __FILE__
       body = File.read(file)
       document.add_file 'v002', File.basename(file), body
-      expect(File.exist?(document.directory + 'v002' + File.basename(file))).to eq true
+      expect(File.exist?(document.directory + 'v002' + File.basename(file))).to be true
     end
 
     it 'runs with author' do
       file = __FILE__
       body = File.read(file)
       document.add_file 'v002', File.basename(file), body, author
-      expect(File.exist?(document.directory + 'v002' + File.basename(file))).to eq true
-      expect(File.exist?(document.directory + 'v002' + described_class::AUTHOR_FILE)).to eq true
+      expect(File.exist?(document.directory + 'v002' + File.basename(file))).to be true
+      expect(File.exist?(document.directory + 'v002' + described_class::AUTHOR_FILE)).to be true
       expect(File.read(document.directory + 'v002' + described_class::AUTHOR_FILE).chomp).to eq author
     end
 
@@ -160,7 +160,7 @@ RSpec.describe Colore::Document do
       file = __FILE__
       body = File.open(file)
       document.add_file 'v002', File.basename(file), body
-      expect(File.exist?(document.directory + 'v002' + File.basename(file))).to eq true
+      expect(File.exist?(document.directory + 'v002' + File.basename(file))).to be true
     end
   end
 
@@ -188,7 +188,7 @@ RSpec.describe Colore::Document do
   describe '#delete_version' do
     it 'runs' do
       document.delete_version 'v001'
-      expect(File.exist?(document.directory + 'v001')).to eq false
+      expect(File.exist?(document.directory + 'v001')).to be false
     end
 
     it 'refuses to delete "current"' do
@@ -266,7 +266,7 @@ RSpec.describe Colore::Document do
   describe '#save_metadata' do
     it 'runs' do
       document.save_metadata
-      expect(File.exist?(document.directory + 'metadata.json')).to eq true
+      expect(File.exist?(document.directory + 'metadata.json')).to be true
       # expect this to pass
       JSON.parse File.read(document.directory + 'metadata.json')
     end

@@ -22,7 +22,7 @@ RSpec.describe Colore::LegacyConverter do
     it 'runs' do
       new_filename = converter.convert_file new_format, content
       expect(new_filename).not_to be_nil
-      expect((storage_dir + new_filename).file?).to eq true
+      expect((storage_dir + new_filename).file?).to be true
       stored_content = File.read(storage_dir + new_filename)
       expect(stored_content).to eq 'The quick brown fox'
     end
@@ -33,7 +33,7 @@ RSpec.describe Colore::LegacyConverter do
       filename = 'foo.txt'
       content = 'The quick brown fox'
       converter.store_file filename, content
-      expect((converter.legacy_dir + filename).file?).to eq true
+      expect((converter.legacy_dir + filename).file?).to be true
       expect(File.read(converter.legacy_dir + filename)).to eq content
     end
   end

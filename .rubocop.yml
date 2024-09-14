@@ -33,6 +33,15 @@ Metrics/ModuleLength:
   Exclude:
     - 'spec/**/*'
 
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 10
+
 Style/TrailingCommaInArrayLiteral:
   EnforcedStyleForMultiline: consistent_comma
 

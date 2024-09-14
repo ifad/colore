@@ -3,7 +3,7 @@ require 'autoheathen'
 
 RSpec.describe AutoHeathen::EmailProcessor do
   let(:processor) {
-    AutoHeathen::EmailProcessor.new({
+    described_class.new({
         cc_blacklist: ['wikilex@ifad.org'],
       }, fixture('autoheathen/autoheathen.yml'))
   }
