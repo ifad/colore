@@ -18,7 +18,7 @@ describe Colore::Utils do
         'awards' => [
           { type: 'Medal of Honour', 'reason' => 'Stupidity' },
           { 'type' => 'George Cross', reason: 'Bravery' },
-        ]
+        ],
       }
       expect(symbolize_keys(h)).to eq({
         name: 'Fred',
@@ -32,7 +32,7 @@ describe Colore::Utils do
         awards: [
           { type: 'Medal of Honour', reason: 'Stupidity' },
           { type: 'George Cross',    reason: 'Bravery' },
-        ]
+        ],
       })
     end
 
@@ -61,7 +61,7 @@ describe Colore::Utils do
             content_type: 'application/pdf',
             filename: 'foo.pdf',
           },
-        }
+        },
       }
       expect(symbolize_keys(h)).to eq h
     end

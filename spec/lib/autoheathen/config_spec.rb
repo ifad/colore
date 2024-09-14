@@ -47,8 +47,8 @@ describe AutoHeathen::Config do
       'horse' => {
         'duck' => :duckle,
         'fish' => 'fishle',
-        'eagle' => ['the', 'quick', 'brown', 'fox']
-      }
+        'eagle' => ['the', 'quick', 'brown', 'fox'],
+      },
     }
     hash = @obj.symbolize_keys in_hash
     expect(hash).to eq({
@@ -57,8 +57,8 @@ describe AutoHeathen::Config do
       horse: {
         duck: :duckle,
         fish: 'fishle',
-        eagle: ['the', 'quick', 'brown', 'fox']
-      }
+        eagle: ['the', 'quick', 'brown', 'fox'],
+      },
     })
   end
 end
