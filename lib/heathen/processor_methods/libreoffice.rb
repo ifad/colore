@@ -35,8 +35,8 @@ module Heathen
           'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'odp',
         },
         'txt' => {
-          '.*' => 'txt'
-        }
+          '.*' => 'txt',
+        },
       }
 
       raise InvalidParameterInStep.new('format', format) unless suffixes[format.to_s]

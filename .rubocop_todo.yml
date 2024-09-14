@@ -8,13 +8,6 @@
 
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle, IndentationWidth.
-# SupportedStyles: with_first_element, with_fixed_indentation
-Layout/ArrayAlignment:
-  Exclude:
-    - 'lib/heathen/processor_methods/convert_image.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle, IndentationWidth.
 # SupportedStyles: special_inside_parentheses, consistent, align_braces
 Layout/FirstHashElementIndentation:
   Exclude:
@@ -504,29 +497,6 @@ Style/TrailingCommaInArguments:
   Exclude:
     - 'lib/heathen/processor_methods/libreoffice.rb'
     - 'lib/heathen/processor_methods/tesseract.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyleForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInArrayLiteral:
-  Exclude:
-    - 'lib/heathen/processor_methods/wkhtmltopdf.rb'
-    - 'spec/lib/utils_spec.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyleForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInHashLiteral:
-  Exclude:
-    - 'lib/app.rb'
-    - 'lib/autoheathen/email_processor.rb'
-    - 'lib/document.rb'
-    - 'lib/heathen/processor_methods/libreoffice.rb'
-    - 'lib/sidekiq_workers.rb'
-    - 'spec/lib/app_spec.rb'
-    - 'spec/lib/autoheathen/config_spec.rb'
-    - 'spec/lib/autoheathen/email_processor_spec.rb'
-    - 'spec/lib/utils_spec.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 Style/VariableInterpolation:

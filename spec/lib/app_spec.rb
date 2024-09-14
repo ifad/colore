@@ -39,7 +39,7 @@ describe Colore::App do
           file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
           actions: ['ocr', 'pdf'],
           author: author,
-          backtrace: true
+          backtrace: true,
       }
       show_backtrace last_response
       expect(last_response.status).to eq 201
@@ -54,7 +54,7 @@ describe Colore::App do
           title: 'A title',
           file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
           actions: ['ocr', 'pdf'],
-          backtrace: true
+          backtrace: true,
       }
       show_backtrace last_response
       expect(last_response.status).to eq 409
@@ -69,7 +69,7 @@ describe Colore::App do
       post "/document/#{appname}/#{doc_id}/#{filename}", {
           file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
           actions: ['ocr', 'pdf'],
-          backtrace: true
+          backtrace: true,
       }
       show_backtrace last_response
       expect(last_response.status).to eq 201
@@ -85,7 +85,7 @@ describe Colore::App do
           file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
           actions: ['ocr', 'pdf'],
           author: author,
-          backtrace: true
+          backtrace: true,
       }
       expect(last_response.status).to eq 404
       expect(last_response.content_type).to eq 'application/json'
@@ -115,7 +115,7 @@ describe Colore::App do
   context 'POST new conversion' do
     it 'starts a new conversion' do
       post "/document/#{appname}/#{doc_id}/current/#{filename}/ocr", {
-          backtrace: true
+          backtrace: true,
       }
       show_backtrace last_response
       expect(last_response.status).to eq 202
@@ -127,7 +127,7 @@ describe Colore::App do
     end
     it 'fails if invalid document' do
       post "/document/#{appname}/#{invalid_doc_id}/current/#{filename}/ocr", {
-          backtrace: true
+          backtrace: true,
       }
       show_backtrace last_response
       expect(last_response.status).to eq 404
@@ -137,7 +137,7 @@ describe Colore::App do
     end
     it 'fails if invalid version' do
       post "/document/#{appname}/#{doc_id}/fred/#{filename}/ocr", {
-          backtrace: true
+          backtrace: true,
       }
       show_backtrace last_response
       expect(last_response.status).to eq 400
@@ -150,7 +150,7 @@ describe Colore::App do
   context 'DELETE document' do
     it 'runs' do
       delete "/document/#{appname}/#{doc_id}", {
-        deleted_by: 'a.person'
+        deleted_by: 'a.person',
       }
       show_backtrace last_response
       expect(last_response.status).to eq 200
@@ -164,7 +164,7 @@ describe Colore::App do
   context 'DELETE document version' do
     it 'runs' do
       delete "/document/#{appname}/#{doc_id}/v001", {
-        deleted_by: 'a.person'
+        deleted_by: 'a.person',
       }
       show_backtrace last_response
       expect(last_response.status).to eq 200
@@ -175,7 +175,7 @@ describe Colore::App do
     end
     it 'fails if you try to delete current' do
       delete "/document/#{appname}/#{doc_id}/current", {
-        deleted_by: 'a.person'
+        deleted_by: 'a.person',
       }
       show_backtrace last_response
       expect(last_response.status).to eq 400
@@ -184,7 +184,7 @@ describe Colore::App do
     end
     it 'fails if you try to delete the current version' do
       delete "/document/#{appname}/#{doc_id}/v002", {
-        deleted_by: 'a.person'
+        deleted_by: 'a.person',
       }
       show_backtrace last_response
       expect(last_response.status).to eq 400
@@ -235,7 +235,7 @@ describe Colore::App do
     context 'when file is nil' do
       it 'returns an error' do
         params = {
-          file: nil
+          file: nil,
         }
         post "/convert", params
         expect(last_response.status).to eq 400
@@ -247,7 +247,7 @@ describe Colore::App do
     context 'when file is not correct' do
       it 'returns an error' do
         params = {
-          file: "I'm definitely not a file"
+          file: "I'm definitely not a file",
         }
         post "/convert", params
         expect(last_response.status).to eq 400
