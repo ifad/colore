@@ -38,12 +38,6 @@ Layout/MultilineMethodCallBraceLayout:
     - 'lib/heathen/executioner.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
-Lint/AmbiguousOperator:
-  Exclude:
-    - 'lib/doc_key.rb'
-    - 'lib/heathen/processor.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 Lint/AmbiguousOperatorPrecedence:
   Exclude:
     - 'bin/autoheathen'

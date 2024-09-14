@@ -13,7 +13,7 @@ module Colore
 
     # Constructs [DocKey] from the input string, which should be the output from [#to_s].
     def self.parse(doc_key_str)
-      self.new *(doc_key_str.split '/')
+      self.new(*doc_key_str.split('/'))
     end
 
     # Constructor. The app and doc_id may only be comprised of alphanumeric letters and
