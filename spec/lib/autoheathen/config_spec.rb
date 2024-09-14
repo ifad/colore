@@ -2,17 +2,18 @@ require 'spec_helper'
 require 'autoheathen'
 require 'tempfile'
 
-describe AutoHeathen::Config do
+RSpec.describe AutoHeathen::Config do
   before :all do
     @clazz = Class.new
-    @clazz.include AutoHeathen::Config
+    @clazz.include described_class
   end
-  before :each do
+
+  before do
     @obj = @clazz.new
     @tempfile = Tempfile.new 'spectest'
   end
 
-  after :each do
+  after do
     @tempfile.unlink
   end
 

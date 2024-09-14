@@ -1,9 +1,9 @@
 require 'spec_helper'
 require 'autoheathen'
 
-describe AutoHeathen::EmailProcessor do
+RSpec.describe AutoHeathen::EmailProcessor do
   let(:processor) {
-    AutoHeathen::EmailProcessor.new({
+    described_class.new({
         cc_blacklist: ['wikilex@ifad.org'],
       }, fixture('autoheathen/autoheathen.yml'))
   }
@@ -22,10 +22,10 @@ describe AutoHeathen::EmailProcessor do
     expect(processor.cfg).to be_a Hash
     expect(processor.logger).to be_a Logger
     expect(processor.cfg[:from]).to eq 'noreply@ifad.org' # from config file
-    expect(processor.cfg[:mail_host]).to_not be_nil
-    expect(processor.cfg[:mail_port]).to_not be_nil
-    expect(processor.cfg[:text_template]).to_not be_nil
-    expect(processor.cfg[:html_template]).to_not be_nil
+    expect(processor.cfg[:mail_host]).not_to be_nil
+    expect(processor.cfg[:mail_port]).not_to be_nil
+    expect(processor.cfg[:text_template]).not_to be_nil
+    expect(processor.cfg[:html_template]).not_to be_nil
   end
 
   it 'sends email onwards' do
@@ -75,7 +75,7 @@ describe AutoHeathen::EmailProcessor do
   end
 
   it 'reads a file' do
-    expect(processor.read_file('spec/fixtures/autoheathen/autoheathen.yml').to_s).to_not eq ''
+    expect(processor.read_file('spec/fixtures/autoheathen/autoheathen.yml').to_s).not_to eq ''
   end
 
   it 'validates content types' do

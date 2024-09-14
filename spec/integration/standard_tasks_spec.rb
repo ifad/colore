@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Standard Heathen tasks:' do
+RSpec.describe 'Standard Heathen tasks:' do
   before do
     setup_storage
     allow(Colore::C_).to receive(:storage_directory) { tmp_storage_dir }

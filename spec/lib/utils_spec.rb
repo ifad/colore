@@ -1,10 +1,10 @@
 require 'spec_helper'
 require 'utils'
 
-describe Colore::Utils do
+RSpec.describe Colore::Utils do
   include described_class
 
-  context '#symbolize_keys' do
+  describe '#symbolize_keys' do
     it 'symbolizes hash' do
       h = {
         name: 'Fred',
@@ -37,7 +37,7 @@ describe Colore::Utils do
     end
 
     it 'symbolizes array' do
-      expect(symbolize_keys([1234, 'fred'])).to match_array [1234, 'fred']
+      expect(symbolize_keys([1234, 'fred'])).to contain_exactly(1234, 'fred')
     end
 
     it 'symbolizes fixnum' do

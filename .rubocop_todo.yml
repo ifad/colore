@@ -51,13 +51,11 @@ Lint/AmbiguousOperatorPrecedence:
     - 'bin/docpath'
     - 'config.ru'
     - 'lib/sidekiq_app.rb'
-    - 'spec/spec_helper.rb'
 
 # Configuration parameters: AllowComments, AllowEmptyLambdas.
 Lint/EmptyBlock:
   Exclude:
     - 'lib/heathen/processor.rb'
-    - 'spec/lib/sidekiq_workers_spec.rb'
 
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Lint/NonAtomicFileOperation:
@@ -68,7 +66,6 @@ Lint/NonAtomicFileOperation:
 Lint/NonDeterministicRequireOrder:
   Exclude:
     - 'lib/heathen.rb'
-    - 'spec/spec_helper.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 Lint/ParenthesesAsGroupedExpression:
@@ -116,7 +113,7 @@ Lint/UselessAssignment:
 Metrics/AbcSize:
   Max: 52
 
-# Configuration parameters: CountComments, CountAsOne, AllowedMethods, AllowedPatterns.
+# Configuration parameters: CountComments, CountAsOne, AllowedMethods, AllowedPatterns, inherit_mode.
 # AllowedMethods: refine
 Metrics/BlockLength:
   Max: 37
@@ -167,6 +164,76 @@ Naming/PredicateName:
 Naming/VariableNumber:
   Exclude:
     - 'spec/heathen/convert_spec.rb'
+
+RSpec/BeforeAfterAll:
+  Exclude:
+    - 'spec/spec_helper.rb'
+    - 'spec/rails_helper.rb'
+    - 'spec/support/**/*.rb'
+    - 'spec/lib/autoheathen/config_spec.rb'
+
+# Configuration parameters: Prefixes, AllowedPatterns.
+# Prefixes: when, with, without
+RSpec/ContextWording:
+  Exclude:
+    - 'spec/heathen/processor_methods/libreoffice_spec.rb'
+    - 'spec/integration/standard_tasks_spec.rb'
+    - 'spec/lib/app_spec.rb'
+
+# Configuration parameters: IgnoredMetadata.
+RSpec/DescribeClass:
+  Exclude:
+    - '**/spec/features/**/*'
+    - '**/spec/requests/**/*'
+    - '**/spec/routing/**/*'
+    - '**/spec/system/**/*'
+    - '**/spec/views/**/*'
+    - 'spec/integration/standard_tasks_spec.rb'
+
+# Configuration parameters: Include, CustomTransform, IgnoreMethods, SpecSuffixOnly.
+# Include: **/*_spec*rb*, **/spec/**/*
+RSpec/FilePath:
+  Enabled: false
+
+# Configuration parameters: AssignmentOnly.
+RSpec/InstanceVariable:
+  Exclude:
+    - 'spec/heathen/processor_methods/libreoffice_spec.rb'
+    - 'spec/lib/autoheathen/config_spec.rb'
+    - 'spec/lib/sidekiq_workers_spec.rb'
+
+# Configuration parameters: EnforcedStyle.
+# SupportedStyles: have_received, receive
+RSpec/MessageSpies:
+  Exclude:
+    - 'spec/lib/app_spec.rb'
+    - 'spec/lib/autoheathen/email_processor_spec.rb'
+    - 'spec/lib/config_spec.rb'
+    - 'spec/lib/sidekiq_workers_spec.rb'
+
+RSpec/MultipleDescribes:
+  Exclude:
+    - 'spec/lib/sidekiq_workers_spec.rb'
+
+# Configuration parameters: AllowedPatterns.
+# AllowedPatterns: ^expect_, ^assert_
+RSpec/NoExpectationExample:
+  Exclude:
+    - 'spec/lib/document_spec.rb'
+
+RSpec/StubbedMock:
+  Exclude:
+    - 'spec/lib/app_spec.rb'
+    - 'spec/lib/config_spec.rb'
+    - 'spec/lib/sidekiq_workers_spec.rb'
+
+# Configuration parameters: IgnoreNameless, IgnoreSymbolicNames.
+RSpec/VerifiedDoubles:
+  Exclude:
+    - 'spec/lib/app_spec.rb'
+    - 'spec/lib/converter_spec.rb'
+    - 'spec/lib/legacy_converter_spec.rb'
+    - 'spec/lib/sidekiq_workers_spec.rb'
 
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Security/YAMLLoad:
@@ -221,7 +288,6 @@ Style/ClassEqualityComparison:
 Style/ColonMethodCall:
   Exclude:
     - 'lib/autoheathen/config.rb'
-    - 'spec/spec_helper.rb'
 
 # Configuration parameters: AllowedConstants.
 Style/Documentation:
@@ -426,7 +492,6 @@ Style/Semicolon:
 Style/SingleLineMethods:
   Exclude:
     - 'lib/errors.rb'
-    - 'spec/spec_helper.rb'
 
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Style/SlicingWithRange:
@@ -461,7 +526,6 @@ Style/StringConcatenation:
     - 'lib/sidekiq_app.rb'
     - 'spec/lib/document_spec.rb'
     - 'spec/lib/sidekiq_workers_spec.rb'
-    - 'spec/spec_helper.rb'
     - 'unicorn.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
@@ -498,7 +562,6 @@ Style/WordArray:
     - 'spec/lib/app_spec.rb'
     - 'spec/lib/autoheathen/config_spec.rb'
     - 'spec/lib/autoheathen/email_processor_spec.rb'
-    - 'spec/lib/document_spec.rb'
 
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Style/ZeroLengthPredicate:

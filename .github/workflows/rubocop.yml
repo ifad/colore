@@ -25,4 +25,5 @@ jobs:
     - name: RuboCop
       run: |
         gem install rubocop
+        gem install rubocop-rspec
         rubocop
