@@ -35,7 +35,7 @@ module Colore
 
     # Stores the specified file in the legacy directory
     def store_file(filename, content)
-      File.open(@legacy_dir + filename, 'wb') { |f| f.write content }
+      File.binwrite(@legacy_dir + filename, content)
     end
 
     # Loads and returns a legacy converted file
