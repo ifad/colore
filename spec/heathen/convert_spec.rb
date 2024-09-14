@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'heathen'
 
 class Heathen::Processor
   def valid_step_1
-    job.content << ",step 1"
+    job.content += ",step 1"
   end
 
   def valid_step_2
-    job.content << ",step 2"
+    job.content += ",step 2"
   end
 
   def failing_step_1
