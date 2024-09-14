@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Heathen::Processor do
+RSpec.describe Heathen::Processor do
   let(:ms_word_content) { File.read(fixture('heathen/msword.docx')) }
   let(:ms_spreadsheet_content) { File.read(fixture('heathen/msexcel.xlsx')) }
   let(:ms_ppt_content) { File.read(fixture('heathen/mspowerpoint.pptx')) }
@@ -17,33 +17,38 @@ describe Heathen::Processor do
     @processor.clean_up
   end
 
-  context '#libreoffice' do
+  describe '#libreoffice' do
     context 'convert to PDF' do
       it 'from MS word' do
         new_job ms_word_content
         @processor.libreoffice format: 'pdf'
         expect(@job.content.mime_type).to eq 'application/pdf; charset=binary'
       end
+
       it 'from MS spreadsheet' do
         new_job ms_spreadsheet_content
         @processor.libreoffice format: 'pdf'
         expect(@job.content.mime_type).to eq 'application/pdf; charset=binary'
       end
+
       it 'from MS powerpoint' do
         new_job ms_ppt_content
         @processor.libreoffice format: 'pdf'
         expect(@job.content.mime_type).to eq 'application/pdf; charset=binary'
       end
+
       it 'from OO word' do
         new_job oo_word_content
         @processor.libreoffice format: 'pdf'
         expect(@job.content.mime_type).to eq 'application/pdf; charset=binary'
       end
+
       it 'from OO spreadsheet' do
         new_job oo_spreadsheet_content
         @processor.libreoffice format: 'pdf'
         expect(@job.content.mime_type).to eq 'application/pdf; charset=binary'
       end
+
       it 'from OO presentation' do
         new_job oo_presentation_content
         @processor.libreoffice format: 'pdf'
@@ -57,11 +62,13 @@ describe Heathen::Processor do
         @processor.libreoffice format: 'msoffice'
         expect(ms_word_mime_types).to include(@job.content.mime_type)
       end
+
       it 'from OO spreadsheet' do
         new_job oo_spreadsheet_content
         @processor.libreoffice format: 'msoffice'
         expect(ms_excel_mime_types).to include(@job.content.mime_type)
       end
+
       it 'from OO presentation' do
         new_job oo_presentation_content
         @processor.libreoffice format: 'msoffice'
@@ -75,11 +82,13 @@ describe Heathen::Processor do
         @processor.libreoffice format: 'ooffice'
         expect(oo_odt_mime_types).to include(@job.content.mime_type)
       end
+
       it 'from MS spreadsheet' do
         new_job ms_spreadsheet_content
         @processor.libreoffice format: 'ooffice'
         expect(oo_ods_mime_types).to include(@job.content.mime_type)
       end
+
       it 'from MS powerpoint' do
         new_job ms_ppt_content
         @processor.libreoffice format: 'ooffice'
@@ -93,6 +102,7 @@ describe Heathen::Processor do
         @processor.libreoffice format: 'txt'
         expect(@job.content.mime_type).to eq 'text/plain; charset=us-ascii'
       end
+
       it 'from OO word' do
         new_job oo_word_content
         @processor.libreoffice format: 'txt'

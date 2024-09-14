@@ -1,8 +1,11 @@
 require 'spec_helper'
 require 'app'
-require 'config'
 
-describe Colore::App do
+RSpec.describe Colore::App do
+  include Rack::Test::Methods
+
+  subject(:app) { described_class }
+
   let(:appname) { 'app' }
   let(:doc_id) { '12345' }
   let(:filename) { 'arglebargle.docx' }
@@ -49,6 +52,7 @@ describe Colore::App do
       )
       expect(Colore::Sidekiq::ConversionWorker).to have_received(:perform_async).twice
     end
+
     it 'fails to create an existing document' do
       put "/document/#{appname}/#{doc_id}/#{filename}", {
           title: 'A title',
@@ -60,7 +64,7 @@ describe Colore::App do
       expect(last_response.status).to eq 409
       expect(last_response.content_type).to eq 'application/json'
       expect(JSON.parse(last_response.body)).to be_a Hash
-      expect(Colore::Sidekiq::ConversionWorker).to_not have_received(:perform_async)
+      expect(Colore::Sidekiq::ConversionWorker).not_to have_received(:perform_async)
     end
   end
 
@@ -90,7 +94,7 @@ describe Colore::App do
       expect(last_response.status).to eq 404
       expect(last_response.content_type).to eq 'application/json'
       expect(JSON.parse(last_response.body)).to be_a Hash
-      expect(Colore::Sidekiq::ConversionWorker).to_not have_received(:perform_async)
+      expect(Colore::Sidekiq::ConversionWorker).not_to have_received(:perform_async)
     end
   end
 
@@ -125,6 +129,7 @@ describe Colore::App do
       )
       expect(Colore::Sidekiq::ConversionWorker).to have_received(:perform_async).once
     end
+
     it 'fails if invalid document' do
       post "/document/#{appname}/#{invalid_doc_id}/current/#{filename}/ocr", {
           backtrace: true,
@@ -133,8 +138,9 @@ describe Colore::App do
       expect(last_response.status).to eq 404
       expect(last_response.content_type).to eq 'application/json'
       expect(JSON.parse(last_response.body)).to be_a Hash
-      expect(Colore::Sidekiq::ConversionWorker).to_not have_received(:perform_async)
+      expect(Colore::Sidekiq::ConversionWorker).not_to have_received(:perform_async)
     end
+
     it 'fails if invalid version' do
       post "/document/#{appname}/#{doc_id}/fred/#{filename}/ocr", {
           backtrace: true,
@@ -143,7 +149,7 @@ describe Colore::App do
       expect(last_response.status).to eq 400
       expect(last_response.content_type).to eq 'application/json'
       expect(JSON.parse(last_response.body)).to be_a Hash
-      expect(Colore::Sidekiq::ConversionWorker).to_not have_received(:perform_async)
+      expect(Colore::Sidekiq::ConversionWorker).not_to have_received(:perform_async)
     end
   end
 
@@ -173,6 +179,7 @@ describe Colore::App do
         { "status" => 200, "description" => "Document version deleted" }
       )
     end
+
     it 'fails if you try to delete current' do
       delete "/document/#{appname}/#{doc_id}/current", {
         deleted_by: 'a.person',
@@ -182,6 +189,7 @@ describe Colore::App do
       expect(last_response.content_type).to eq 'application/json'
       expect(JSON.parse(last_response.body)).to be_a Hash
     end
+
     it 'fails if you try to delete the current version' do
       delete "/document/#{appname}/#{doc_id}/v002", {
         deleted_by: 'a.person',
@@ -199,14 +207,16 @@ describe Colore::App do
       show_backtrace last_response
       expect(last_response.status).to eq 200
       expect(last_response.content_type).to eq 'application/vnd.openxmlformats-officedocument.wordprocessingml.document; charset=binary'
-      expect(last_response.body).to_not be_nil
+      expect(last_response.body).not_to be_nil
     end
+
     it 'fails for an invalid document' do
       get "/document/#{appname}/#{invalid_doc_id}/current/#{filename}"
       expect(last_response.status).to eq 404
       expect(last_response.content_type).to eq 'application/json'
       expect(JSON.parse(last_response.body)).to be_a Hash
     end
+
     it 'fails for an invalid filename' do
       get "/document/#{appname}/#{doc_id}/current/foo.txt"
       expect(last_response.status).to eq 400
@@ -223,6 +233,7 @@ describe Colore::App do
       expect(last_response.content_type).to eq 'application/json'
       expect(JSON.parse(last_response.body)).to be_a Hash
     end
+
     it 'fails for an invalid document' do
       get "/document/#{appname}/#{invalid_doc_id}"
       expect(last_response.status).to eq 404
@@ -244,6 +255,7 @@ describe Colore::App do
         expect(body['description'].to_s).to eq "missing file parameter"
       end
     end
+
     context 'when file is not correct' do
       it 'returns an error' do
         params = {
@@ -256,6 +268,7 @@ describe Colore::App do
         expect(body['description'].to_s).to eq "invalid file parameter"
       end
     end
+
     it 'converts and saves file' do
       foo = double(Colore::Converter)
       allow(Colore::Converter).to receive(:new) { foo }
@@ -263,12 +276,13 @@ describe Colore::App do
         action: 'pdf',
         file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
       }
-      expect(foo).to receive(:convert_file).with(params[:action], String, nil) { "%PDF-1.4" }
+      expect(foo).to receive(:convert_file).with(params[:action], String, nil).and_return("%PDF-1.4")
       post "/convert", params
       expect(last_response.status).to eq 200
       expect(last_response.content_type).to eq 'application/pdf; charset=us-ascii'
       expect(last_response.body).to eq '%PDF-1.4'
     end
+
     it 'returns correct JSON structure on fail' do
       foo = double(Colore::Converter)
       allow(Colore::Converter).to receive(:new) { foo }
@@ -294,14 +308,15 @@ describe Colore::App do
         action: 'pdf',
         file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
       }
-      expect(foo).to receive(:convert_file).with(params[:action], String, nil) { 'foobar' }
+      expect(foo).to receive(:convert_file).with(params[:action], String, nil).and_return('foobar')
       post "/#{Colore::LegacyConverter::LEGACY}/convert", params
       expect(last_response.status).to eq 200
       expect(last_response.content_type).to eq 'application/json'
       body = JSON.parse(last_response.body)
       expect(body).to be_a Hash
-      expect(body['converted'].to_s).to_not eq ''
+      expect(body['converted'].to_s).not_to eq ''
     end
+
     it 'converts and saves URL' do
       foo = double(Colore::LegacyConverter)
       allow(Colore::LegacyConverter).to receive(:new) { foo }
@@ -309,15 +324,16 @@ describe Colore::App do
         action: 'pdf',
         url: 'http://localhost/foo/bar',
       }
-      expect(Net::HTTP).to receive(:get).with(URI(params[:url])) { 'The quick brown flox' }
-      expect(foo).to receive(:convert_file).with(params[:action], String, nil) { 'foobar' }
+      expect(Net::HTTP).to receive(:get).with(URI(params[:url])).and_return('The quick brown flox')
+      expect(foo).to receive(:convert_file).with(params[:action], String, nil).and_return('foobar')
       post "/#{Colore::LegacyConverter::LEGACY}/convert", params
       expect(last_response.status).to eq 200
       expect(last_response.content_type).to eq 'application/json'
       body = JSON.parse(last_response.body)
       expect(body).to be_a Hash
-      expect(body['converted'].to_s).to_not eq ''
+      expect(body['converted'].to_s).not_to eq ''
     end
+
     it 'returns correct JSON structure on fail' do
       foo = double(Colore::LegacyConverter)
       allow(Colore::LegacyConverter).to receive(:new) { foo }
@@ -343,13 +359,14 @@ describe Colore::App do
       expect(last_response.content_type).to eq 'text/plain; charset=us-ascii'
       expect(last_response.body).to eq 'The quick brown fox'
     end
+
     it 'returns correct JSON structure on fail' do
       get "/#{Colore::LegacyConverter::LEGACY}/foo.txt"
       expect(last_response.status).to eq 400
       expect(last_response.content_type).to eq 'application/json'
       body = JSON.parse(last_response.body)
       expect(body).to be_a Hash
-      expect(body['error'].to_s).to_not eq ''
+      expect(body['error'].to_s).not_to eq ''
     end
   end
 end

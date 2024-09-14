@@ -1,10 +1,11 @@
 require 'spec_helper'
 require 'filemagic/ext'
 
-describe Heathen::Filename do
+RSpec.describe Heathen::Filename do
   let(:content) { 'The quick brown fox jumps over the lazy dog' }
   let(:mime_type) { content.mime_type }
-  context '.suggest' do
+
+  describe '.suggest' do
     it 'suggests foo.pdf' do
       expect(described_class.suggest('foo.pdf', mime_type)).to eq 'foo.txt'
     end
@@ -22,7 +23,7 @@ describe Heathen::Filename do
     end
   end
 
-  context '.suggest_in_new_dir' do
+  describe '.suggest_in_new_dir' do
     it 'suggests (short dir) -> (longer dir)' do
       expect(
         described_class.suggest_in_new_dir('/home/joe/src/foo.pdf', mime_type, '/home', '/opt/users')
