@@ -3,7 +3,7 @@ module Heathen
   # STDOUT and STDERR for perusal.
   class Executioner
     attr_reader :logger, :last_exit_status, :last_messages, :last_command,
-      :stdout, :stderr
+                :stdout, :stderr
 
     def initialize(log)
       @logger = log
@@ -96,7 +96,7 @@ module Heathen
         command = argv.shift
 
         Open3.popen3(ENV, [command, "heathen: #{command}"], *argv,
-          chdir: options[:dir] || Dir.getwd
+                     chdir: options[:dir] || Dir.getwd
         ) do |stdin, stdout, stderr, wait_thr|
           pid = wait_thr[:pid]
           logger.info "[#{pid}] spawn '#{command} #{argv.join(' ')}'"
