@@ -20,11 +20,11 @@ module Colore
     def convert(doc_key, version, filename, action)
       doc = Document.load @storage_dir, doc_key
       ignore, orig_content = doc.get_file(version, filename)
-      language = 'en' # TODO - add to spec and upload
+      language = 'en' # TODO: add to spec and upload
       new_content = convert_file action, orig_content, language
-      # TODO - handling for variant formats with the same extension
-      #        probably by adding format info before suffix
-      #        e.g. foo.40x40.jpg
+      # TODO: handling for variant formats with the same extension
+      #       probably by adding format info before suffix
+      #       e.g. foo.40x40.jpg
       new_filename = Heathen::Filename.suggest filename, new_content.mime_type
       doc.add_file version, new_filename, new_content
       doc.save_metadata

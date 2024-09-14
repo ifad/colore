@@ -8,13 +8,6 @@
 
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: EnforcedStyle, IndentationWidth.
-# SupportedStyles: with_first_argument, with_fixed_indentation
-Layout/ArgumentAlignment:
-  Exclude:
-    - 'lib/heathen/executioner.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: EnforcedStyle, IndentationWidth.
 # SupportedStyles: with_first_element, with_fixed_indentation
 Layout/ArrayAlignment:
   Exclude:
@@ -243,14 +236,6 @@ Style/ColonMethodCall:
     - 'lib/autoheathen/config.rb'
     - 'spec/spec_helper.rb'
 
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: Keywords, RequireColon.
-# Keywords: TODO, FIXME, OPTIMIZE, HACK, REVIEW, NOTE
-Style/CommentAnnotation:
-  Exclude:
-    - 'lib/converter.rb'
-    - 'lib/heathen/filename.rb'
-
 # Configuration parameters: AllowedConstants.
 Style/Documentation:
   Exclude:
@@ -332,12 +317,6 @@ Style/IfUnlessModifierOfIfUnless:
   Exclude:
     - 'lib/heathen/executioner.rb'
 
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowedMethods, AllowedPatterns.
-Style/MethodCallWithoutArgsParentheses:
-  Exclude:
-    - 'lib/heathen/executioner.rb'
-
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Style/MinMaxComparison:
   Exclude:
@@ -366,20 +345,6 @@ Style/MutableConstant:
 Style/NestedModifier:
   Exclude:
     - 'lib/heathen/executioner.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowedMethods.
-# AllowedMethods: be, be_a, be_an, be_between, be_falsey, be_kind_of, be_instance_of, be_truthy, be_within, eq, eql, end_with, include, match, raise_error, respond_to, start_with
-Style/NestedParenthesizedCalls:
-  Exclude:
-    - 'lib/autoheathen/config.rb'
-    - 'spec/heathen/filename_spec.rb'
-    - 'spec/lib/app_spec.rb'
-    - 'spec/lib/autoheathen/email_processor_spec.rb'
-    - 'spec/lib/converter_spec.rb'
-    - 'spec/lib/document_spec.rb'
-    - 'spec/lib/legacy_converter_spec.rb'
-    - 'spec/lib/utils_spec.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: Strict, AllowedNumbers, AllowedPatterns.
