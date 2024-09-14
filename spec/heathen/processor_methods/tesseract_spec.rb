@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 RSpec.describe Heathen::Processor do
-  let(:content) { File.read(fixture('heathen/quickfox.tiff')) }
+  let(:content) { fixture('heathen/quickfox.tiff').read }
   let(:job) { Heathen::Job.new 'foo', content, 'en' }
   let(:processor) { described_class.new job: job, logger: spec_logger }
 
