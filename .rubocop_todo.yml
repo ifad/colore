@@ -194,7 +194,6 @@ RSpec/InstanceVariable:
   Exclude:
     - 'spec/heathen/processor_methods/libreoffice_spec.rb'
     - 'spec/lib/autoheathen/config_spec.rb'
-    - 'spec/lib/sidekiq_workers_spec.rb'
 
 # Configuration parameters: EnforcedStyle.
 # SupportedStyles: have_received, receive
@@ -203,11 +202,6 @@ RSpec/MessageSpies:
     - 'spec/lib/app_spec.rb'
     - 'spec/lib/autoheathen/email_processor_spec.rb'
     - 'spec/lib/config_spec.rb'
-    - 'spec/lib/sidekiq_workers_spec.rb'
-
-RSpec/MultipleDescribes:
-  Exclude:
-    - 'spec/lib/sidekiq_workers_spec.rb'
 
 # Configuration parameters: AllowedPatterns.
 # AllowedPatterns: ^expect_, ^assert_
@@ -219,7 +213,6 @@ RSpec/StubbedMock:
   Exclude:
     - 'spec/lib/app_spec.rb'
     - 'spec/lib/config_spec.rb'
-    - 'spec/lib/sidekiq_workers_spec.rb'
 
 # Configuration parameters: IgnoreNameless, IgnoreSymbolicNames.
 RSpec/VerifiedDoubles:
@@ -227,7 +220,6 @@ RSpec/VerifiedDoubles:
     - 'spec/lib/app_spec.rb'
     - 'spec/lib/converter_spec.rb'
     - 'spec/lib/legacy_converter_spec.rb'
-    - 'spec/lib/sidekiq_workers_spec.rb'
 
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Security/YAMLLoad:
@@ -502,7 +494,6 @@ Style/StringConcatenation:
     - 'lib/heathen.rb'
     - 'lib/heathen/processor.rb'
     - 'lib/sidekiq_app.rb'
-    - 'spec/lib/sidekiq_workers_spec.rb'
     - 'unicorn.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
