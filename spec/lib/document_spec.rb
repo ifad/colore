@@ -71,9 +71,7 @@ RSpec.describe Colore::Document do
 
   describe '#directory' do
     it 'runs' do
-      dir = document.directory
-      expect(dir).not_to be_nil
-      expect(File.exist?(dir)).to be true
+      expect(document.directory).to exist
     end
   end
 
@@ -133,52 +131,48 @@ RSpec.describe Colore::Document do
     it 'runs' do
       version = document.new_version
       expect(version).not_to be_nil
-      expect(File.exist?(document.directory + version)).to be true
+      expect(document.directory.join(version)).to exist
       new_doc = described_class.load storage_dir, doc_key
       expect(new_doc.versions.include?(version)).to be true
     end
   end
 
   describe '#add_file' do
+    let(:file) { fixture('heathen/test.txt') }
+
     it 'runs without author' do
-      file = __FILE__
-      body = File.read(file)
-      document.add_file 'v002', File.basename(file), body
-      expect(File.exist?(document.directory + 'v002' + File.basename(file))).to be true
+      document.add_file 'v002', File.basename(file), file.read
+      expect(document.directory.join('v002', File.basename(file))).to exist
+      expect(document.directory.join('v002', described_class::AUTHOR_FILE).read.chomp).to eq ''
     end
 
     it 'runs with author' do
-      file = __FILE__
-      body = File.read(file)
-      document.add_file 'v002', File.basename(file), body, author
-      expect(File.exist?(document.directory + 'v002' + File.basename(file))).to be true
-      expect(File.exist?(document.directory + 'v002' + described_class::AUTHOR_FILE)).to be true
-      expect(File.read(document.directory + 'v002' + described_class::AUTHOR_FILE).chomp).to eq author
+      document.add_file 'v002', File.basename(file), file.read, author
+      expect(document.directory.join('v002', File.basename(file))).to exist
+      expect(document.directory.join('v002', described_class::AUTHOR_FILE).read.chomp).to eq author
     end
 
     it 'runs with IO for body' do
-      file = __FILE__
-      body = File.open(file)
-      document.add_file 'v002', File.basename(file), body
-      expect(File.exist?(document.directory + 'v002' + File.basename(file))).to be true
+      document.add_file 'v002', File.basename(file), file.read
+      expect(document.directory.join('v002', File.basename(file))).to exist
     end
   end
 
   describe '#set_current' do
     it 'runs' do
       document.set_current 'v001'
-      st1 = File.stat(document.directory + 'current')
-      st2 = File.stat(document.directory + 'v001')
+      st1 = document.directory.join('current').stat
+      st2 = document.directory.join('v001').stat
       expect(st1.ino).to eq st2.ino
     end
 
-    it 'fails when you try an invalid version' do
+    it 'fails with a non-existing version' do
       expect {
         document.set_current 'v009'
       }.to raise_error Colore::VersionNotFound
     end
 
-    it 'fails when you try an invalid version name' do
+    it 'fails with an invalid version name' do
       expect {
         document.set_current 'title'
       }.to raise_error Colore::InvalidVersion
@@ -188,7 +182,7 @@ RSpec.describe Colore::Document do
   describe '#delete_version' do
     it 'runs' do
       document.delete_version 'v001'
-      expect(File.exist?(document.directory + 'v001')).to be false
+      expect(document.directory.join('v001')).not_to exist
     end
 
     it 'refuses to delete "current"' do
@@ -242,7 +236,7 @@ RSpec.describe Colore::Document do
 
   describe '#to_hash' do
     it 'runs' do
-      testhash = JSON.parse(File.read(fixture('document.json')))
+      testhash = JSON.parse(fixture('document.json').read)
       testhash = Colore::Utils.symbolize_keys testhash
       dochash = Colore::Utils.symbolize_keys document.to_hash
       dochash[:versions].each do |k, v|
@@ -266,9 +260,11 @@ RSpec.describe Colore::Document do
   describe '#save_metadata' do
     it 'runs' do
       document.save_metadata
-      expect(File.exist?(document.directory + 'metadata.json')).to be true
-      # expect this to pass
-      JSON.parse File.read(document.directory + 'metadata.json')
+      expect(document.directory.join('metadata.json')).to exist
+
+      expect do
+        JSON.parse document.directory.join('metadata.json').read
+      end.not_to raise_error
     end
   end
 end

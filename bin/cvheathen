@@ -39,7 +39,7 @@ files = []
 if in_file.file?
   abort "Output is a directory, but expected a file" if out_file.directory?
   content = converter.convert action, File.read(in_file), language
-  File.open(out_file, 'wb') { |f| f.write content }
+  File.binwrite(out_file, content)
 elsif in_file.directory?
   abort "Invalid output directory" unless out_file.directory?
   Dir.glob(in_file + (recurse ? '**/*' : '*')).each do |file|
@@ -49,7 +49,7 @@ elsif in_file.directory?
       content = converter.convert action, File.read(file), language
       new_file = Heathen::Filename.suggest_in_new_dir file, content.mime_type, in_file.to_s, out_file.to_s
       Pathname.new(new_file).parent.mkpath
-      File.open(new_file, 'wb') { |f| f.write content }
+      File.binwrite(new_file, content)
     rescue StandardError => e
       logger.error "Failed to convert #{file}: #{e.message}"
     end
