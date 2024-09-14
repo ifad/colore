@@ -86,10 +86,6 @@ Lint/UnusedMethodArgument:
   Exclude:
     - 'lib/document.rb'
 
-Lint/UriEscapeUnescape:
-  Exclude:
-    - 'spec/lib/app_spec.rb'
-
 Lint/UselessAssignment:
   Exclude:
     - 'bin/cvheathen'

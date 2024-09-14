@@ -103,7 +103,7 @@ RSpec.describe Colore::App do
   describe 'POST update title' do
     it 'runs' do
       title = "This is a new document"
-      post "/document/#{appname}/#{doc_id}/title/#{URI.escape(title)}"
+      post "/document/#{appname}/#{doc_id}/title/#{URI.encode_www_form_component(title)}"
       expect(last_response.status).to eq 200
       expect(last_response.content_type).to eq 'application/json'
       expect(JSON.parse(last_response.body)).to be_a Hash
@@ -111,7 +111,7 @@ RSpec.describe Colore::App do
 
     it 'fails if the document does not exist' do
       title = "This is a new document"
-      post "/document/#{appname}/foobar/title/#{URI.escape(title)}"
+      post "/document/#{appname}/foobar/title/#{URI.encode_www_form_component(title)}"
       expect(last_response.status).to eq 404
       expect(last_response.content_type).to eq 'application/json'
       expect(JSON.parse(last_response.body)).to be_a Hash
