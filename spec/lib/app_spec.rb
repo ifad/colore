@@ -37,6 +37,14 @@ RSpec.describe Colore::App do
     delete_storage
   end
 
+  describe 'GET home' do
+    it 'gets the home page' do
+      get '/'
+
+      expect(last_response.status).to eq 200
+    end
+  end
+
   describe 'PUT create document' do
     it 'creates a new document' do
       put "/document/#{appname}/#{new_doc_id}/#{filename}", {
@@ -350,6 +358,17 @@ RSpec.describe Colore::App do
       body = JSON.parse(last_response.body)
       expect(body).to be_a Hash
       expect(body['error']).to eq 'Argh'
+    end
+
+    context 'without parameters' do
+      it 'returns an error' do
+        post "/#{Colore::LegacyConverter::LEGACY}/convert"
+        expect(last_response.status).to eq 400
+        expect(last_response.content_type).to eq 'application/json'
+        body = JSON.parse(last_response.body)
+        expect(body).to be_a Hash
+        expect(body['error']).to eq "Please specify either 'file' or 'url' POST variable"
+      end
     end
   end
 
