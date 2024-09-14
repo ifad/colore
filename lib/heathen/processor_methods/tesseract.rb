@@ -20,7 +20,7 @@ module Heathen
         job.content_file,
         target_file,
         '-l', lang.alpha3.downcase,
-        format,
+        format
       )
       raise ConversionFailed.new(executioner.last_messages) if executioner.last_exit_status != 0
 

@@ -65,7 +65,7 @@ module Heathen
           '--convert-to', to_suffix,
           '--outdir', sandbox_dir,
           job.content_file,
-          '--headless',
+          '--headless'
         )
 
         unless File.exist? target_file
