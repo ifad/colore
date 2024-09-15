@@ -352,12 +352,6 @@ Style/RaiseArgs:
   EnforcedStyle: compact
 
 # This cop supports safe autocorrection (--autocorrect).
-Style/RedundantBegin:
-  Exclude:
-    - 'lib/app.rb'
-    - 'lib/autoheathen/email_processor.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 Style/RedundantCondition:
   Exclude:
     - 'lib/heathen/processor_methods/tesseract.rb'

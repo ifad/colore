@@ -45,14 +45,12 @@ module Colore
     #   - file
     #   - author
     put '/document/:app/:doc_id/:filename' do |app, doc_id, filename|
-      begin
-        doc_key = DocKey.new app, doc_id
-        doc = Document.create @storage_dir, doc_key # will raise if doc exists
-        doc.title = params[:title] if params[:title]
-        call env.merge('REQUEST_METHOD' => 'POST')
-      rescue StandardError => e
-        respond_with_error e
-      end
+      doc_key = DocKey.new app, doc_id
+      doc = Document.create @storage_dir, doc_key # will raise if doc exists
+      doc.title = params[:title] if params[:title]
+      call env.merge('REQUEST_METHOD' => 'POST')
+    rescue StandardError => e
+      respond_with_error e
     end
 
     #
@@ -67,46 +65,42 @@ module Colore
     #   - file
     #   - author
     post '/document/:app/:doc_id/:filename' do |app, doc_id, filename|
-      begin
-        doc_key = DocKey.new app, doc_id
-        doc = Document.load(@storage_dir, doc_key)
-        raise InvalidParameter.new :file unless params[:file]
+      doc_key = DocKey.new app, doc_id
+      doc = Document.load(@storage_dir, doc_key)
+      raise InvalidParameter.new :file unless params[:file]
 
-        version = doc.new_version do |version|
-          doc.add_file version, filename, params[:file][:tempfile], params[:author]
-          doc.set_current version
-          doc.save_metadata
-        end
-        (params[:actions] || []).each do |action|
-          Sidekiq::ConversionWorker.perform_async(
-            doc_key.to_s,
-            doc.current_version,
-            filename,
-            action,
-            params[:callback_url]
-          )
-        end
-        respond 201, "Document stored", {
-            app: app,
-            doc_id: doc_id,
-            path: doc.file_path(Colore::Document::CURRENT, filename),
-          }
-      rescue StandardError => e
-        respond_with_error e
+      version = doc.new_version do |version|
+        doc.add_file version, filename, params[:file][:tempfile], params[:author]
+        doc.set_current version
+        doc.save_metadata
       end
+      (params[:actions] || []).each do |action|
+        Sidekiq::ConversionWorker.perform_async(
+          doc_key.to_s,
+          doc.current_version,
+          filename,
+          action,
+          params[:callback_url]
+        )
+      end
+      respond 201, "Document stored", {
+          app: app,
+          doc_id: doc_id,
+          path: doc.file_path(Colore::Document::CURRENT, filename),
+        }
+    rescue StandardError => e
+      respond_with_error e
     end
 
     # Updates the document title
     post '/document/:app/:doc_id/title/:title' do |app, doc_id, title|
-      begin
-        doc_key = DocKey.new app, doc_id
-        doc = Document.load(@storage_dir, doc_key)
-        doc.title = title
-        doc.save_metadata
-        respond 200, 'Title updated'
-      rescue StandardError => e
-        respond_with_error e
-      end
+      doc_key = DocKey.new app, doc_id
+      doc = Document.load(@storage_dir, doc_key)
+      doc.title = title
+      doc.save_metadata
+      respond 200, 'Title updated'
+    rescue StandardError => e
+      respond_with_error e
     end
 
     #
@@ -115,18 +109,16 @@ module Colore
     # POST params:
     #   - callback_url
     post '/document/:app/:doc_id/:version/:filename/:action' do |app, doc_id, version, filename, action|
-      begin
-        doc_key = DocKey.new app, doc_id
-        raise DocumentNotFound.new unless Document.exists? @storage_dir, doc_key
+      doc_key = DocKey.new app, doc_id
+      raise DocumentNotFound.new unless Document.exists? @storage_dir, doc_key
 
-        doc = Document.load @storage_dir, doc_key
-        raise VersionNotFound.new unless doc.has_version? version
+      doc = Document.load @storage_dir, doc_key
+      raise VersionNotFound.new unless doc.has_version? version
 
-        Sidekiq::ConversionWorker.perform_async doc_key, version, filename, action, params[:callback_url]
-        respond 202, "Conversion initiated"
-      rescue StandardError => e
-        respond_with_error e
-      end
+      Sidekiq::ConversionWorker.perform_async doc_key, version, filename, action, params[:callback_url]
+      respond 202, "Conversion initiated"
+    rescue StandardError => e
+      respond_with_error e
     end
 
     #
@@ -134,12 +126,10 @@ module Colore
     #
     # DELETE params:
     delete '/document/:app/:doc_id' do |app, doc_id|
-      begin
-        Document.delete @storage_dir, DocKey.new(app, doc_id)
-        respond 200, 'Document deleted'
-      rescue StandardError => e
-        respond_with_error e
-      end
+      Document.delete @storage_dir, DocKey.new(app, doc_id)
+      respond 200, 'Document deleted'
+    rescue StandardError => e
+      respond_with_error e
     end
 
     #
@@ -147,40 +137,34 @@ module Colore
     #
     # DELETE params:
     delete '/document/:app/:doc_id/:version' do |app, doc_id, version|
-      begin
-        doc = Document.load @storage_dir, DocKey.new(app, doc_id)
-        doc.delete_version version
-        doc.save_metadata
-        respond 200, 'Document version deleted'
-      rescue StandardError => e
-        respond_with_error e
-      end
+      doc = Document.load @storage_dir, DocKey.new(app, doc_id)
+      doc.delete_version version
+      doc.save_metadata
+      respond 200, 'Document version deleted'
+    rescue StandardError => e
+      respond_with_error e
     end
 
     #
     # Get file. Disabled in production.
     #
     get '/document/:app/:doc_id/:version/:filename' do |app, doc_id, version, filename|
-      begin
-        doc = Document.load @storage_dir, DocKey.new(app, doc_id)
-        ctype, file = doc.get_file(version, filename)
-        content_type ctype
-        file
-      rescue StandardError => e
-        respond_with_error e
-      end
+      doc = Document.load @storage_dir, DocKey.new(app, doc_id)
+      ctype, file = doc.get_file(version, filename)
+      content_type ctype
+      file
+    rescue StandardError => e
+      respond_with_error e
     end unless environment == :production
 
     #
     # Get document info
     #
     get '/document/:app/:doc_id' do |app, doc_id|
-      begin
-        doc = Document.load @storage_dir, DocKey.new(app, doc_id)
-        respond 200, 'Information retrieved', doc.to_hash
-      rescue StandardError => e
-        respond_with_error e
-      end
+      doc = Document.load @storage_dir, DocKey.new(app, doc_id)
+      respond 200, 'Information retrieved', doc.to_hash
+    rescue StandardError => e
+      respond_with_error e
     end
 
     #
@@ -191,22 +175,20 @@ module Colore
     #  action   - the conversion to perform
     #  language - the language of the file (defaults to 'en')
     post '/convert' do
-      begin
-        unless params[:file]
-          return respond 400, "missing file parameter"
-        end
-
-        unless params[:file].respond_to?(:fetch) and params[:file].fetch(:tempfile, nil).respond_to?(:read)
-          return respond 400, "invalid file parameter"
-        end
-
-        body = params[:file][:tempfile].read
-        content = Converter.new(logger: @logger).convert_file(params[:action], body, params[:language])
-        content_type content.mime_type
-        content
-      rescue StandardError => e
-        respond_with_error e
+      unless params[:file]
+        return respond 400, "missing file parameter"
       end
+
+      unless params[:file].respond_to?(:fetch) and params[:file].fetch(:tempfile, nil).respond_to?(:read)
+        return respond 400, "invalid file parameter"
+      end
+
+      body = params[:file][:tempfile].read
+      content = Converter.new(logger: @logger).convert_file(params[:action], body, params[:language])
+      content_type content.mime_type
+      content
+    rescue StandardError => e
+      respond_with_error e
     end
 
     # Legacy method to convert files
@@ -218,24 +200,22 @@ module Colore
     #  action    - the conversion to perform
     #
     post "/#{LegacyConverter::LEGACY}/convert" do
-      begin
-        body = if params[:file]
-                 params[:file][:tempfile].read
-               elsif params[:url]
-                 Net::HTTP.get URI(params[:url])
-               else
-                 raise Error.new 400, "Please specify either 'file' or 'url' POST variable"
-               end
-        path = LegacyConverter.new.convert_file params[:action], body, params[:language]
-        converted_url = @legacy_url_base + path
-        content_type 'application/json'
-        {
-          original: '',
-          converted: converted_url,
-        }.to_json
-      rescue StandardError => e
-        legacy_error e, e.message
-      end
+      body = if params[:file]
+               params[:file][:tempfile].read
+             elsif params[:url]
+               Net::HTTP.get URI(params[:url])
+             else
+               raise Error.new 400, "Please specify either 'file' or 'url' POST variable"
+             end
+      path = LegacyConverter.new.convert_file params[:action], body, params[:language]
+      converted_url = @legacy_url_base + path
+      content_type 'application/json'
+      {
+        original: '',
+        converted: converted_url,
+      }.to_json
+    rescue StandardError => e
+      legacy_error e, e.message
     end
 
     # Legacy method to retrieve converted file
@@ -246,13 +226,11 @@ module Colore
     #  url        - a URL to convert
     #  action     - the conversion to perform
     get "/#{LegacyConverter::LEGACY}/:file_id" do |file_id|
-      begin
-        content = LegacyConverter.new.get_file file_id
-        content_type content.mime_type
-        content
-      rescue StandardError => e
-        legacy_error 400, e.message
-      end
+      content = LegacyConverter.new.get_file file_id
+      content_type content.mime_type
+      content
+    rescue StandardError => e
+      legacy_error 400, e.message
     end
 
     helpers do

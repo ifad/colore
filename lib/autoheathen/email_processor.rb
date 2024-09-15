@@ -68,18 +68,16 @@ module AutoHeathen
       # Convert the attachments
       #
       email.attachments.each do |attachment|
-        begin
-          converter = Heathen::Converter.new(logger: logger)
-          language = @cfg[:language]
-          input_source = attachment.body.decoded
-          action = get_action input_source.content_type
-          logger.info "    convert #{attachment.filename} using action: #{action}"
-          data = converter.convert action, input_source, language
-          converted_filename = Heathen::Filename.suggest attachment.filename, data.mime_type
-          documents << { orig_filename: attachment.filename, orig_content: input_source, filename: converted_filename, content: data, error: false }
-        rescue StandardError => e
-          documents << { orig_filename: attachment.filename, orig_content: input_source, filename: nil, content: nil, error: e.message }
-        end
+        converter = Heathen::Converter.new(logger: logger)
+        language = @cfg[:language]
+        input_source = attachment.body.decoded
+        action = get_action input_source.content_type
+        logger.info "    convert #{attachment.filename} using action: #{action}"
+        data = converter.convert action, input_source, language
+        converted_filename = Heathen::Filename.suggest attachment.filename, data.mime_type
+        documents << { orig_filename: attachment.filename, orig_content: input_source, filename: converted_filename, content: data, error: false }
+      rescue StandardError => e
+        documents << { orig_filename: attachment.filename, orig_content: input_source, filename: nil, content: nil, error: e.message }
       end
 
       #
