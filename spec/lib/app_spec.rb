@@ -280,13 +280,13 @@ RSpec.describe Colore::App do
     end
 
     it 'converts and saves file' do
-      foo = double(Colore::Converter)
-      allow(Colore::Converter).to receive(:new) { foo }
+      stubbed_converter = instance_double(Colore::Converter)
+      allow(Colore::Converter).to receive(:new).and_return(stubbed_converter)
       params = {
         action: 'pdf',
         file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
       }
-      expect(foo).to receive(:convert_file).with(params[:action], String, nil).and_return("%PDF-1.4")
+      allow(stubbed_converter).to receive(:convert_file).with(params[:action], String, nil).and_return("%PDF-1.4")
       post "/convert", params
       expect(last_response.status).to eq 200
       expect(last_response.content_type).to eq 'application/pdf; charset=us-ascii'
@@ -294,13 +294,13 @@ RSpec.describe Colore::App do
     end
 
     it 'returns correct JSON structure on fail' do
-      foo = double(Colore::Converter)
-      allow(Colore::Converter).to receive(:new) { foo }
+      stubbed_converter = instance_double(Colore::Converter)
+      allow(Colore::Converter).to receive(:new).and_return(stubbed_converter)
       params = {
         action: 'pdf',
         file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
       }
-      allow(foo).to receive(:convert_file) { raise 'Argh' }
+      allow(stubbed_converter).to receive(:convert_file).and_raise 'Argh'
       post "/convert", params
       expect(last_response.status).to eq 500
       expect(last_response.content_type).to eq 'application/json'
@@ -312,13 +312,13 @@ RSpec.describe Colore::App do
 
   describe 'POST /legacy/convert' do
     it 'converts and saves file' do
-      foo = double(Colore::LegacyConverter)
-      allow(Colore::LegacyConverter).to receive(:new) { foo }
+      stubbed_converter = instance_double(Colore::LegacyConverter)
+      allow(Colore::LegacyConverter).to receive(:new).and_return(stubbed_converter)
       params = {
         action: 'pdf',
         file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
       }
-      expect(foo).to receive(:convert_file).with(params[:action], String, nil).and_return('foobar')
+      expect(stubbed_converter).to receive(:convert_file).with(params[:action], String, nil).and_return('foobar')
       post "/#{Colore::LegacyConverter::LEGACY}/convert", params
       expect(last_response.status).to eq 200
       expect(last_response.content_type).to eq 'application/json'
@@ -328,14 +328,14 @@ RSpec.describe Colore::App do
     end
 
     it 'converts and saves URL' do
-      foo = double(Colore::LegacyConverter)
-      allow(Colore::LegacyConverter).to receive(:new) { foo }
+      stubbed_converter = instance_double(Colore::LegacyConverter)
+      allow(Colore::LegacyConverter).to receive(:new).and_return(stubbed_converter)
       params = {
         action: 'pdf',
         url: 'http://localhost/foo/bar',
       }
       expect(Net::HTTP).to receive(:get).with(URI(params[:url])).and_return('The quick brown flox')
-      expect(foo).to receive(:convert_file).with(params[:action], String, nil).and_return('foobar')
+      expect(stubbed_converter).to receive(:convert_file).with(params[:action], String, nil).and_return('foobar')
       post "/#{Colore::LegacyConverter::LEGACY}/convert", params
       expect(last_response.status).to eq 200
       expect(last_response.content_type).to eq 'application/json'
@@ -345,13 +345,13 @@ RSpec.describe Colore::App do
     end
 
     it 'returns correct JSON structure on fail' do
-      foo = double(Colore::LegacyConverter)
-      allow(Colore::LegacyConverter).to receive(:new) { foo }
+      stubbed_converter = instance_double(Colore::LegacyConverter)
+      allow(Colore::LegacyConverter).to receive(:new).and_return(stubbed_converter)
       params = {
         action: 'pdf',
         file: Rack::Test::UploadedFile.new(__FILE__, 'application/ruby'),
       }
-      allow(foo).to receive(:convert_file) { raise 'Argh' }
+      allow(stubbed_converter).to receive(:convert_file).and_raise 'Argh'
       post "/#{Colore::LegacyConverter::LEGACY}/convert", params
       expect(last_response.status).to eq 500
       expect(last_response.content_type).to eq 'application/json'

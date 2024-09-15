@@ -16,6 +16,8 @@ RSpec.describe Colore::Converter do
     setup_storage
     allow(Colore::C_).to receive(:storage_directory) { tmp_storage_dir }
     allow(Colore::C_).to receive(:wkhtmltopdf_path).and_return('/usr/local/bin/wkhtmltopdf')
+    stubbed_converter = instance_double(Heathen::Converter, convert: "The quick brown fox")
+    allow(Heathen::Converter).to receive(:new).and_return(stubbed_converter)
   end
 
   after do
@@ -24,9 +26,6 @@ RSpec.describe Colore::Converter do
 
   describe '#convert' do
     it 'runs' do
-      foo = double(Heathen::Converter)
-      allow(Heathen::Converter).to receive(:new) { foo }
-      allow(foo).to receive(:convert).and_return("The quick brown fox")
       expect(converter.convert(doc_key, version, filename, action)).to eq new_filename
       content_type, content = document.get_file version, new_filename
       expect(content_type).to eq 'text/plain; charset=us-ascii'
