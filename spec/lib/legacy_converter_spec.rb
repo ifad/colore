@@ -11,9 +11,8 @@ RSpec.describe Colore::LegacyConverter do
   before do
     setup_storage
     allow(Colore::C_).to receive(:storage_directory) { tmp_storage_dir }
-    foo = double(Heathen::Converter)
-    allow(Heathen::Converter).to receive(:new) { foo }
-    allow(foo).to receive(:convert).and_return("The quick brown fox")
+    stubbed_converter = instance_double(Heathen::Converter, convert: "The quick brown fox")
+    allow(Heathen::Converter).to receive(:new).and_return(stubbed_converter)
   end
 
   after do
