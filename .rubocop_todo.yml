@@ -422,12 +422,6 @@ Style/Semicolon:
     - 'bin/docpath'
     - 'lib/heathen/executioner.rb'
 
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowIfMethodIsEmpty.
-Style/SingleLineMethods:
-  Exclude:
-    - 'lib/errors.rb'
-
 # This cop supports unsafe autocorrection (--autocorrect-all).
 Style/SlicingWithRange:
   Exclude:
