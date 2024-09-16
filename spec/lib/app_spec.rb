@@ -262,7 +262,7 @@ RSpec.describe Colore::App do
         expect(last_response.status).to eq 400
         body = JSON.parse(last_response.body)
         expect(body).to be_a Hash
-        expect(body['description'].to_s).to eq "missing file parameter"
+        expect(body['description']).to eq "missing file parameter"
       end
     end
 
@@ -275,7 +275,7 @@ RSpec.describe Colore::App do
         expect(last_response.status).to eq 400
         body = JSON.parse(last_response.body)
         expect(body).to be_a Hash
-        expect(body['description'].to_s).to eq "invalid file parameter"
+        expect(body['description']).to eq "invalid file parameter"
       end
     end
 
@@ -324,7 +324,7 @@ RSpec.describe Colore::App do
       expect(last_response.content_type).to eq 'application/json'
       body = JSON.parse(last_response.body)
       expect(body).to be_a Hash
-      expect(body['converted'].to_s).not_to eq ''
+      expect(body['converted']).not_to eq ''
     end
 
     it 'converts and saves URL' do
@@ -341,7 +341,7 @@ RSpec.describe Colore::App do
       expect(last_response.content_type).to eq 'application/json'
       body = JSON.parse(last_response.body)
       expect(body).to be_a Hash
-      expect(body['converted'].to_s).not_to eq ''
+      expect(body['converted']).not_to eq ''
     end
 
     it 'returns correct JSON structure on fail' do
@@ -367,7 +367,7 @@ RSpec.describe Colore::App do
         expect(last_response.content_type).to eq 'application/json'
         body = JSON.parse(last_response.body)
         expect(body).to be_a Hash
-        expect(body['error']).to eq "Please specify either 'file' or 'url' POST variable"
+        expect(body['description']).to eq "Please specify either 'file' or 'url' POST variable"
       end
     end
   end
@@ -387,7 +387,7 @@ RSpec.describe Colore::App do
       expect(last_response.content_type).to eq 'application/json'
       body = JSON.parse(last_response.body)
       expect(body).to be_a Hash
-      expect(body['error'].to_s).not_to eq ''
+      expect(body['error']).to eq 'File does not exists'
     end
   end
 end
