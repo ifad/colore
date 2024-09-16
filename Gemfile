@@ -25,7 +25,7 @@ group :development do
   gem 'rack-test'
   gem 'rake'
   gem 'rspec'
-  gem 'simplecov'
+  gem 'simplecov', require: false
   gem 'timecop'
-  gem 'yard'
+  gem 'yard', require: false
 end
