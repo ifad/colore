@@ -244,10 +244,11 @@ module Colore
           status = 500
         end
         content_type 'application/json'
-        return status, {
-          status: status,
-          description: message,
-        }.merge(extra).to_json
+
+        [
+          status,
+          { status: status, description: message }.merge(extra).to_json,
+        ]
       end
 
       def respond_with_error(error)
@@ -273,9 +274,11 @@ module Colore
           status = 500
         end
         content_type 'application/json'
-        return status, {
-          error: message,
-        }.merge(extra).to_json
+
+        [
+          status,
+          { error: message }.merge(extra).to_json,
+        ]
       end
     end
   end

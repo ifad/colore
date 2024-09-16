@@ -30,7 +30,7 @@ module Colore
       new_filename = Heathen::Filename.suggest filename, new_content.mime_type
       doc.add_file version, new_filename, new_content
       doc.save_metadata
-      return new_filename
+      new_filename
     end
 
     # Converts the supplied content. Nothing gets saved.

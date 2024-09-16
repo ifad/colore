@@ -7,8 +7,7 @@ module AutoHeathen
       if config_file && File.exist?(config_file)
         cfg.merge! symbolize_keys(YAML::load_file(config_file))
       end
-      cfg.merge! symbolize_keys(overwrites)  # non-file opts have precedence
-      return cfg
+      cfg.merge! symbolize_keys(overwrites) # non-file opts have precedence
     end
 
     def symbolize_keys(hash)
