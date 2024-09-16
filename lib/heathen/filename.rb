@@ -37,7 +37,7 @@ module Heathen
     #
     # @return [String] a new file name, with an appropriate extension
     def self.suggest_in_new_dir(filename, mime_type, base_dir, new_dir)
-      file = self.suggest filename, mime_type
+      file = suggest filename, mime_type
       "#{new_dir}#{file[base_dir.length..-1]}"
     end
   end

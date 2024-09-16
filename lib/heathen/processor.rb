@@ -37,7 +37,7 @@ module Heathen
     # Performs a sub-task, defined by action. See [Task] for details.
     def perform_task(action)
       task_proc = Task.find(action, job.mime_type)[:proc]
-      self.instance_eval(&task_proc)
+      instance_eval(&task_proc)
     end
 
     # Called to clean up temporary files at end of processing
