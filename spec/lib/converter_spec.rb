@@ -14,8 +14,7 @@ RSpec.describe Colore::Converter do
 
   before do
     setup_storage
-    allow(Colore::C_).to receive(:storage_directory) { tmp_storage_dir }
-    allow(Colore::C_).to receive(:wkhtmltopdf_path).and_return('/usr/local/bin/wkhtmltopdf')
+    allow(Colore::C_.config).to receive(:storage_directory) { tmp_storage_dir }
     stubbed_converter = instance_double(Heathen::Converter, convert: "The quick brown fox")
     allow(Heathen::Converter).to receive(:new).and_return(stubbed_converter)
   end

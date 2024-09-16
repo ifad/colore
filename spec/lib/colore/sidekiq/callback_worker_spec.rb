@@ -10,7 +10,7 @@ RSpec.describe Colore::Sidekiq::CallbackWorker do
 
   before do
     setup_storage
-    allow(Colore::C_).to receive(:storage_directory) { tmp_storage_dir }
+    allow(Colore::C_.config).to receive(:storage_directory) { tmp_storage_dir }
   end
 
   after do
