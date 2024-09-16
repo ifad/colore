@@ -69,10 +69,6 @@ Lint/ShadowedArgument:
   Exclude:
     - 'lib/heathen/errors.rb'
 
-Lint/ShadowingOuterLocalVariable:
-  Exclude:
-    - 'lib/app.rb'
-
 # This cop supports safe autocorrection (--autocorrect).
 # Configuration parameters: IgnoreEmptyBlocks, AllowUnusedKeywordArguments.
 Lint/UnusedBlockArgument:
@@ -89,7 +85,6 @@ Lint/UnusedMethodArgument:
 Lint/UselessAssignment:
   Exclude:
     - 'bin/cvheathen'
-    - 'lib/app.rb'
     - 'lib/converter.rb'
     - 'lib/document.rb'
     - 'lib/heathen/processor_methods/convert_image.rb'
