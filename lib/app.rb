@@ -205,7 +205,7 @@ module Colore
              elsif params[:url]
                Net::HTTP.get URI(params[:url])
              else
-               raise Error.new 400, "Please specify either 'file' or 'url' POST variable"
+               return respond 400, "Please specify either 'file' or 'url' POST variable"
              end
       path = LegacyConverter.new.convert_file params[:action], body, params[:language]
       converted_url = @legacy_url_base + path
