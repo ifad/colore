@@ -50,7 +50,7 @@ module Colore
       raise DocumentExists.new if File.exist? doc_dir
 
       FileUtils.mkdir_p doc_dir
-      self.new base_dir, doc_key
+      new base_dir, doc_key
     end
 
     # Loads the document information. Raises [DocumentNotFound] if the document does not exist.
@@ -60,7 +60,7 @@ module Colore
     def self.load(base_dir, doc_key)
       raise DocumentNotFound.new unless exists? base_dir, doc_key
 
-      doc = self.new base_dir, doc_key
+      doc = new base_dir, doc_key
     end
 
     # Deletes the document directory (and all contents) if it exists.

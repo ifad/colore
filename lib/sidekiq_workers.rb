@@ -97,7 +97,7 @@ module Colore
 
       ::Sidekiq::Cron::Job.load_from_hash('legacy_purge_worker' => {
         'cron'  => '0 6 * * *',
-        'class' => self.name,
+        'class' => name,
       })
 
       # Looks for old legacy docs and deletes them
