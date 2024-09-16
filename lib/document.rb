@@ -190,7 +190,8 @@ module Colore
       raise FileNotFound unless File.exist? path
 
       body = File.read path
-      return body.mime_type, body
+
+      [body.mime_type, body]
     end
 
     # Summarises the document as a [Hash]

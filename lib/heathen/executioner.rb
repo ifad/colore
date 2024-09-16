@@ -43,7 +43,7 @@ module Heathen
       @last_messages = { stdout: @stdout, stderr: @stderr }
       @last_command = command.join(' ')
 
-      return status
+      status
     end
 
     if RUBY_PLATFORM == 'java'
