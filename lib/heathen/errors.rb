@@ -25,7 +25,7 @@ module Heathen
   # occurred (So could be supplied to the client application without confusing anybody)
   class StepError < Error
     def initialize(method = nil)
-      calling_method = caller[2]
+      calling_method = caller(3..3).first
       method = calling_method.gsub(/.*[`](.*)'$/, '\\1')
       super "#{message} in step '#{method}'"
     end

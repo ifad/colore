@@ -76,12 +76,6 @@ Lint/UnusedBlockArgument:
     - 'lib/app.rb'
     - 'lib/heathen/task.rb'
 
-# This cop supports safe autocorrection (--autocorrect).
-# Configuration parameters: AllowUnusedKeywordArguments, IgnoreEmptyMethods, IgnoreNotImplementedMethods.
-Lint/UnusedMethodArgument:
-  Exclude:
-    - 'lib/document.rb'
-
 Lint/UselessAssignment:
   Exclude:
     - 'bin/cvheathen'
@@ -144,6 +138,11 @@ Naming/PredicateName:
 Naming/VariableNumber:
   Exclude:
     - 'spec/heathen/convert_spec.rb'
+
+# This cop supports unsafe autocorrection (--autocorrect-all).
+Performance/TimesMap:
+  Exclude:
+    - 'lib/heathen/executioner.rb'
 
 # Configuration parameters: IgnoredMetadata.
 RSpec/DescribeClass:

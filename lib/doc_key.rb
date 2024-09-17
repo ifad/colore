@@ -50,7 +50,7 @@ module Colore
 
     # Validates the parameter (app or doc_id)
     def validate(val)
-      raise InvalidParameter.new unless val =~ /^[A-Za-z0-9_-]+$/
+      raise InvalidParameter.new unless /^[A-Za-z0-9_-]+$/.match?(val)
     end
   end
 end

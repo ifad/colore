@@ -118,7 +118,7 @@ module Colore
 
     # Returns the next version number (which would be created with [#new_version]).
     def next_version_number
-      v_no = (versions.last || 'v000').gsub(/v/, '').to_i + 1
+      v_no = (versions.last || 'v000').delete('v').to_i + 1
       "v%03d" % [v_no]
     end
 
@@ -131,7 +131,7 @@ module Colore
         f.flock File::LOCK_EX # lock is auto-released at end of block
         nvn = next_version_number
         Dir.mkdir directory + nvn
-        yield nvn if block_given?
+        yield nvn if block
       end
       nvn
     end
@@ -153,7 +153,7 @@ module Colore
     # Sets the specified version as current.
     def set_current(version)
       raise VersionNotFound.new unless File.exist?(directory + version)
-      raise InvalidVersion.new unless version =~ /^v\d+$/
+      raise InvalidVersion.new unless /^v\d+$/.match?(version)
 
       # need to do this, or ln_s will put the symlink *into* the old dir
       File.unlink directory + CURRENT if File.exist? directory + CURRENT
@@ -205,7 +205,7 @@ module Colore
 
           content_type = File.read(pfile, [200, pfile.size].min).mime_type
           author = File.read(pfile.parent + AUTHOR_FILE).chomp rescue nil
-          suffix = pfile.extname.gsub(/\./, '')
+          suffix = pfile.extname.delete('.')
           next if suffix.empty?
 
           v_list[v][suffix] = {

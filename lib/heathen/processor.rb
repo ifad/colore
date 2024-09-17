@@ -31,7 +31,7 @@ module Heathen
     # @param pattern [String] a regex pattern, e.g. "image/.*"
     # This is a helper method for mixin methods.
     def expect_mime_type(pattern)
-      raise InvalidMimeTypeInStep.new(pattern, job.mime_type) unless job.mime_type =~ %r[#{pattern}]
+      raise InvalidMimeTypeInStep.new(pattern, job.mime_type) unless %r[#{pattern}].match?(job.mime_type)
     end
 
     # Performs a sub-task, defined by action. See [Task] for details.
