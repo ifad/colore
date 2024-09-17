@@ -11,6 +11,6 @@ BASE = Pathname.new(__FILE__).realpath.parent.parent
 $: << BASE # for config initializers
 $: << BASE + 'lib'
 
-require 'config/initializers/sidekiq.rb'
+require 'config/initializers/sidekiq'
 
 require_relative 'colore'

@@ -352,12 +352,6 @@ Style/RedundantCondition:
     - 'lib/heathen/processor_methods/tesseract.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
-Style/RedundantFileExtensionInRequire:
-  Exclude:
-    - 'lib/sidekiq_app.rb'
-    - 'lib/sidekiq_workers.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 Style/RedundantRegexpCharacterClass:
   Exclude:
     - 'lib/heathen/errors.rb'
