@@ -8,7 +8,7 @@ require 'rest_client'
 require 'sidekiq'
 require 'sidekiq-cron'
 
-require_relative '../config/initializers/sidekiq.rb'
+require_relative '../config/initializers/sidekiq'
 
 module Colore
   module Sidekiq
