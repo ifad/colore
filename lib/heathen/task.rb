@@ -42,7 +42,7 @@ module Heathen
       # Used for testing purposes
       def clear(action, mime_type = nil)
         tasks.keys.each do |key|
-          tasks.delete key if key =~ %r[#{task_key(action, mime_type)}]
+          tasks.delete key if %r[#{task_key(action, mime_type)}].match?(key)
         end
       end
 

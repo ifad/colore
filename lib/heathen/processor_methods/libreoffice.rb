@@ -45,7 +45,7 @@ module Heathen
 
       to_suffix = nil
       suffixes[format.to_s].each do |k, v|
-        to_suffix = v if job.mime_type =~ /#{k}/
+        to_suffix = v if /#{k}/.match?(job.mime_type)
       end
       raise InvalidMimeTypeInStep.new('(various document formats)', job.mime_type) unless to_suffix
 

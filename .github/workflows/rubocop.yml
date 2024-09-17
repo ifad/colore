@@ -24,6 +24,5 @@ jobs:
         rubygems: latest
     - name: RuboCop
       run: |
-        gem install rubocop
-        gem install rubocop-rspec
+        gem install rubocop rubocop-performance rubocop-rspec
         rubocop
