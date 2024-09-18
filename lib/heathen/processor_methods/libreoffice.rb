@@ -5,6 +5,34 @@ module Heathen
   class Processor
     DEV_SHM_PATH = '/dev/shm'
 
+    FORMAT_SUFFIXES = {
+      'pdf' => {
+        '.*' => 'pdf',
+      },
+      'msoffice' => {
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'pptx',
+        'application/vnd.oasis.opendocument.text' => 'docx',
+        'application/vnd.oasis.opendocument.spreadsheet' => 'xlsx',
+        'application/vnd.oasis.opendocument.presentation' => 'pptx',
+        'application/zip' => 'docx',
+      },
+      'ooffice' => {
+        'application/msword' => 'odt',
+        'application/vnd.ms-word' => 'odt',
+        'application/vnd.ms-excel' => 'ods',
+        'application/vnd.ms-office' => 'odt',
+        'application/vnd.ms-powerpoint' => 'odp',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'odt',
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'ods',
+        'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'odp',
+      },
+      'txt' => {
+        '.*' => 'txt',
+      },
+    }.freeze
+
     # Converts office documents to their counterpart (e.g. MS Word -> LibreOffice word,
     # or MS Excel -> LibreOffice Sheet) or to PDF. Calls the external 'libreoffice' utility
     # to achieve this.
@@ -13,38 +41,10 @@ module Heathen
     #    ms  - corresponding Microsoft format
     #    oo  - corresponding LibreOffice format
     def libreoffice(format:)
-      suffixes = {
-        'pdf' => {
-          '.*' => 'pdf',
-        },
-        'msoffice' => {
-          'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'docx',
-          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'xlsx',
-          'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'pptx',
-          'application/vnd.oasis.opendocument.text' => 'docx',
-          'application/vnd.oasis.opendocument.spreadsheet' => 'xlsx',
-          'application/vnd.oasis.opendocument.presentation' => 'pptx',
-          'application/zip' => 'docx',
-        },
-        'ooffice' => {
-          'application/msword' => 'odt',
-          'application/vnd.ms-word' => 'odt',
-          'application/vnd.ms-excel' => 'ods',
-          'application/vnd.ms-office' => 'odt',
-          'application/vnd.ms-powerpoint' => 'odp',
-          'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'odt',
-          'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' => 'ods',
-          'application/vnd.openxmlformats-officedocument.presentationml.presentation' => 'odp',
-        },
-        'txt' => {
-          '.*' => 'txt',
-        },
-      }
-
-      raise InvalidParameterInStep.new('format', format) unless suffixes[format.to_s]
+      raise InvalidParameterInStep.new('format', format) unless FORMAT_SUFFIXES[format.to_s]
 
       to_suffix = nil
-      suffixes[format.to_s].each do |k, v|
+      FORMAT_SUFFIXES[format.to_s].each do |k, v|
         to_suffix = v if /#{k}/.match?(job.mime_type)
       end
       raise InvalidMimeTypeInStep.new('(various document formats)', job.mime_type) unless to_suffix
