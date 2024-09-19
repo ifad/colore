@@ -331,11 +331,6 @@ Style/RaiseArgs:
   EnforcedStyle: compact
 
 # This cop supports safe autocorrection (--autocorrect).
-Style/RedundantCondition:
-  Exclude:
-    - 'lib/heathen/processor_methods/tesseract.rb'
-
-# This cop supports safe autocorrection (--autocorrect).
 Style/RedundantRegexpCharacterClass:
   Exclude:
     - 'lib/heathen/errors.rb'
