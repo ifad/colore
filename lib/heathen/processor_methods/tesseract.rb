@@ -12,15 +12,15 @@ module Heathen
       expect_mime_type 'image/tiff'
 
       # Lookup the ISO 639-2 (alpha-3) language object required by Tesseract
-      lang_alpha3 = Colore::Utils.lang_alpha3(job.language)
-      raise InvalidLanguageInStep.new(job.language) if lang_alpha3.nil?
+      language_alpha3 = Colore::Utils.language_alpha3(job.language)
+      raise InvalidLanguageInStep.new(job.language) if language_alpha3.nil?
 
       target_file = temp_file_name
       executioner.execute(
         Colore::C_.tesseract_path,
         job.content_file,
         target_file,
-        '-l', lang_alpha3,
+        '-l', language_alpha3,
         format
       )
       raise ConversionFailed.new(executioner.last_messages) if executioner.last_exit_status != 0
