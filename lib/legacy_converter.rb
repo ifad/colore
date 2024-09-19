@@ -20,8 +20,8 @@ module Colore
 
     def initialize(storage_dir = C_.storage_directory)
       @storage_dir = Pathname.new(storage_dir)
-      @legacy_dir = @storage_dir + LEGACY
-      @legacy_dir.mkpath
+      @legacy_dir = @storage_dir.join(LEGACY)
+      legacy_dir.mkpath
     end
 
     # Converts the given file and stores it in the legacy directory
@@ -33,19 +33,20 @@ module Colore
       content = Heathen::Converter.new.convert(action, orig_content, language)
       filename = Digest::SHA2.hexdigest content
       store_file filename, content
-      (@legacy_dir.basename + filename).to_s
+      legacy_dir.basename.join(filename).to_s
     end
 
     # Stores the specified file in the legacy directory
     def store_file(filename, content)
-      File.binwrite(@legacy_dir + filename, content)
+      File.binwrite(legacy_dir.join(filename), content)
     end
 
     # Loads and returns a legacy converted file
     def get_file(filename)
-      raise "File does not exists" unless (@legacy_dir + filename).file?
+      file_path = legacy_dir.join(filename)
+      raise "File does not exists" unless file_path.file?
 
-      File.read(@legacy_dir + filename)
+      file_path.read
     end
   end
 end

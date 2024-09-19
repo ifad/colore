@@ -21,16 +21,16 @@ RSpec.describe Colore::Sidekiq::LegacyPurgeWorker do
       file1.write('foobar')
       file2.write('foobar')
       described_class.new.perform
-      expect(file1.file?).to be true
-      expect(file2.file?).to be true
+      expect(file1).to be_file
+      expect(file2).to be_file
       Timecop.freeze(Date.today + 1)
       described_class.new.perform
-      expect(file1.file?).to be true
-      expect(file2.file?).to be true
+      expect(file1).to be_file
+      expect(file2).to be_file
       Timecop.freeze(Date.today + 3)
       described_class.new.perform
-      expect(file1.file?).to be false
-      expect(file2.file?).to be false
+      expect(file1).not_to be_file
+      expect(file2).not_to be_file
     end
   end
 end
