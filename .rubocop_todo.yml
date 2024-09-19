@@ -376,7 +376,6 @@ Style/StringConcatenation:
     - 'bin/autoheathen'
     - 'bin/cvheathen'
     - 'bin/docpath'
-    - 'lib/config.rb'
     - 'lib/document.rb'
     - 'lib/heathen/processor.rb'
     - 'unicorn.rb'

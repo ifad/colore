@@ -45,13 +45,12 @@ module Colore
     attr_accessor :wkhtmltopdf_params
 
     def self.config_file_path
-      # BASE/config/app.yml
-      Pathname.new(__FILE__).realpath.parent.parent + 'config' + 'app.yml'
+      Pathname.new File.expand_path('../config/app.yml', __dir__)
     end
 
     def self.config
       @config ||= begin
-        template = ERB.new(File.read(config_file_path))
+        template = ERB.new(config_file_path.read)
         yaml = YAML.load(template.result)
         c = new
         c.storage_directory = yaml['storage_directory']
