@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'iso-639'
 module Heathen
   class Processor
     DEV_SHM_PATH = '/dev/shm'
