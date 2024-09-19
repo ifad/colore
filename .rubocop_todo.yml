@@ -41,8 +41,6 @@ Lint/AmbiguousOperatorPrecedence:
     - 'bin/autoheathen'
     - 'bin/cvheathen'
     - 'bin/docpath'
-    - 'config.ru'
-    - 'lib/sidekiq_app.rb'
 
 # Configuration parameters: AllowComments, AllowEmptyLambdas.
 Lint/EmptyBlock:
@@ -53,11 +51,6 @@ Lint/EmptyBlock:
 Lint/NonAtomicFileOperation:
   Exclude:
     - 'lib/document.rb'
-
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Lint/NonDeterministicRequireOrder:
-  Exclude:
-    - 'lib/heathen.rb'
 
 # This cop supports safe autocorrection (--autocorrect).
 Lint/ParenthesesAsGroupedExpression:
@@ -383,12 +376,9 @@ Style/StringConcatenation:
     - 'bin/autoheathen'
     - 'bin/cvheathen'
     - 'bin/docpath'
-    - 'config.ru'
     - 'lib/config.rb'
     - 'lib/document.rb'
-    - 'lib/heathen.rb'
     - 'lib/heathen/processor.rb'
-    - 'lib/sidekiq_app.rb'
     - 'unicorn.rb'
 
 # This cop supports safe autocorrection (--autocorrect).

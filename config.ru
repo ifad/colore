@@ -4,15 +4,10 @@
 #
 # Rackup config for the Colore app
 #
-require 'pathname'
 require "sinatra"
 
-BASE = Pathname.new(__FILE__).realpath.parent
-$: << BASE
-$: << BASE + 'lib'
-require 'config/initializers/sidekiq'
-
-require 'app'
+require_relative 'config/initializers/sidekiq'
+require_relative 'lib/app'
 
 require 'sidekiq/web'
 require 'sidekiq/cron/web'

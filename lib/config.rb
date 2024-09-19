@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'erb'
+require 'pathname'
 require 'yaml'
 
 Encoding.default_internal = 'UTF-8'

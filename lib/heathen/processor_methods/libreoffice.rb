@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'fileutils'
+
 module Heathen
   class Processor
     DEV_SHM_PATH = '/dev/shm'

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'digest/md5'
+require 'pathname'
 
 module Colore
   # This is the unique identifier for a document, a composite of

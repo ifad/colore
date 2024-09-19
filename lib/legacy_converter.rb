@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
-require 'pathname'
+require 'digest/sha2'
 require 'filemagic/ext'
 require 'mime/types'
-require 'heathen'
-require 'digest/sha2'
+require 'pathname'
+
+require_relative 'heathen'
 
 module Colore
   # The Colore Legacy Converter provides the conversion functionality from

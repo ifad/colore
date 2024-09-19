@@ -1,12 +1,11 @@
 # frozen_string_literal: true
 
-require 'mail'
-require 'yaml'
-require 'logger'
-require 'haml'
 require 'filemagic/ext'
-require_relative 'config'
-require 'heathen'
+require 'haml'
+require 'logger'
+require 'mail'
+require 'pathname'
+require 'yaml'
 
 module AutoHeathen
   class EmailProcessor
