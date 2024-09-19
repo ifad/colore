@@ -387,7 +387,7 @@ RSpec.describe Colore::App do
       expect(last_response.content_type).to eq 'application/json'
       body = JSON.parse(last_response.body)
       expect(body).to be_a Hash
-      expect(body['error']).to eq 'File does not exists'
+      expect(body['error']).to eq 'File does not exist'
     end
   end
 end

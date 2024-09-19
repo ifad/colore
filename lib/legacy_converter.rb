@@ -44,7 +44,7 @@ module Colore
     # Loads and returns a legacy converted file
     def get_file(filename)
       file_path = legacy_dir.join(filename)
-      raise "File does not exists" unless file_path.file?
+      raise "File does not exist" unless file_path.file?
 
       file_path.read
     end
