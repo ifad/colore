@@ -4,9 +4,7 @@ require 'spec_helper'
 require 'utils'
 
 RSpec.describe Colore::Utils do
-  include described_class
-
-  describe '#symbolize_keys' do
+  describe '.symbolize_keys' do
     it 'symbolizes hash' do
       h = {
         name: 'Fred',
@@ -22,7 +20,7 @@ RSpec.describe Colore::Utils do
           { 'type' => 'George Cross', reason: 'Bravery' },
         ],
       }
-      expect(symbolize_keys(h)).to eq({
+      expect(described_class.symbolize_keys(h)).to eq({
         name: 'Fred',
         address: {
           house_number: 12,
@@ -39,14 +37,14 @@ RSpec.describe Colore::Utils do
     end
 
     it 'symbolizes array' do
-      expect(symbolize_keys([1234, 'fred'])).to contain_exactly(1234, 'fred')
+      expect(described_class.symbolize_keys([1234, 'fred'])).to contain_exactly(1234, 'fred')
     end
 
     it 'symbolizes fixnum' do
-      expect(symbolize_keys(1234)).to eq 1234
+      expect(described_class.symbolize_keys(1234)).to eq 1234
     end
 
-    it 'symbolizes something like metadata' do
+    it 'symbolizes metadata' do
       h = {
         id: 'id foo',
         app: 'app foo',
@@ -65,7 +63,7 @@ RSpec.describe Colore::Utils do
           },
         },
       }
-      expect(symbolize_keys(h)).to eq h
+      expect(described_class.symbolize_keys(h)).to eq h
     end
   end
 end

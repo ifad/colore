@@ -17,10 +17,5 @@ module Colore
         obj
       end
     end
-
-    # Deep conversion of all hash keys to symbols.
-    def symbolize_keys(obj)
-      Colore::Utils.symbolize_keys obj
-    end
   end
 end
