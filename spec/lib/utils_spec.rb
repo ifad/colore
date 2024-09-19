@@ -66,4 +66,18 @@ RSpec.describe Colore::Utils do
       expect(described_class.symbolize_keys(h)).to eq h
     end
   end
+
+  describe '.lang_alpha3' do
+    subject { described_class.lang_alpha3(language) }
+
+    let(:language) { 'en' }
+
+    it { is_expected.to eq 'eng' }
+
+    context 'when language is not found' do
+      let(:language) { 'unknown' }
+
+      it { is_expected.to be_nil }
+    end
+  end
 end

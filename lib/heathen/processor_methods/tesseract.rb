@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'iso-639'
 module Heathen
   class Processor
     # Performs OCR on the input document, which must be in TIFF format. Calls the 'tesseract'
@@ -12,21 +11,21 @@ module Heathen
     def tesseract(format: nil)
       expect_mime_type 'image/tiff'
 
-      # Grrrrrrrrrrrrrrrrrrrr Iso2/3 grrrrrrrrrrrrr
-      lang = ISO_639.find job.language
-      raise InvalidLanguageInStep.new(job.language) if lang.nil?
+      # Lookup the ISO 639-2 (alpha-3) language object required by Tesseract
+      lang_alpha3 = Colore::Utils.lang_alpha3(job.language)
+      raise InvalidLanguageInStep.new(job.language) if lang_alpha3.nil?
 
       target_file = temp_file_name
       executioner.execute(
         Colore::C_.tesseract_path,
         job.content_file,
         target_file,
-        '-l', lang.alpha3.downcase,
+        '-l', lang_alpha3,
         format
       )
       raise ConversionFailed.new(executioner.last_messages) if executioner.last_exit_status != 0
 
-      suffix = format ? format : 'txt'
+      suffix = format || 'txt'
       target_file = "#{target_file}.#{suffix}"
       job.content = File.read(target_file)
       File.unlink(target_file)
