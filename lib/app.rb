@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
-require 'pathname'
 require 'haml'
 require 'net/http'
-require 'sinatra/base'
+require 'pathname'
 require 'pp'
+require 'sinatra/base'
+
 require_relative 'colore'
 
 module Colore

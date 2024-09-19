@@ -16,6 +16,7 @@ require 'rspec'
 
 require 'byebug'
 require 'logger'
+require 'pathname'
 require 'rack/test'
 require 'sidekiq/testing'
 require 'simplecov'

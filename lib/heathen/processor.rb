@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
+require 'fileutils'
 require 'logger'
+require 'pathname'
 
 module Heathen
   # The Processor is the heart of the Heathen conversion process. Mixed in to it are all

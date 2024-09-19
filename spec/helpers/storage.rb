@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'fileutils'
+require 'pathname'
 
 def tmp_storage_dir
   Pathname.new('/tmp') + "colore_test.#{Process.pid}"

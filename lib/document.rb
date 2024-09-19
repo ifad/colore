@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
+require 'filemagic/ext'
+require 'fileutils'
+require 'json'
 require 'pathname'
 require 'stringio'
-require 'json'
-require 'filemagic/ext'
+
 require_relative 'doc_key'
 
 module Colore
