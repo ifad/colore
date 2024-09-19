@@ -18,12 +18,12 @@ module Colore
       end
     end
 
-    # Converts an ISO 639-1 (alpha-2) language code to its corresponding ISO 639-2 (alpha-3) code.
+    # Converts a language code to its corresponding ISO 639-2 (alpha-3) code.
     #
-    # @param [String] lang_alpha2 The ISO 639-1 (alpha-2) language code.
-    # @return [String] The ISO 639-2 (alpha-3) language code, or `nil` if the alpha-2 code is not found.
-    def self.lang_alpha3(lang_alpha2)
-      ISO_639.find(lang_alpha2)&.alpha3
+    # @param [String] language The ISO 639-1 (alpha-2) or ISO 639-2 (alpha-3) language code.
+    # @return [String] The ISO 639-2 (alpha-3) language code, or `nil` if the code is not found.
+    def self.language_alpha3(language)
+      ISO_639.find(language)&.alpha3
     end
   end
 end

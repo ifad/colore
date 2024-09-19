@@ -67,8 +67,8 @@ RSpec.describe Colore::Utils do
     end
   end
 
-  describe '.lang_alpha3' do
-    subject { described_class.lang_alpha3(language) }
+  describe '.language_alpha3' do
+    subject { described_class.language_alpha3(language) }
 
     let(:language) { 'en' }
 
