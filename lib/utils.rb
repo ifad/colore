@@ -6,13 +6,11 @@ module Colore
     def self.symbolize_keys(obj)
       case obj
       when Hash
-        h = {}
-        obj.each do |k, v|
-          h[k.to_sym] = symbolize_keys v
+        obj.each_with_object({}) do |(k, v), result|
+          result[k.to_sym] = symbolize_keys(v)
         end
-        h
       when Array
-        obj.map { |o| symbolize_keys o }
+        obj.map { |o| symbolize_keys(o) }
       else
         obj
       end
