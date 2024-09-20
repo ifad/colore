@@ -1,4 +1,4 @@
-name: RuboCop
+name: YARD
 
 on:
   push:
@@ -10,8 +10,8 @@ permissions:
   contents: read
 
 jobs:
-  rubocop:
-    name: RuboCop
+  yard:
+    name: YARD
     runs-on: ubuntu-latest
 
     steps:
@@ -22,7 +22,7 @@ jobs:
         ruby-version: '2.6.10'
         bundler-cache: false
         rubygems: latest
-    - name: RuboCop
+    - name: Lint YARD documentation
       run: |
-        gem install rubocop rubocop-performance rubocop-rspec
-        rubocop
+        gem install yard
+        yard doc --fail-on-warning --no-output --no-progress
