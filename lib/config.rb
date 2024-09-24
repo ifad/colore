@@ -18,30 +18,30 @@ module Colore
   #   storage_dir = C_.storage_directory
   #
   class C_
-    # Base storage directory for all documents
+    # @return [String] Base storage directory for all documents
     attr_accessor :storage_directory
-    # File URL base for legacy convert API method
+    # @return [String] File URL base for legacy convert API method
     attr_accessor :legacy_url_base
-    # Number of days to keep legacy files before purging
+    # @return [Integer] Number of days to keep legacy files before purging
     attr_accessor :legacy_purge_days
-    # Redis configuration (used by sidekiq)
+    # @return [String] Redis configuration (used by sidekiq)
     attr_accessor :redis
-    # Path to the Heathen conversion log
+    # @return [String] Path to the Heathen conversion log
     attr_accessor :conversion_log
-    # Path to the Error log
+    # @return [String] Path to the Error log
     attr_accessor :error_log
 
-    # Path to the convert executable
+    # @return [String] Path to the convert executable. Defaults to `"convert"`
     attr_accessor :convert_path
-    # Path to the libreoffice executable
+    # @return [String] Path to the libreoffice executable. Defaults to `"libreoffice"`
     attr_accessor :libreoffice_path
-    # Path to the tesseract executable
+    # @return [String] Path to the tesseract executable. Defaults to `"tesseract"`
     attr_accessor :tesseract_path
-    # Path to the tika executable
+    # @return [String] Path to the tika executable. Defaults to `"tika"`
     attr_accessor :tika_path
-    # Path to the wkhtmltopdf binary
+    # @return [String] Path to the wkhtmltopdf binary. Defaults to `"wkhtmltopdf"`
     attr_accessor :wkhtmltopdf_path
-    # Params for wkhtmltopdf
+    # @return [String] Params for wkhtmltopdf
     attr_accessor :wkhtmltopdf_params
 
     def self.config_file_path
