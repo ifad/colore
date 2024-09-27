@@ -5,17 +5,12 @@ require 'fileutils'
 require 'pathname'
 
 RSpec.describe Colore::TikaConfig do
-  let(:tika_config_directory) { '../tmp/tika-test' }
-  let(:tika_test_config_path) { Pathname.new(File.expand_path('../../tmp/tika-test', __dir__)) }
-
   before do
-    allow(Colore::C_.config).to receive(:tika_config_directory).and_return tika_config_directory
-    FileUtils.mkdir_p tika_test_config_path
-    FileUtils.rm_rf tika_test_config_path
+    setup_tika_config
   end
 
   after do
-    FileUtils.rm_rf tika_test_config_path
+    delete_tika_config
   end
 
   describe '.path_for' do
@@ -29,7 +24,7 @@ RSpec.describe Colore::TikaConfig do
       end
 
       it 'returns the correct configuration file path' do
-        expect(path_for).to eq tika_test_config_path.join('ocr', described_class::VERSION, 'tika.fra.xml')
+        expect(path_for).to eq tmp_tika_config_dir.join('ocr', described_class::VERSION, 'tika.fra.xml')
       end
     end
 
@@ -37,7 +32,7 @@ RSpec.describe Colore::TikaConfig do
       let(:language) { 'unknown' }
 
       it 'returns the default configuration file path' do
-        expect(path_for).to eq tika_test_config_path.join('ocr', described_class::VERSION, "tika.#{described_class::DEFAULT_LANGUAGE}.xml")
+        expect(path_for).to eq tmp_tika_config_dir.join('ocr', described_class::VERSION, "tika.#{described_class::DEFAULT_LANGUAGE}.xml")
       end
     end
 
@@ -46,7 +41,7 @@ RSpec.describe Colore::TikaConfig do
 
       before do
         allow(FileUtils).to receive(:mkdir_p)
-          .with(tika_test_config_path.join('ocr', described_class::VERSION))
+          .with(tmp_tika_config_dir.join('ocr', described_class::VERSION))
           .and_call_original
       end
 

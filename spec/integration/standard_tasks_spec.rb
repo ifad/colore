@@ -5,7 +5,6 @@ require 'spec_helper'
 RSpec.describe 'Standard Heathen tasks:' do
   before do
     setup_storage
-    allow(Colore::C_.config).to receive(:storage_directory).and_return(tmp_storage_dir)
   end
 
   after do
