@@ -11,11 +11,11 @@ RSpec.describe Colore::Converter do
   let(:new_filename) { 'arglebargle.txt' }
   let(:converter) { described_class.new }
   let(:document) { Colore::Document.load storage_dir, doc_key }
+  let(:stubbed_converter) { instance_double(Heathen::Converter, convert: "The quick brown fox") }
 
   before do
     setup_storage
-    allow(Colore::C_.config).to receive(:storage_directory) { tmp_storage_dir }
-    stubbed_converter = instance_double(Heathen::Converter, convert: "The quick brown fox")
+    allow(Colore::C_.config).to receive(:storage_directory).and_return(tmp_storage_dir)
     allow(Heathen::Converter).to receive(:new).and_return(stubbed_converter)
   end
 
@@ -29,6 +29,13 @@ RSpec.describe Colore::Converter do
       content_type, content = document.get_file version, new_filename
       expect(content_type).to eq 'text/plain; charset=us-ascii'
       expect(content.to_s).to eq 'The quick brown fox'
+    end
+
+    context 'with Arabic language' do
+      it 'sets language to Heathen' do
+        converter.convert(doc_key, version, filename, action, 'ar')
+        expect(stubbed_converter).to have_received(:convert).with(action, an_instance_of(String), 'ar')
+      end
     end
   end
 end
