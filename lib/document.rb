@@ -90,16 +90,17 @@ module Colore
 
     # @return the document title.
     def title
-      return '' unless File.exist?(directory + 'title')
+      title_file = directory.join('title')
+      return '' unless title_file.file?
 
-      File.read(directory + 'title').chomp
+      title_file.read.chomp
     end
 
     # Sets the document title.
     def title=(new_title)
       return if new_title.to_s.empty?
 
-      File.open(directory + 'title', 'w') { |f| f.puts new_title }
+      directory.join('title').write new_title
     end
 
     # Returns an array of the document version identifiers.
@@ -149,7 +150,7 @@ module Colore
 
       body = StringIO.new(body) unless body.respond_to?(:read) # string -> IO
       File.open(directory + version + filename, "wb") { |f| IO.copy_stream(body, f) }
-      File.write(directory + version + AUTHOR_FILE, author)
+      directory.join(version, AUTHOR_FILE).write author
     end
 
     # Sets the specified version as current.
@@ -233,9 +234,7 @@ module Colore
     # This metadata is just the {#to_hash}, as JSON, and is intended for access by client
     # applications. It is not used by Colore for anything.
     def save_metadata
-      File.open(directory + 'metadata.json', "w") do |f|
-        f.puts JSON.pretty_generate(to_hash)
-      end
+      directory.join('metadata.json').write JSON.pretty_generate(to_hash)
     end
   end
 end

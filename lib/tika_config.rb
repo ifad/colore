@@ -39,7 +39,7 @@ module Colore
         return file if file.file?
 
         FileUtils.mkdir_p(tika_config_path.join('ocr', VERSION))
-        File.write(file, format(TEMPLATE, language_alpha3: language_alpha3))
+        file.write format(TEMPLATE, language_alpha3: language_alpha3)
         file
       end
     end

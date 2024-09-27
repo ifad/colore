@@ -45,14 +45,14 @@ RSpec.describe Colore::TikaConfig do
       let(:language) { 'en' }
 
       before do
-        allow(File).to receive(:write)
-          .with(tika_test_config_path.join('ocr', described_class::VERSION, 'tika.eng.xml'), an_instance_of(String))
+        allow(FileUtils).to receive(:mkdir_p)
+          .with(tika_test_config_path.join('ocr', described_class::VERSION))
           .and_call_original
       end
 
       it 'does not overwrite it' do
         2.times { described_class.path_for(language) }
-        expect(File).to have_received(:write).once
+        expect(FileUtils).to have_received(:mkdir_p).once
       end
     end
   end
