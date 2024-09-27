@@ -21,6 +21,14 @@ RSpec.describe 'Standard Heathen tasks:' do
     end
   end
 
+  describe 'detect_language' do
+    it 'runs' do
+      content = fixture('heathen/quickfox.jpg').read
+      new_content = converter.convert 'detect_language', content
+      expect(new_content.mime_type).to eq 'text/plain; charset=us-ascii'
+    end
+  end
+
   describe 'ocr_text' do
     it 'converts jpeg' do
       content = fixture('heathen/quickfox.jpg').read

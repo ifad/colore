@@ -20,7 +20,7 @@ module Colore
           <parser class="org.apache.tika.parser.DefaultParser"></parser>
           <parser class="org.apache.tika.parser.ocr.TesseractOCRParser">
             <params>
-              <param name="language" type="string">%<language_alpha3>s</param>
+              <param name="language" type="string">%<alpha3_languages>s</param>
             </params>
           </parser>
         </parsers>
@@ -34,12 +34,12 @@ module Colore
         Pathname.new File.expand_path(Colore::C_.tika_config_directory, __dir__)
       end
 
-      def path_for!(language_alpha3)
-        file = tika_config_path.join('ocr', VERSION, "tika.#{language_alpha3}.xml")
+      def path_for!(alpha3_languages)
+        file = tika_config_path.join('ocr', VERSION, "tika.#{alpha3_languages.sort.join('-')}.xml")
         return file if file.file?
 
         FileUtils.mkdir_p(tika_config_path.join('ocr', VERSION))
-        file.write format(TEMPLATE, language_alpha3: language_alpha3)
+        file.write format(TEMPLATE, alpha3_languages: alpha3_languages.join('+'))
         file
       end
     end
@@ -55,7 +55,15 @@ module Colore
     def self.path_for(language)
       language_alpha3 = Colore::Utils.language_alpha3(language) || DEFAULT_LANGUAGE
 
-      path_for!(language_alpha3)
+      path_for!([language_alpha3])
+    end
+
+    # Returns the file path of the Tika configuration for performing language
+    # detection.
+    #
+    # @return [Pathname] The path to the Tika configuration file for language detection
+    def self.path_for_language_detection
+      path_for!(Colore::C_.tesseract_available_languages)
     end
   end
 end

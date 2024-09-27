@@ -45,6 +45,8 @@ module Colore
     attr_accessor :tika_config_directory
     # @return [String] Params for wkhtmltopdf
     attr_accessor :wkhtmltopdf_params
+    # @return [Array<String>] Languages available to Tesseract for OCR. Defaults to `["eng"]`
+    attr_accessor :tesseract_available_languages
 
     def self.config_file_path
       Pathname.new File.expand_path('../config/app.yml', __dir__)
@@ -70,6 +72,7 @@ module Colore
 
         c.tika_config_directory = yaml['tika_config_directory'] || '../tmp/tika'
         c.wkhtmltopdf_params = yaml['wkhtmltopdf_params'] || ''
+        c.tesseract_available_languages = (yaml['tesseract_available_languages'] || 'eng').split(',')
 
         c
       end

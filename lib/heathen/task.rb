@@ -103,3 +103,7 @@ end
 Heathen::Task.register 'doc', '.*' do
   perform_task 'msoffice'
 end
+
+Heathen::Task.register 'detect_language', '.*' do
+  detect_language
+end
