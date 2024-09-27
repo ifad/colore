@@ -41,6 +41,8 @@ module Colore
     attr_accessor :tika_path
     # @return [String] Path to the wkhtmltopdf binary. Defaults to `"wkhtmltopdf"`
     attr_accessor :wkhtmltopdf_path
+    # @return [String] Relative path to the writable tika config directory. Defaults to `"../tmp/tika"`
+    attr_accessor :tika_config_directory
     # @return [String] Params for wkhtmltopdf
     attr_accessor :wkhtmltopdf_params
 
@@ -65,6 +67,8 @@ module Colore
         c.tesseract_path = yaml['tesseract_path'] || 'tesseract'
         c.tika_path = yaml['tika_path'] || 'tika'
         c.wkhtmltopdf_path = yaml['wkhtmltopdf_path'] || 'wkhtmltopdf'
+
+        c.tika_config_directory = yaml['tika_config_directory'] || '../tmp/tika'
         c.wkhtmltopdf_params = yaml['wkhtmltopdf_params'] || ''
 
         c
