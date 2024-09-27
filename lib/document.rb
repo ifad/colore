@@ -214,6 +214,7 @@ module Colore
             content_type: content_type,
             filename: pfile.basename.to_s,
             path: file_path(v, pfile.basename),
+            size: pfile.size,
             author: author,
             created_at: pfile.mtime,
           }

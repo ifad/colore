@@ -9,12 +9,14 @@
         "content_type": "application/zip; charset=binary",
         "filename": "arglebargle.docx",
         "path": "/document/app/12345/v001/arglebargle.docx",
+        "size": 12782,
         "author": "spliffy"
       },
       "txt": {
         "content_type": "text/plain; charset=us-ascii",
         "filename": "arglebargle.txt",
         "path": "/document/app/12345/v001/arglebargle.txt",
+        "size": 19,
         "author": "spliffy"
       }
     },
@@ -23,12 +25,14 @@
         "content_type": "application/zip; charset=binary",
         "filename": "arglebargle.docx",
         "path": "/document/app/12345/v002/arglebargle.docx",
+        "size": 12782,
         "author": "spliffy"
       },
       "txt": {
         "content_type": "text/plain; charset=us-ascii",
         "filename": "arglebargle.txt",
         "path": "/document/app/12345/v002/arglebargle.txt",
+        "size": 19,
         "author": "spliffy"
       }
     }
