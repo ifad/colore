@@ -5,7 +5,6 @@ require 'spec_helper'
 RSpec.describe Colore::Sidekiq::LegacyPurgeWorker do
   before do
     setup_storage
-    allow(Colore::C_.config).to receive(:storage_directory).and_return(tmp_storage_dir)
     allow(Colore::C_.config).to receive(:legacy_purge_days).and_return(2)
   end
 

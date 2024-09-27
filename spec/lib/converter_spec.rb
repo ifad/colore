@@ -15,7 +15,6 @@ RSpec.describe Colore::Converter do
 
   before do
     setup_storage
-    allow(Colore::C_.config).to receive(:storage_directory).and_return(tmp_storage_dir)
     allow(Heathen::Converter).to receive(:new).and_return(stubbed_converter)
   end
 
