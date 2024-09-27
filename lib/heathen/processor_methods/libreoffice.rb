@@ -55,6 +55,7 @@ module Heathen
       if to_suffix == 'txt'
         executioner.execute(
           Colore::C_.tika_path,
+          "--config=#{Colore::TikaConfig.path_for(job.language)}",
           '--text',
           job.content_file,
           binary: true
