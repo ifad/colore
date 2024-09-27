@@ -25,11 +25,11 @@ module Heathen
     # Constructs a new job
     # @param action [String] the action to be performed
     # @param content [String] the file body
-    # @param language [String] the file's language
+    # @param language [String] the file's language. Forced to `en` if `nil`
     # @param sandbox_dir [String] sandbox directory for temporary files
-    def initialize(action, content, language = 'en', sandbox_dir = nil)
+    def initialize(action, content, language = nil, sandbox_dir = nil)
       @action = action
-      @language = language
+      @language = language || 'en'
       @original_content = content
       @original_mime_type = content.mime_type
       self.content = @original_content
