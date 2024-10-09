@@ -51,4 +51,22 @@ RSpec.describe Colore::TikaConfig do
       end
     end
   end
+
+  describe '.path_for_language_detection' do
+    subject(:path_for_language_detection) { described_class.path_for_language_detection }
+
+    it 'returns the correct configuration file path' do
+      expect(path_for_language_detection).to eq tmp_tika_config_dir.join('ocr', described_class::VERSION, 'tika.eng.xml')
+    end
+
+    context 'when multiple languages are available' do
+      before do
+        allow(Colore::C_.config).to receive(:tesseract_available_languages).and_return(%w[fra eng])
+      end
+
+      it 'returns the correct configuration file path' do
+        expect(path_for_language_detection).to eq tmp_tika_config_dir.join('ocr', described_class::VERSION, 'tika.eng-fra.xml')
+      end
+    end
+  end
 end
