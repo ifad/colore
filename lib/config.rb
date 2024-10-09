@@ -35,6 +35,8 @@ module Colore
     attr_accessor :convert_path
     # @return [String] Path to the libreoffice executable. Defaults to `"libreoffice"`
     attr_accessor :libreoffice_path
+    # @return [String] Path to the pandoc executable. Defaults to `"pandoc"`
+    attr_accessor :pandoc_path
     # @return [String] Path to the tesseract executable. Defaults to `"tesseract"`
     attr_accessor :tesseract_path
     # @return [String] Path to the tika executable. Defaults to `"tika"`
@@ -64,6 +66,7 @@ module Colore
 
         c.convert_path = yaml['convert_path'] || 'convert'
         c.libreoffice_path = yaml['libreoffice_path'] || 'libreoffice'
+        c.pandoc_path = yaml['pandoc_path'] || 'pandoc'
         c.tesseract_path = yaml['tesseract_path'] || 'tesseract'
         c.tika_path = yaml['tika_path'] || 'tika'
         c.wkhtmltopdf_path = yaml['wkhtmltopdf_path'] || 'wkhtmltopdf'

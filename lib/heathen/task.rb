@@ -73,6 +73,8 @@ Heathen::Task.register 'pdf', '.*' do
     perform_task 'ocr'
   when %r[text/html]
     wkhtmltopdf
+  when %r[text/markdown]
+    mdtopdf
   else
     libreoffice format: 'pdf'
   end
