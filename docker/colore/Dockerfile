@@ -15,7 +15,7 @@ RUN apt-get update && apt-get -yq install --no-install-suggests --no-install-rec
 RUN echo 'deb http://deb.debian.org/debian bullseye-backports main contrib non-free' >> /etc/apt/sources.list
 RUN apt-get update && apt-get -yq -t bullseye-backports install libreoffice
 
-ARG TIKA_VERSION=2.9.2
+ARG TIKA_VERSION=3.0.0
 
 RUN wget --quiet https://archive.apache.org/dist/tika/KEYS -O tika-keys && \
   wget --quiet https://archive.apache.org/dist/tika/${TIKA_VERSION}/tika-app-${TIKA_VERSION}.jar.asc -O tika-app.jar.asc && \
