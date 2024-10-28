@@ -27,7 +27,7 @@ GEM
       domain_name (~> 0.5)
     iso-639 (0.3.8)
       csv
-    json (2.7.2)
+    json (2.7.4)
     kgio (2.11.4)
     logger (1.6.1)
     mail (2.8.1)
