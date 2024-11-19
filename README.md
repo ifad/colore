@@ -343,6 +343,30 @@ Response:
 
       ... PDF document body ...
 
+### Detect language
+
+This is a foreground document language detection request. The detected language
+will be returned as the response body.
+
+    POST /convert
+
+Params *(suggest using `multipart/form-data`)*:
+
+* `file`      - the file to detect
+* `action`    - `detect_language`
+
+#### Example:
+
+    POST /convert
+      file=... foo.docx ...
+      action=detect_language
+
+Response:
+
+      Content-Type: text/plain
+
+      en
+
 ## Callbacks
 
 When a document conversion is completed, an attempt will be made to POST a
