@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'haml'
+require 'combine_pdf'
 require 'net/http'
 require 'pathname'
 require 'pp'
@@ -164,6 +165,34 @@ module Colore
     get '/document/:app/:doc_id' do |app, doc_id|
       doc = Document.load @storage_dir, DocKey.new(app, doc_id)
       respond 200, 'Information retrieved', doc.to_hash
+    rescue StandardError => e
+      respond_with_error e
+    end
+
+    #
+    # Combine Multiple PDF's into one single PDF
+    #
+    # POST params:
+    #  pdf1     - the first pdf to combine
+    #  pdf2     - the second pdf to combine
+    #  ...
+    #  pdf<n>   - the nth pdf to combine
+    post '/combine_pdf' do
+      pdf_param_prefix = 'pdf'
+      pdf_file_counter = 1
+
+      pdfs = []
+
+      while (pdf_param = params["#{pdf_param_prefix}#{pdf_file_counter}"])
+        pdfs << pdf_param[:tempfile].read
+        pdf_file_counter += 1
+      end
+
+      combine_pdfs = CombinePdfs.new
+      combined_pdf = combine_pdfs.call(pdfs)
+
+      content_type 'application/pdf'
+      combined_pdf
     rescue StandardError => e
       respond_with_error e
     end

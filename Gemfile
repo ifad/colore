@@ -2,7 +2,8 @@
 
 source 'https://rubygems.org'
 
-ruby '2.6.10'
+# ruby '2.6.10'
+ruby '3.3.0'
 
 gem 'haml', '~> 6.3'
 gem 'iso-639', '~> 0.3.8'
@@ -19,6 +20,7 @@ gem 'sidekiq-cron', '~> 1.9'
 gem 'sinatra', '~> 3.2'
 gem 'thin', '~> 1.8'
 gem 'unicorn', '~> 6.1'
+gem 'combine_pdf'
 
 group :development do
   gem 'byebug'
