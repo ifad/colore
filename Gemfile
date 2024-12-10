@@ -2,7 +2,6 @@
 
 source 'https://rubygems.org'
 
-# ruby '2.6.10'
 ruby '3.3.0'
 
 gem 'haml', '~> 6.3'

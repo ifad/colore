@@ -1,7 +1,8 @@
 class CombinePdfs
   def call(pdfs)
     combined_pdf = CombinePDF.new
-    combined_pdf = pdfs.reduce(combined_pdf) { |combined, pdf| combined << pdf; combined }
+
+    pdfs.each {|pdf| combined_pdf << CombinePDF.parse(pdf) }
 
     combined_pdf.to_pdf
   end
