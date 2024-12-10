@@ -389,4 +389,19 @@ RSpec.describe Colore::App do
       expect(body['error']).to eq 'File does not exist'
     end
   end
+
+  describe 'POST /combine_pdf' do
+    it 'combines the provided pdfs into one single pdf' do
+      sample_pdf_dir = "#{__dir__}/../fixtures/pdfs"
+      pdf1 = Rack::Test::UploadedFile.new("#{sample_pdf_dir}/1.pdf", 'application/pdf')
+      pdf2 = Rack::Test::UploadedFile.new("#{sample_pdf_dir}/2.pdf", 'application/pdf')
+      post '/combine_pdf', {
+        pdf1: pdf1,
+        pdf2: pdf2,
+      }
+      expect(last_response.status).to eq 200
+      expect(last_response.content_type).to eq 'application/pdf'
+      expect(last_response.body.include?('PDF')).to be(true)
+    end
+  end
 end
