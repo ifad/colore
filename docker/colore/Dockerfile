@@ -4,16 +4,23 @@ RUN apt-get update && apt-get -yq install --no-install-suggests --no-install-rec
   build-essential \
   imagemagick \
   libmagic-dev \
-  tesseract-ocr \
-  tesseract-ocr-ara \
-  tesseract-ocr-fra \
-  tesseract-ocr-spa \
   wkhtmltopdf
 
 # Needed to get the latest libreoffice
 # Ref: https://wiki.debian.org/LibreOffice#Using_Debian_backports
-RUN echo 'deb http://deb.debian.org/debian bullseye-backports main contrib non-free' >> /etc/apt/sources.list
-RUN apt-get update && apt-get -yq -t bullseye-backports install libreoffice
+RUN echo 'deb https://deb.debian.org/debian bullseye-backports main contrib non-free' >> /etc/apt/sources.list
+
+# Needed for Tesseract 5
+# Ref: https://notesalexp.org/tesseract-ocr/html/
+RUN echo 'deb https://notesalexp.org/tesseract-ocr5/bullseye bullseye main' >> /etc/apt/sources.list
+RUN wget -qO /etc/apt/trusted.gpg.d/alexp_key.asc https://notesalexp.org/debian/alexp_key.asc
+
+RUN apt-get update && apt-get -yq -t bullseye-backports install \
+  libreoffice \
+  tesseract-ocr \
+  tesseract-ocr-ara \
+  tesseract-ocr-fra \
+  tesseract-ocr-spa
 
 ARG TIKA_VERSION=3.0.0
 
