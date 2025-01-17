@@ -33,7 +33,7 @@ module Colore
     # A custom 404 page
     #
     not_found do
-      JSON.dump(error: 'not found')
+      JSON.dump(error: 'not found', status: 404, description: 'Document not found')
     end
 
     #

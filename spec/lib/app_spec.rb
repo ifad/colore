@@ -102,7 +102,9 @@ RSpec.describe Colore::App do
       }
       expect(last_response.status).to eq 404
       expect(last_response.content_type).to eq 'application/json'
-      expect(JSON.parse(last_response.body)).to be_a Hash
+      expect(JSON.parse(last_response.body)).to match(
+        { "status" => 404, "description" => "Document not found", "error" => "not found" }
+      )
       expect(Colore::Sidekiq::ConversionWorker).not_to have_received(:perform_async)
     end
   end
