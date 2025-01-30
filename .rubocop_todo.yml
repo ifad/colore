@@ -47,11 +47,6 @@ Lint/EmptyBlock:
   Exclude:
     - 'lib/heathen/processor.rb'
 
-# This cop supports unsafe autocorrection (--autocorrect-all).
-Lint/NonAtomicFileOperation:
-  Exclude:
-    - 'lib/document.rb'
-
 # This cop supports safe autocorrection (--autocorrect).
 Lint/ParenthesesAsGroupedExpression:
   Exclude:
