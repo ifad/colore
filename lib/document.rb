@@ -159,7 +159,7 @@ module Colore
       raise InvalidVersion.new unless /^v\d+$/.match?(version)
 
       # need to do this, or ln_s will put the symlink *into* the old dir
-      File.unlink directory + CURRENT if File.exist? directory + CURRENT
+      FileUtils.rm_f directory + CURRENT
       FileUtils.ln_s version, directory + CURRENT, force: true
     end
 
