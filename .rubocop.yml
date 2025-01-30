@@ -12,6 +12,7 @@ AllCops:
     - .github/**/*
     - gemfiles/**/*
     - node_modules/**/*
+    - storage/**/*
     - tmp/**/*
     - vendor/**/*
 
