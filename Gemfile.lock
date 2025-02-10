@@ -43,7 +43,7 @@ GEM
     mini_portile2 (2.8.8)
     mustermann (3.0.3)
       ruby2_keywords (~> 0.0.1)
-    net-imap (0.3.7)
+    net-imap (0.3.8)
       date
       net-protocol
     net-pop (0.1.2)
