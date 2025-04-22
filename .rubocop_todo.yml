@@ -82,7 +82,7 @@ Metrics/BlockLength:
 
 # Configuration parameters: CountComments, CountAsOne.
 Metrics/ClassLength:
-  Max: 173
+  Max: 187
 
 # Configuration parameters: AllowedMethods, AllowedPatterns.
 Metrics/CyclomaticComplexity:
@@ -160,6 +160,10 @@ RSpec/MessageSpies:
     - 'spec/lib/autoheathen/email_processor_spec.rb'
     - 'spec/lib/config_spec.rb'
 
+# Configuration parameters: AllowedGroups.
+RSpec/NestedGroups:
+  Max: 4
+
 RSpec/StubbedMock:
   Exclude:
     - 'spec/lib/app_spec.rb'
@@ -215,6 +219,7 @@ Style/Documentation:
     - 'lib/errors.rb'
     - 'lib/heathen/filename.rb'
     - 'lib/heathen/processor_methods/convert_image.rb'
+    - 'lib/heathen/processor_methods/detect_language.rb'
     - 'lib/heathen/processor_methods/htmltotext.rb'
     - 'lib/heathen/processor_methods/libreoffice.rb'
     - 'lib/heathen/processor_methods/pdftotext.rb'

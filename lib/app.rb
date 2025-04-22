@@ -192,6 +192,28 @@ module Colore
       respond_with_error e
     end
 
+    #
+    # Detect document language
+    #
+    # POST params:
+    #  file     - the file to detect language
+    post '/detect-language' do
+      unless params[:file]
+        return respond 400, "missing file parameter"
+      end
+
+      unless params[:file].respond_to?(:fetch) and params[:file].fetch(:tempfile, nil).respond_to?(:read)
+        return respond 400, "invalid file parameter"
+      end
+
+      body = params[:file][:tempfile].read
+      content = Converter.new(logger: @logger).convert_file('detect-language', body)
+      content_type content.mime_type
+      content
+    rescue StandardError => e
+      respond_with_error e
+    end
+
     # Legacy method to convert files
     # Brought over from Heathen
     #
