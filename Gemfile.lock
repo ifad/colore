@@ -38,7 +38,7 @@ GEM
     mime-types (3.7.0)
       logger
       mime-types-data (~> 3.2025, >= 3.2025.0507)
-    mime-types-data (3.2025.0527)
+    mime-types-data (3.2025.0603)
     mini_mime (1.1.5)
     mini_portile2 (2.8.9)
     mustermann (3.0.3)
@@ -58,7 +58,7 @@ GEM
       racc (~> 1.4)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (2.2.16)
+    rack (2.2.17)
     rack-protection (3.2.0)
       base64 (>= 0.1.0)
       rack (~> 2.2, >= 2.2.4)
