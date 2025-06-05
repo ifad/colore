@@ -33,3 +33,4 @@ wkhtmltopdf_path: <%= ENV['WKHTMLTOPDF_PATH'] %>
 # Other settings
 tika_config_directory: <%= ENV['TIKA_CONFIG_DIRECTORY'] %>
 wkhtmltopdf_params: '-d 100 --encoding UTF-8'
+tesseract_available_languages: <%= ENV['TESSERACT_AVAILABLE_LANGUAGES'] %>

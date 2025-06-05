@@ -12,6 +12,7 @@ require_relative 'heathen/executioner'
 require_relative 'heathen/processor'
 
 require_relative 'heathen/processor_methods/convert_image'
+require_relative 'heathen/processor_methods/detect_language'
 require_relative 'heathen/processor_methods/htmltotext'
 require_relative 'heathen/processor_methods/libreoffice'
 require_relative 'heathen/processor_methods/pdftotext'
