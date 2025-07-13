@@ -87,7 +87,7 @@ module Heathen
 
     def execute_sandboxed_libreoffice(*params)
       old_tmpdir = ENV['TMPDIR']
-      ENV['TMPDIR'] = DEV_SHM_PATH if try_dev_shm
+      ENV['TMPDIR'] = DEV_SHM_PATH if try_dev_shm?
 
       profile_dir = Dir.mktmpdir('colore-libreoffice')
 
@@ -104,7 +104,7 @@ module Heathen
       FileUtils.remove_entry profile_dir
     end
 
-    def try_dev_shm
+    def try_dev_shm?
       return false unless File.exist?(DEV_SHM_PATH)
 
       stat = File.stat(DEV_SHM_PATH)

@@ -10,14 +10,14 @@ module Heathen
   # Raised by task [Processor] method when a pre-condition (such as mime-type) is not valid.
   class ExpectationNotMet < Error
     def initialize(name, value, pattern)
-      super "Expectation failure on #{name}, expected '#{value}' to match /#{pattern}/"
+      super("Expectation failure on #{name}, expected '#{value}' to match /#{pattern}/")
     end
   end
 
   # Raised by [Converter] if it is unable to find a task to satisfy the requested action.
   class TaskNotFound < Error
     def initialize(action, mime_type)
-      super "No task found for action: '#{action}', mime_type: '#{mime_type}'"
+      super("No task found for action: '#{action}', mime_type: '#{mime_type}'")
     end
   end
 
@@ -27,14 +27,14 @@ module Heathen
     def initialize(method = nil)
       calling_method = caller(3..3).first
       method = calling_method.gsub(/.*[`](.*)'$/, '\\1')
-      super "#{message} in step '#{method}'"
+      super("#{message} in step '#{method}'")
     end
   end
 
   # Raised if the task step can't handle the input mime type
   class InvalidMimeTypeInStep < StepError
     def initialize(expected, got)
-      super "Invalid mime_type (expected /#{expected}/, got '#{got}')"
+      super("Invalid mime_type (expected /#{expected}/, got '#{got}')")
     end
   end
 
