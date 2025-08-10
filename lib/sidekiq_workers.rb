@@ -15,6 +15,7 @@ module Colore
     # This worker converts a document file to a new format and stores it.
     class ConversionWorker
       include ::Sidekiq::Worker
+
       sidekiq_options queue: :conversion, retry: false
 
       # Converts a document file to a new format. The converted file will be stored in
@@ -62,6 +63,7 @@ module Colore
     # This worker sends responses back to the client application.
     class CallbackWorker
       include ::Sidekiq::Worker
+
       sidekiq_options queue: :callback, retry: 5, backtrace: true
 
       # Constructs a conversion response and POSTs it to the specified callback_url.
@@ -93,6 +95,7 @@ module Colore
     # original, so won't need it after then).
     class LegacyPurgeWorker
       include ::Sidekiq::Worker
+
       sidekiq_options queue: :purge, retry: 0, backtrace: true
 
       ::Sidekiq::Cron::Job.load_from_hash('legacy_purge_worker' => {
