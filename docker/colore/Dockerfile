@@ -22,11 +22,11 @@ RUN apt-get update && apt-get -yq -t bullseye-backports install \
   tesseract-ocr-fra \
   tesseract-ocr-spa
 
-ARG TIKA_VERSION=3.2.1
+ARG TIKA_VERSION=3.2.2
 
-RUN wget --quiet https://archive.apache.org/dist/tika/KEYS -O tika-keys && \
-  wget --quiet https://archive.apache.org/dist/tika/${TIKA_VERSION}/tika-app-${TIKA_VERSION}.jar.asc -O tika-app.jar.asc && \
-  wget --quiet https://archive.apache.org/dist/tika/${TIKA_VERSION}/tika-app-${TIKA_VERSION}.jar -O tika-app.jar && \
+RUN wget --quiet https://dlcdn.apache.org/tika/KEYS -O tika-keys && \
+  wget --quiet https://dlcdn.apache.org/tika/${TIKA_VERSION}/tika-app-${TIKA_VERSION}.jar.asc -O tika-app.jar.asc && \
+  wget --quiet https://dlcdn.apache.org/tika/${TIKA_VERSION}/tika-app-${TIKA_VERSION}.jar -O tika-app.jar && \
   gpg --import tika-keys && \
   gpg --verify tika-app.jar.asc tika-app.jar && \
   rm -f tika-app.jar.asc tika-keys && \
