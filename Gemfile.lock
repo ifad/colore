@@ -30,7 +30,8 @@ GEM
     json (2.7.6)
     kgio (2.11.4)
     logger (1.7.0)
-    mail (2.8.1)
+    mail (2.9.0)
+      logger
       mini_mime (>= 0.1.1)
       net-imap
       net-pop
@@ -133,7 +134,7 @@ DEPENDENCIES
   haml (~> 6.3)
   iso-639 (~> 0.3.8)
   json (~> 2.7)
-  mail (~> 2.8)
+  mail (~> 2.9)
   mime-types (~> 3.7)
   nokogiri (~> 1.13)
   rack-test
