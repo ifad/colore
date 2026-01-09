@@ -56,13 +56,20 @@ module Colore
     end
 
     # Loads the document information. Raises [DocumentNotFound] if the document does not exist.
+    # In development with mock_documents_enabled, returns a MockDocument instead of raising an error.
+    # Note: Production environment automatically disables mocks in config.rb
     # @param base_dir [String] The base path to the storage area
     # @param doc_key [DocKey] The document identifier
-    # @return [Document]
+    # @return [Document or MockDocument]
     def self.load(base_dir, doc_key)
-      raise DocumentNotFound.new unless exists? base_dir, doc_key
+      return new(base_dir, doc_key) if exists? base_dir, doc_key
 
-      doc = new base_dir, doc_key
+      # Return mock document if enabled and document doesn't exist
+      if Colore::C_.mock_documents_enabled
+        return Colore::MockDocument.new(doc_key)
+      end
+
+      raise DocumentNotFound.new
     end
 
     # Deletes the document directory (and all contents) if it exists.

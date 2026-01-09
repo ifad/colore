@@ -45,6 +45,10 @@ module Colore
     attr_accessor :tika_config_directory
     # @return [String] Params for wkhtmltopdf
     attr_accessor :wkhtmltopdf_params
+    # @return [Boolean] Enable mock documents for development when document not found
+    attr_accessor :mock_documents_enabled
+    # @return [String] Current environment (development, test, production, staging)
+    attr_accessor :environment
 
     def self.config_file_path
       Pathname.new File.expand_path('../config/app.yml', __dir__)
@@ -70,6 +74,20 @@ module Colore
 
         c.tika_config_directory = yaml['tika_config_directory'] || '../tmp/tika'
         c.wkhtmltopdf_params = yaml['wkhtmltopdf_params'] || ''
+        
+        # Detect current environment
+        c.environment = ENV['RACK_ENV'] || ENV['RAILS_ENV'] || 'development'
+        
+        # Load mock_documents_enabled from config
+        mock_enabled = yaml['mock_documents_enabled'] || false
+        
+        # In production, always disable mocks regardless of config
+        # This prevents accidental mock usage in production
+        if c.environment == 'production'
+          c.mock_documents_enabled = false
+        else
+          c.mock_documents_enabled = mock_enabled
+        end
 
         c
       end
