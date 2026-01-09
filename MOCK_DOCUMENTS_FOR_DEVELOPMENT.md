@@ -48,9 +48,14 @@ curl -X DELETE http://localhost:9240/document/dev-app/my-doc
 MOCK_DOCUMENTS_ENABLED=true
 RACK_ENV=development
 
+# Optional: Set random authors (usernames from people, comma-separated)
+MOCK_DOCUMENT_AUTHORS=f.rossi,a.rodriguez,p.doe,m.smith
+
 # Rebuild
 docker-compose up --build -d colore
 ```
+
+If `MOCK_DOCUMENT_AUTHORS` is not set, defaults to `Mock System`.
 
 ### Production (Mocks auto-disabled for safety)
 ```bash
@@ -61,6 +66,16 @@ RACK_ENV=production
 ---
 
 ## Key Features
+
+### Random Authors (from people)
+To avoid people search error when an application in development uses the author of a Mock Document. Mock document include a **randomly selected author** from a configurable list of people usernames:
+
+```bash
+# Configuration (comma-separated usernames)
+MOCK_DOCUMENT_AUTHORS=f.rossi,a.rodriguez,p.doe,m.smith
+```
+
+Each mock document will have a random author from this list in its metadata.
 
 ### Supported File Types
 - `.txt` - Text
@@ -91,11 +106,11 @@ Mock documents are read-only by design.
 - Tests - Unit and integration tests
 
 ### Files Modified
-- `lib/config.rb` - Environment detection + production safety
+- `lib/config.rb` - Environment detection + production safety + author list
 - `lib/document.rb` - Returns mock if enabled
 - `lib/app.rb` - Endpoint protections
-- `config/app.yml` - Configuration
-- `docker/colore/variables.env` - Set MOCK_DOCUMENTS_ENABLED
+- `config/app.yml` - Configuration + author list
+- `docker/colore/variables.env` - Set MOCK_DOCUMENTS_ENABLED + MOCK_DOCUMENT_AUTHORS
 
 ### Core Logic
 ```ruby
@@ -192,8 +207,18 @@ rspec spec/integration/mock_document_spec.rb
 ## Summary
 
 - ✅ Mock documents enabled in development
+- ✅ **Random authors** from configurable list
 - ✅ No need to copy production database
 - ✅ Hybrid flow: mocks + real documents coexist
 - ✅ Automatic production safety
 - ✅ Works transparently with client code
 - ✅ Fully tested and working
+
+### Example Authors Configuration
+```bash
+# docker/colore/variables.env
+# Usernames from people microservice (comma-separated)
+MOCK_DOCUMENT_AUTHORS=f.rossi,a.rodriguez,p.doe,m.smith,j.williams
+```
+
+Each mock document will randomly assign one of these usernames as metadata.

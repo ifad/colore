@@ -17,6 +17,15 @@ module Colore
       @doc_key = doc_key
     end
 
+    # Returns a random author from the configured list of mock document authors
+    # Reads directly from ENV for runtime flexibility (no rebuild needed to change authors)
+    # @return [String]
+    def random_author
+      authors_string = ENV['MOCK_DOCUMENT_AUTHORS'] || 'Mock System'
+      authors = authors_string.split(',').map(&:strip)
+      authors.sample
+    end
+
     # Returns the title of the mock document
     # @return [String]
     def title
@@ -65,6 +74,7 @@ module Colore
     # Summarises the mock document as a Hash
     # @return [Hash]
     def to_hash
+      author = random_author
       {
         app: @doc_key.app,
         doc_id: @doc_key.doc_id,
@@ -77,7 +87,7 @@ module Colore
               filename: 'document.txt',
               path: file_path('v001', 'document.txt'),
               size: 150,
-              author: 'Mock System',
+              author: author,
               created_at: Time.now,
             },
             pdf: {
@@ -85,7 +95,7 @@ module Colore
               filename: 'document.pdf',
               path: file_path('v001', 'document.pdf'),
               size: 5000,
-              author: 'Mock System',
+              author: author,
               created_at: Time.now,
             },
           },
