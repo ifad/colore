@@ -76,7 +76,7 @@ module Colore
         c.wkhtmltopdf_params = yaml['wkhtmltopdf_params'] || ''
         
         # Detect current environment
-        c.environment = ENV['RACK_ENV'] || ENV['RAILS_ENV'] || 'development'
+        c.environment = ENV['RACK_ENV'] || 'development'
         
         # Load mock_documents_enabled from config
         mock_enabled = yaml['mock_documents_enabled'] || false
