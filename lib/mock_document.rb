@@ -52,7 +52,7 @@ module Colore
     end
 
     # Retrieves a mock file from the document
-    # @param version [String] the version identifier
+    # @param _version [String] the version identifier (unused, for interface compatibility)
     # @param filename [String] the name of the file
     # @return [Array<String, StringIO>] [mime_type, file_body]
     def get_file(_version, filename)

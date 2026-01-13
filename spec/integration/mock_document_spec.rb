@@ -9,9 +9,13 @@ RSpec.describe 'Mock Document Integration' do
     Colore::App
   end
 
+  let(:mock_storage_dir) { Pathname.new('spec/fixtures/app') }
+  let(:original_mock_setting) { Colore::C_.mock_documents_enabled }
+  let(:test_doc_key) { Colore::DocKey.new 'test-app', 'mock-123' }
+
   before do
     # Enable mock documents for testing
-    @original_mock_setting = Colore::C_.mock_documents_enabled
+    original_mock_setting # Initialize the let variable
     Colore::C_.mock_documents_enabled = true
 
     # Ensure the test document doesn't exist
@@ -20,11 +24,8 @@ RSpec.describe 'Mock Document Integration' do
 
   after do
     # Restore original setting
-    Colore::C_.mock_documents_enabled = @original_mock_setting
+    Colore::C_.mock_documents_enabled = original_mock_setting
   end
-
-  let(:mock_storage_dir) { Pathname.new('spec/fixtures/app') }
-  let(:test_doc_key) { Colore::DocKey.new 'test-app', 'mock-123' }
 
   describe 'GET /document/:app/:doc_id' do
     it 'returns mock document info when document does not exist' do
