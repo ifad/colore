@@ -65,9 +65,7 @@ module Colore
       return new(base_dir, doc_key) if exists? base_dir, doc_key
 
       # Return mock document if enabled and document doesn't exist
-      if Colore::C_.mock_documents_enabled
-        return Colore::MockDocument.new(doc_key)
-      end
+      return Colore::MockDocument.new(doc_key) if Colore::C_.mock_documents_enabled
 
       raise DocumentNotFound.new
     end

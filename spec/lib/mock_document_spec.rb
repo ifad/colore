@@ -4,7 +4,7 @@ require 'spec_helper'
 
 RSpec.describe Colore::MockDocument do
   let(:doc_key) { Colore::DocKey.new 'test-app', 'doc-123' }
-  let(:mock_doc) { Colore::MockDocument.new doc_key }
+  let(:mock_doc) { described_class.new doc_key }
 
   describe '#title' do
     it 'returns a mock title with document ID' do

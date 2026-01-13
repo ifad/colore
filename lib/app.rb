@@ -20,13 +20,13 @@ module Colore
       @legacy_url_base = C_.legacy_url_base || url('/')
       @logger = Logger.new(C_.conversion_log || STDOUT)
       @errlog = Logger.new(C_.error_log || STDERR)
-      
+
       # Log warning if mock documents are enabled (development only)
       # Production automatically has mocks disabled in config.rb
       if C_.mock_documents_enabled && C_.environment != 'production'
         @errlog.warn(
-          "DEVELOPMENT: Mock documents are ENABLED. " +
-          "Non-existent documents will return mock data. " +
+          "DEVELOPMENT: Mock documents are ENABLED. " \
+          "Non-existent documents will return mock data. " \
           "Ensure MOCK_DOCUMENTS_ENABLED=false for production."
         )
       end
@@ -107,12 +107,12 @@ module Colore
     post '/document/:app/:doc_id/title/:title' do |app, doc_id, title|
       doc_key = DocKey.new app, doc_id
       doc = Document.load(@storage_dir, doc_key)
-      
+
       # MockDocuments don't support title updates
       if doc.is_a?(Colore::MockDocument)
         return respond 400, 'Cannot update mock document'
       end
-      
+
       doc.title = title
       doc.save_metadata
       respond 200, 'Title updated'
@@ -127,15 +127,15 @@ module Colore
     #   - callback_url
     post '/document/:app/:doc_id/:version/:filename/:action' do |app, doc_id, version, filename, action|
       doc_key = DocKey.new app, doc_id
-      
+
       # Load document (will return MockDocument if enabled and doesn't exist)
       doc = Document.load @storage_dir, doc_key
-      
+
       # MockDocuments don't support actual conversions
       if doc.is_a?(Colore::MockDocument)
         return respond 202, "Mock conversion request - no actual processing"
       end
-      
+
       raise VersionNotFound.new unless doc.has_version? version
 
       Sidekiq::ConversionWorker.perform_async doc_key, version, filename, action, params[:callback_url]

@@ -13,7 +13,7 @@ RSpec.describe 'Mock Document Integration' do
     # Enable mock documents for testing
     @original_mock_setting = Colore::C_.mock_documents_enabled
     Colore::C_.mock_documents_enabled = true
-    
+
     # Ensure the test document doesn't exist
     Colore::Document.delete mock_storage_dir, test_doc_key
   end
@@ -29,7 +29,7 @@ RSpec.describe 'Mock Document Integration' do
   describe 'GET /document/:app/:doc_id' do
     it 'returns mock document info when document does not exist' do
       get '/document/test-app/mock-123'
-      
+
       expect(last_response.status).to eq 200
       data = JSON.parse last_response.body
       expect(data['app']).to eq 'test-app'
@@ -40,7 +40,7 @@ RSpec.describe 'Mock Document Integration' do
     it 'returns actual document when it exists' do
       # Use an existing document from fixtures
       get '/document/a3/12346'
-      
+
       expect(last_response.status).to eq 200
       data = JSON.parse last_response.body
       expect(data['app']).to eq 'a3'
@@ -52,7 +52,7 @@ RSpec.describe 'Mock Document Integration' do
     context 'when mock documents are enabled' do
       it 'returns mock file content for non-existent document' do
         get '/document/test-app/mock-456/v001/document.txt'
-        
+
         expect(last_response.status).to eq 200
         expect(last_response.content_type).to include 'text/plain'
         expect(last_response.body).to include 'This is a mock document'
@@ -60,7 +60,7 @@ RSpec.describe 'Mock Document Integration' do
 
       it 'returns PDF content for PDF requests' do
         get '/document/test-app/mock-456/v001/document.pdf'
-        
+
         expect(last_response.status).to eq 200
         expect(last_response.content_type).to include 'application/pdf'
         expect(last_response.body).to include '%PDF'
@@ -71,7 +71,7 @@ RSpec.describe 'Mock Document Integration' do
   describe 'POST /document/:app/:doc_id/title/:title' do
     it 'returns 400 error when trying to update mock document title' do
       post '/document/test-app/mock-789/title/New%20Title'
-      
+
       expect(last_response.status).to eq 400
       data = JSON.parse last_response.body
       expect(data['description']).to include 'mock document'
@@ -81,7 +81,7 @@ RSpec.describe 'Mock Document Integration' do
   describe 'POST /document/:app/:doc_id/:version/:filename/:action' do
     it 'returns 202 without processing conversion for mock document' do
       post '/document/test-app/mock-789/v001/document.txt/htmltotext'
-      
+
       expect(last_response.status).to eq 202
       data = JSON.parse last_response.body
       expect(data['description']).to include 'Mock conversion request'
@@ -95,7 +95,7 @@ RSpec.describe 'Mock Document Integration' do
 
     it 'raises DocumentNotFound when document does not exist' do
       get '/document/test-app/not-found-789'
-      
+
       expect(last_response.status).to eq 404
       data = JSON.parse last_response.body
       expect(data['error']).to include 'not found'

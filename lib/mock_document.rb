@@ -55,7 +55,7 @@ module Colore
     # @param version [String] the version identifier
     # @param filename [String] the name of the file
     # @return [Array<String, StringIO>] [mime_type, file_body]
-    def get_file(version, filename)
+    def get_file(_version, filename)
       # Generate mock file content based on filename extension
       content = generate_mock_file_content(filename)
       mime_type = content.mime_type
@@ -118,7 +118,7 @@ module Colore
         "It allows you to test document retrieval without copying production data.\n"
       when 'pdf'
         # Minimal valid PDF structure
-        pdf_content = "%PDF-1.4\n" \
+        "%PDF-1.4\n" \
         "1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n" \
         "2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n" \
         "3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >>\nendobj\n" \
@@ -127,13 +127,13 @@ module Colore
         "xref\n0 6\n0000000000 65535 f\n0000000009 00000 n\n0000000058 00000 n\n0000000115 00000 n\n0000000240 00000 n\n0000000336 00000 n\n" \
         "trailer\n<< /Size 6 /Root 1 0 R >>\n" \
         "startxref\n433\n%%EOF"
-        pdf_content
+
       when 'docx'
         # Return binary content that mimics a docx structure
         # docx files are zip archives with XML content
         # For mock purposes, we create a minimal valid ZIP structure
         require 'zlib'
-        
+
         # Create a simple DOCX-like binary structure
         # This is a minimal ZIP file containing a document.xml
         "PK\x03\x04\x14\x00\x00\x00\b\x00Mock DOCX Document for development purposes"

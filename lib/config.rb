@@ -74,20 +74,20 @@ module Colore
 
         c.tika_config_directory = yaml['tika_config_directory'] || '../tmp/tika'
         c.wkhtmltopdf_params = yaml['wkhtmltopdf_params'] || ''
-        
+
         # Detect current environment
         c.environment = ENV['RACK_ENV'] || 'development'
-        
+
         # Load mock_documents_enabled from config
         mock_enabled = yaml['mock_documents_enabled'] || false
-        
+
         # In production, always disable mocks regardless of config
         # This prevents accidental mock usage in production
-        if c.environment == 'production'
-          c.mock_documents_enabled = false
-        else
-          c.mock_documents_enabled = mock_enabled
-        end
+        c.mock_documents_enabled = if c.environment == 'production'
+                                     false
+                                   else
+                                     mock_enabled
+                                   end
 
         c
       end

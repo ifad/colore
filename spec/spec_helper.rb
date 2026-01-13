@@ -61,7 +61,7 @@ Dir.glob("#{File.expand_path(__dir__)}/helpers/**/*.rb").sort.each { |f| require
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
   # Disable mock documents by default in tests unless explicitly enabled
-  config.before(:each) do
+  config.before do
     Colore::C_.mock_documents_enabled = false
   end
 
