@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
+require 'app'
 
-RSpec.describe 'Mock Document Integration' do
+RSpec.describe Colore::App do
   include Rack::Test::Methods
 
   def app
-    Colore::App
+    described_class
   end
 
   let(:mock_storage_dir) { Pathname.new('spec/fixtures/app') }
