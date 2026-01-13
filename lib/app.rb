@@ -9,10 +9,7 @@ require 'sinatra/base'
 require_relative 'colore'
 
 module Colore
-  # TODO: validate path-like parameters for invalid characters
-  #
-  # This is the Sinatra API implementation for Colore.
-  # See (BASE/config.ru) for rackup details
+  # Sinatra API implementation for Colore (see config.ru). TODO: validate path-like parameters
   class App < Sinatra::Base
     set :backtrace, true
     before do
@@ -20,41 +17,18 @@ module Colore
       @legacy_url_base = C_.legacy_url_base || url('/')
       @logger = Logger.new(C_.conversion_log || STDOUT)
       @errlog = Logger.new(C_.error_log || STDERR)
-
-      # Log warning if mock documents are enabled (development only)
-      # Production automatically has mocks disabled in config.rb
-      if C_.mock_documents_enabled && C_.environment != 'production'
-        @errlog.warn(
-          "DEVELOPMENT: Mock documents are ENABLED. " \
-          "Non-existent documents will return mock data. " \
-          "Ensure MOCK_DOCUMENTS_ENABLED=false for production."
-        )
-      end
     end
 
-    #
-    # Landing page. A vague intention exists to put the API docco here.
-    #
+    # Landing page with API documentation
     get '/' do
       haml :index
     end
 
-    #
-    # A custom 404 page
-    #
-    not_found do
-      JSON.dump(error: 'not found', status: 404, description: 'Document not found')
-    end
+    # Custom 404 page
+    not_found { JSON.dump(error: 'not found', status: 404, description: 'Document not found') }
 
-    #
     # Create document (will fail if document already exists)
-    #
-    # POST params:
-    #   - title
-    #   - actions
-    #   - callback_url
-    #   - file
-    #   - author
+    # POST params: title, actions, callback_url, file, author
     put '/document/:app/:doc_id/:filename' do |app, doc_id, filename|
       doc_key = DocKey.new app, doc_id
       doc = Document.create @storage_dir, doc_key # will raise if doc exists
@@ -64,17 +38,8 @@ module Colore
       respond_with_error e
     end
 
-    #
-    # Stores a new version of a given document. Side-effects - the
-    # current version is advanced and conversions are performed on the
-    # document if actions are specified (and callbacks will be sent if
-    # a callback_url is specified).
-    #
-    # POST params:
-    #   - actions
-    #   - callback_url
-    #   - file
-    #   - author
+    # Stores a new version. Side-effects: advances current version, performs conversions if actions specified
+    # POST params: actions, callback_url, file, author
     post '/document/:app/:doc_id/:filename' do |app, doc_id, filename|
       doc_key = DocKey.new app, doc_id
       doc = Document.load(@storage_dir, doc_key)
@@ -94,11 +59,7 @@ module Colore
           params[:callback_url]
         )
       end
-      respond 201, "Document stored", {
-          app: app,
-          doc_id: doc_id,
-          path: doc.file_path(Colore::Document::CURRENT, filename),
-        }
+      respond 201, "Document stored", { app: app, doc_id: doc_id, path: doc.file_path(Colore::Document::CURRENT, filename) }
     rescue StandardError => e
       respond_with_error e
     end
@@ -107,11 +68,7 @@ module Colore
     post '/document/:app/:doc_id/title/:title' do |app, doc_id, title|
       doc_key = DocKey.new app, doc_id
       doc = Document.load(@storage_dir, doc_key)
-
-      # MockDocuments don't support title updates
-      if doc.is_a?(Colore::MockDocument)
-        return respond 400, 'Cannot update mock document'
-      end
+      return reject_mock_operation if mock_document?(doc)
 
       doc.title = title
       doc.save_metadata
@@ -120,21 +77,11 @@ module Colore
       respond_with_error e
     end
 
-    #
-    # Request new conversion
-    #
-    # POST params:
-    #   - callback_url
+    # Request new conversion (POST params: callback_url)
     post '/document/:app/:doc_id/:version/:filename/:action' do |app, doc_id, version, filename, action|
       doc_key = DocKey.new app, doc_id
-
-      # Load document (will return MockDocument if enabled and doesn't exist)
       doc = Document.load @storage_dir, doc_key
-
-      # MockDocuments don't support actual conversions
-      if doc.is_a?(Colore::MockDocument)
-        return respond 202, "Mock conversion request - no actual processing"
-      end
+      return respond 202, "Mock conversion accepted" if mock_document?(doc)
 
       raise VersionNotFound.new unless doc.has_version? version
 
@@ -144,10 +91,7 @@ module Colore
       respond_with_error e
     end
 
-    #
     # Delete document
-    #
-    # DELETE params:
     delete '/document/:app/:doc_id' do |app, doc_id|
       Document.delete @storage_dir, DocKey.new(app, doc_id)
       respond 200, 'Document deleted'
@@ -155,10 +99,7 @@ module Colore
       respond_with_error e
     end
 
-    #
     # Delete document version
-    #
-    # DELETE params:
     delete '/document/:app/:doc_id/:version' do |app, doc_id, version|
       doc = Document.load @storage_dir, DocKey.new(app, doc_id)
       doc.delete_version version
@@ -168,9 +109,7 @@ module Colore
       respond_with_error e
     end
 
-    #
-    # Get file. Disabled in production.
-    #
+    # Get file (disabled in production)
     get '/document/:app/:doc_id/:version/:filename' do |app, doc_id, version, filename|
       doc = Document.load @storage_dir, DocKey.new(app, doc_id)
       ctype, file = doc.get_file(version, filename)
@@ -180,9 +119,7 @@ module Colore
       respond_with_error e
     end unless environment == :production
 
-    #
     # Get document info
-    #
     get '/document/:app/:doc_id' do |app, doc_id|
       doc = Document.load @storage_dir, DocKey.new(app, doc_id)
       respond 200, 'Information retrieved', doc.to_hash
@@ -190,13 +127,7 @@ module Colore
       respond_with_error e
     end
 
-    #
-    # Convert document
-    #
-    # POST params:
-    #  file     - the file to convert
-    #  action   - the conversion to perform
-    #  language - the language of the file (defaults to 'en')
+    # Convert document (POST params: file, action, language)
     post '/convert' do
       unless params[:file]
         return respond 400, "missing file parameter"
@@ -214,14 +145,7 @@ module Colore
       respond_with_error e
     end
 
-    # Legacy method to convert files
-    # Brought over from Heathen
-    #
-    # POST params:
-    #  file      - the file to convert
-    #  url       - a URL to convert
-    #  action    - the conversion to perform
-    #
+    # Legacy method to convert files (POST params: file, url, action)
     post "/#{LegacyConverter::LEGACY}/convert" do
       body = if params[:file]
                params[:file][:tempfile].read
@@ -233,21 +157,12 @@ module Colore
       path = LegacyConverter.new.convert_file params[:action], body, params[:language]
       converted_url = @legacy_url_base + path
       content_type 'application/json'
-      {
-        original: '',
-        converted: converted_url,
-      }.to_json
+      { original: '', converted: converted_url }.to_json
     rescue StandardError => e
       legacy_error e, e.message
     end
 
-    # Legacy method to retrieve converted file
-    # May only be needed for development if Nginx is used to get the file directly
-    #
-    # POST params:
-    #  file       - the file to convert
-    #  url        - a URL to convert
-    #  action     - the conversion to perform
+    # Legacy method to retrieve converted file (for development if Nginx not used)
     get "/#{LegacyConverter::LEGACY}/:file_id" do |file_id|
       content = LegacyConverter.new.get_file file_id
       content_type content.mime_type
@@ -256,6 +171,7 @@ module Colore
       legacy_error 400, e.message
     end
 
+    # rubocop:disable Metrics/BlockLength
     helpers do
       # Renders all responses (including errors) in a standard JSON format.
       def respond(status, message, extra = {})
@@ -303,6 +219,17 @@ module Colore
           { error: message }.merge(extra).to_json,
         ]
       end
+
+      # Check if document is a mock
+      def mock_document?(doc)
+        doc.is_a?(Colore::MockDocument)
+      end
+
+      # Standard response for mock document operations
+      def reject_mock_operation
+        respond 400, 'Operation not supported on mock documents'
+      end
     end
+    # rubocop:enable Metrics/BlockLength
   end
 end
