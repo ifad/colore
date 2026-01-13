@@ -33,3 +33,6 @@ wkhtmltopdf_path: <%= ENV['WKHTMLTOPDF_PATH'] %>
 # Other settings
 tika_config_directory: <%= ENV['TIKA_CONFIG_DIRECTORY'] %>
 wkhtmltopdf_params: '-d 100 --encoding UTF-8'
+
+# Development settings - Enable mock documents when document not found
+mock_documents_enabled: <%= ENV.fetch('MOCK_DOCUMENTS_ENABLED', 'false') == 'true' %>
