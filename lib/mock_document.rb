@@ -47,9 +47,11 @@ module Colore
     # Checks if the document has the specified version
     # @param version [String] the version identifier
     # @return [Bool]
+    # rubocop:disable Naming/PredicatePrefix
     def has_version?(version)
       versions.include?(version) || version == 'current'
     end
+    # rubocop:enable Naming/PredicatePrefix
 
     # Retrieves a mock file from the document
     # @param _version [String] the version identifier (unused, for interface compatibility)
