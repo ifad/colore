@@ -86,7 +86,7 @@ RSpec.describe Colore::App do
 
       expect(last_response.status).to eq 202
       data = JSON.parse last_response.body
-      expect(data['description']).to include 'Mock conversion request'
+      expect(data['description']).to include 'Mock conversion accepted'
     end
   end
 
