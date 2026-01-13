@@ -127,8 +127,8 @@ module Colore
     #   - callback_url
     post '/document/:app/:doc_id/:version/:filename/:action' do |app, doc_id, version, filename, action|
       doc_key = DocKey.new app, doc_id
-      raise DocumentNotFound.new unless Document.exists? @storage_dir, doc_key
-
+      
+      # Load document (will return MockDocument if enabled and doesn't exist)
       doc = Document.load @storage_dir, doc_key
       
       # MockDocuments don't support actual conversions

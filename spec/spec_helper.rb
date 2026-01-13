@@ -60,6 +60,11 @@ Dir.glob("#{File.expand_path(__dir__)}/helpers/**/*.rb").sort.each { |f| require
 #
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
+  # Disable mock documents by default in tests unless explicitly enabled
+  config.before(:each) do
+    Colore::C_.mock_documents_enabled = false
+  end
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.

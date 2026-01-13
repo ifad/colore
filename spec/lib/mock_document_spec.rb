@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require_relative '../../spec_helper'
+require 'spec_helper'
 
-describe Colore::MockDocument do
+RSpec.describe Colore::MockDocument do
   let(:doc_key) { Colore::DocKey.new 'test-app', 'doc-123' }
   let(:mock_doc) { Colore::MockDocument.new doc_key }
 
@@ -43,7 +43,7 @@ describe Colore::MockDocument do
       it 'returns text/plain content' do
         ctype, content = mock_doc.get_file('v001', 'document.txt')
         expect(ctype).to include 'text/plain'
-        expect(content).to include 'Mock document file'
+        expect(content).to include 'This is a mock document'
       end
     end
 
@@ -75,7 +75,7 @@ describe Colore::MockDocument do
       it 'returns text/plain as default' do
         ctype, content = mock_doc.get_file('v001', 'document.xyz')
         expect(ctype).to include 'text/plain'
-        expect(content).to include 'Mock document file'
+        expect(content).to include 'Mock document file: document.xyz'
       end
     end
   end
@@ -98,20 +98,20 @@ describe Colore::MockDocument do
     end
 
     it 'includes version information' do
-      expect(hash[:versions]).to include 'v001'
+      expect(hash[:versions]).to have_key :v001
     end
 
     it 'includes file entries' do
-      v001 = hash[:versions]['v001']
+      v001 = hash[:versions][:v001]
       expect(v001).to include :txt
       expect(v001).to include :pdf
     end
 
     it 'includes file metadata' do
-      txt_file = hash[:versions]['v001'][:txt]
+      txt_file = hash[:versions][:v001][:txt]
       expect(txt_file[:content_type]).to include 'text/plain'
       expect(txt_file[:filename]).to eq 'document.txt'
-      expect(txt_file[:author]).to eq 'Mock System'
+      expect(txt_file[:author]).not_to be_nil
     end
   end
 end

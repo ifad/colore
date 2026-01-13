@@ -1,14 +1,26 @@
 # frozen_string_literal: true
 
-require_relative '../../spec_helper'
+require 'spec_helper'
 
-describe 'Mock Document Integration' do
+RSpec.describe 'Mock Document Integration' do
+  include Rack::Test::Methods
+
+  def app
+    Colore::App
+  end
+
   before do
     # Enable mock documents for testing
-    allow(Colore::C_).to receive(:mock_documents_enabled).and_return true
+    @original_mock_setting = Colore::C_.mock_documents_enabled
+    Colore::C_.mock_documents_enabled = true
     
     # Ensure the test document doesn't exist
     Colore::Document.delete mock_storage_dir, test_doc_key
+  end
+
+  after do
+    # Restore original setting
+    Colore::C_.mock_documents_enabled = @original_mock_setting
   end
 
   let(:mock_storage_dir) { Pathname.new('spec/fixtures/app') }
@@ -43,7 +55,7 @@ describe 'Mock Document Integration' do
         
         expect(last_response.status).to eq 200
         expect(last_response.content_type).to include 'text/plain'
-        expect(last_response.body).to include 'Mock document file'
+        expect(last_response.body).to include 'This is a mock document'
       end
 
       it 'returns PDF content for PDF requests' do
@@ -78,7 +90,7 @@ describe 'Mock Document Integration' do
 
   describe 'when mock documents are disabled' do
     before do
-      allow(Colore::C_).to receive(:mock_documents_enabled).and_return false
+      Colore::C_.mock_documents_enabled = false
     end
 
     it 'raises DocumentNotFound when document does not exist' do
