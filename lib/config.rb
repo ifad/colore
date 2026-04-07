@@ -45,6 +45,10 @@ module Colore
     attr_accessor :tika_config_directory
     # @return [String] Params for wkhtmltopdf
     attr_accessor :wkhtmltopdf_params
+    # @return [Boolean] Enable mock documents for development when document not found
+    attr_accessor :mock_documents_enabled
+    # @return [String] Current environment (development, test, production, staging)
+    attr_accessor :environment
 
     def self.config_file_path
       Pathname.new File.expand_path('../config/app.yml', __dir__)
@@ -52,30 +56,17 @@ module Colore
 
     def self.config
       @config ||= begin
-        template = ERB.new(config_file_path.read)
-        yaml = YAML.load(template.result)
         c = new
-        c.storage_directory = yaml['storage_directory']
-        c.legacy_url_base = yaml['legacy_url_base']
-        c.legacy_purge_days = yaml['legacy_purge_days'].to_i
-        c.redis = yaml['redis']
-        c.conversion_log = yaml['conversion_log']
-        c.error_log = yaml['error_log']
-
-        c.convert_path = yaml['convert_path'] || 'convert'
-        c.libreoffice_path = yaml['libreoffice_path'] || 'libreoffice'
-        c.tesseract_path = yaml['tesseract_path'] || 'tesseract'
-        c.tika_path = yaml['tika_path'] || 'tika'
-        c.wkhtmltopdf_path = yaml['wkhtmltopdf_path'] || 'wkhtmltopdf'
-
-        c.tika_config_directory = yaml['tika_config_directory'] || '../tmp/tika'
-        c.wkhtmltopdf_params = yaml['wkhtmltopdf_params'] || ''
-
+        yaml = load_yaml_config
+        load_core_config(c, yaml)
+        load_tool_paths(c, yaml)
+        load_additional_config(c, yaml)
+        load_environment_config(c, yaml)
         c
       end
     end
 
-    def self.method_missing *args
+    def self.method_missing(*args)
       if config.respond_to? args[0].to_sym
         config.send(*args)
       else
@@ -86,6 +77,45 @@ module Colore
     # Reset config - used for testing
     def self.reset
       @config = nil
+    end
+
+    # Private helper methods
+    class << self
+      private
+
+      def load_yaml_config
+        template = ERB.new(config_file_path.read)
+        YAML.load(template.result)
+      end
+
+      def load_core_config(config, yaml)
+        config.storage_directory = yaml['storage_directory']
+        config.legacy_url_base = yaml['legacy_url_base']
+        config.legacy_purge_days = yaml['legacy_purge_days'].to_i
+        config.redis = yaml['redis']
+        config.conversion_log = yaml['conversion_log']
+        config.error_log = yaml['error_log']
+      end
+
+      def load_tool_paths(config, yaml)
+        config.convert_path = yaml['convert_path'] || 'convert'
+        config.libreoffice_path = yaml['libreoffice_path'] || 'libreoffice'
+        config.tesseract_path = yaml['tesseract_path'] || 'tesseract'
+        config.tika_path = yaml['tika_path'] || 'tika'
+        config.wkhtmltopdf_path = yaml['wkhtmltopdf_path'] || 'wkhtmltopdf'
+      end
+
+      def load_additional_config(config, yaml)
+        config.tika_config_directory = yaml['tika_config_directory'] || '../tmp/tika'
+        config.wkhtmltopdf_params = yaml['wkhtmltopdf_params'] || ''
+      end
+
+      def load_environment_config(config, yaml)
+        config.environment = ENV['RACK_ENV'] || 'development'
+        mock_enabled = yaml['mock_documents_enabled'] || false
+        # In production, always disable mocks regardless of config
+        config.mock_documents_enabled = config.environment == 'production' ? false : mock_enabled
+      end
     end
   end
 end

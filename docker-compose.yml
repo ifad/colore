@@ -14,6 +14,8 @@ services:
       - ./docker/colore/variables.env
     environment:
       RACK_ENV: development
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - colore
     ports:
@@ -44,6 +46,8 @@ services:
       - ./docker/colore/variables.env
     environment:
       RACK_ENV: development
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - colore
     restart: on-failure
