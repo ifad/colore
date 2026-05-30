@@ -8,7 +8,7 @@ RUN apt-get update && apt-get -yq install --no-install-suggests --no-install-rec
 
 # Needed to get the latest libreoffice
 # Ref: https://wiki.debian.org/LibreOffice#Using_Debian_backports
-RUN echo 'deb https://deb.debian.org/debian bullseye-backports main contrib non-free' >> /etc/apt/sources.list
+RUN echo 'deb https://archive.debian.org/debian bullseye-backports main contrib non-free' >> /etc/apt/sources.list
 
 # Needed for Tesseract 5
 # Ref: https://notesalexp.org/tesseract-ocr/html/
@@ -22,7 +22,7 @@ RUN apt-get update && apt-get -yq -t bullseye-backports install \
   tesseract-ocr-fra \
   tesseract-ocr-spa
 
-ARG TIKA_VERSION=3.2.3
+ARG TIKA_VERSION=3.3.1
 
 RUN wget --quiet https://dlcdn.apache.org/tika/KEYS -O tika-keys && \
   wget --quiet https://dlcdn.apache.org/tika/${TIKA_VERSION}/tika-app-${TIKA_VERSION}.jar.asc -O tika-app.jar.asc && \
