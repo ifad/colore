@@ -28,7 +28,7 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get -yq --no-install-suggests --no-install-recommends install imagemagick libmagic-dev libreoffice tesseract-ocr tesseract-ocr-ara tesseract-ocr-spa tesseract-ocr-fra wkhtmltopdf
-    - uses: actions/cache@v5
+    - uses: actions/cache@v5.0.5
       name: Check Apache Tika
       id: cache-tika
       with:
@@ -50,9 +50,9 @@ jobs:
         tesseract --version
         tika --version
         wkhtmltopdf --version
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7.0.0
     - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
+      uses: ruby/setup-ruby@v1.314.0
       with:
         ruby-version: '2.6.10'
         bundler-cache: true
